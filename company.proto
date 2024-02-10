@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./pb/companypb";
+
+message Address {
+    string street = 1;
+    int32 streetNo = 2;
+    int32 pinNo = 3;
+    string district = 4;
+    string state = 5;
+    string Nation = 6;
+}
+
+message RegisterCompanyRequest {
+    string name = 1;
+    Address address = 2;
+    repeated string emails = 3;
+    repeated string mobiles = 4;
+    string companyusername = 5;
+}
+
+message CompanyResponce {
+    string name = 1;
+    Address address = 2;
+    repeated string emails = 3;
+    repeated string mobiles = 4;
+    string companyusername = 5;
+    string companyID =6;
+}
+
+service CompanyService {
+    rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
+}
+
