@@ -6,11 +6,20 @@ option go_package = "./pb/authpb";
 
 import "user.proto";
 
+import "google/protobuf/empty.proto";
+
 message LoginUserRequest {
     string email = 1;
     string password = 2;
 }
 
+message InsertUserReq {
+    string userID = 1;
+    string email = 2;
+    string password = 3;
+}
+
 service AuthService {
     rpc LoginUser(LoginUserRequest)returns(user.UserResponce);
+    rpc InsertUser(InsertUserReq)returns(google.protobuf.Empty);
 }
