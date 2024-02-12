@@ -4,11 +4,25 @@ package user;
 
 option go_package = "./pb/projectpb";
 
-message CreateProject {
+message CreateProjectReq {
     string name = 1;
     string description = 2;
     string projectUsername = 3;
     string aim = 4;
     bool isCompanybased = 5;
     string comapanyId = 6;
+}
+
+message CreateProjectRes {
+    string companyID = 1;
+    string name = 2;
+    string description = 3;
+    string projectUsername = 4;
+    string aim = 5;
+    bool isCompanybased = 6;
+    string comapanyId = 7;
+}
+
+service ProjectService {
+    rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
 }
