@@ -7,7 +7,6 @@
 package authpb
 
 import (
-	userpb "github.com/akshay0074700747/projectandCompany_management_protofiles/pb/userpb"
 	context "context"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
@@ -29,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*userpb.UserResponce, error)
+	LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserRes, error)
 	InsertUser(ctx context.Context, in *InsertUserReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -41,8 +40,8 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
-func (c *authServiceClient) LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*userpb.UserResponce, error) {
-	out := new(userpb.UserResponce)
+func (c *authServiceClient) LoginUser(ctx context.Context, in *LoginUserRequest, opts ...grpc.CallOption) (*LoginUserRes, error) {
+	out := new(LoginUserRes)
 	err := c.cc.Invoke(ctx, AuthService_LoginUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -63,7 +62,7 @@ func (c *authServiceClient) InsertUser(ctx context.Context, in *InsertUserReq, o
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility
 type AuthServiceServer interface {
-	LoginUser(context.Context, *LoginUserRequest) (*userpb.UserResponce, error)
+	LoginUser(context.Context, *LoginUserRequest) (*LoginUserRes, error)
 	InsertUser(context.Context, *InsertUserReq) (*empty.Empty, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
@@ -72,7 +71,7 @@ type AuthServiceServer interface {
 type UnimplementedAuthServiceServer struct {
 }
 
-func (UnimplementedAuthServiceServer) LoginUser(context.Context, *LoginUserRequest) (*userpb.UserResponce, error) {
+func (UnimplementedAuthServiceServer) LoginUser(context.Context, *LoginUserRequest) (*LoginUserRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
 }
 func (UnimplementedAuthServiceServer) InsertUser(context.Context, *InsertUserReq) (*empty.Empty, error) {
