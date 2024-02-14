@@ -55,6 +55,7 @@ message AddEmployeeReq {
 message AttachRoleWithPermisssionsReq {
     uint32 RoleID = 1;
     uint32 PermissionID = 2;
+    string CompanyID = 3;
 }
 
 service CompanyService {
