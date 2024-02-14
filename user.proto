@@ -21,6 +21,7 @@ message Role {
 message StatusReq {
     uint32 RoleID = 1;
     bool isAvailable = 2;
+    string UserID = 3;
 }
 
 message UserResponce {
