@@ -32,6 +32,10 @@ message AddMemberReq {
     string ProjectID = 4;
 }
 
+message ProjectInvitesReq {
+    string memberID = 1;
+}
+
 message ProjectInvitesRes {
     string ProjectID = 1;
     string ProjectAim = 2;
@@ -47,6 +51,6 @@ message AcceptProjectInviteReq {
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
-    rpc ProjectInvites(google.protobuf.Empty)returns(stream ProjectInvitesRes);
+    rpc ProjectInvites(ProjectInvitesReq)returns(stream ProjectInvitesRes);
     rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
 }

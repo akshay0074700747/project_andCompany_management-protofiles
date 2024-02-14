@@ -32,7 +32,7 @@ const (
 type ProjectServiceClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectReq, opts ...grpc.CallOption) (*CreateProjectRes, error)
 	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
+	ProjectInvites(ctx context.Context, in *ProjectInvitesReq, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -62,7 +62,7 @@ func (c *projectServiceClient) AddMembers(ctx context.Context, in *AddMemberReq,
 	return out, nil
 }
 
-func (c *projectServiceClient) ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error) {
+func (c *projectServiceClient) ProjectInvites(ctx context.Context, in *ProjectInvitesReq, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error) {
 	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[0], ProjectService_ProjectInvites_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
@@ -109,7 +109,7 @@ func (c *projectServiceClient) AcceptProjectInvite(ctx context.Context, in *Acce
 type ProjectServiceServer interface {
 	CreateProject(context.Context, *CreateProjectReq) (*CreateProjectRes, error)
 	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
-	ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error
+	ProjectInvites(*ProjectInvitesReq, ProjectService_ProjectInvitesServer) error
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
@@ -124,7 +124,7 @@ func (UnimplementedProjectServiceServer) CreateProject(context.Context, *CreateP
 func (UnimplementedProjectServiceServer) AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMembers not implemented")
 }
-func (UnimplementedProjectServiceServer) ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error {
+func (UnimplementedProjectServiceServer) ProjectInvites(*ProjectInvitesReq, ProjectService_ProjectInvitesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ProjectInvites not implemented")
 }
 func (UnimplementedProjectServiceServer) AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error) {
@@ -180,7 +180,7 @@ func _ProjectService_AddMembers_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _ProjectService_ProjectInvites_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(empty.Empty)
+	m := new(ProjectInvitesReq)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
