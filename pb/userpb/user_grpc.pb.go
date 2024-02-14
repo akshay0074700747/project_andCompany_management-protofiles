@@ -23,8 +23,8 @@ const (
 	UserService_SignupUser_FullMethodName          = "/user.UserService/SignupUser"
 	UserService_GetRoles_FullMethodName            = "/user.UserService/GetRoles"
 	UserService_SetStatus_FullMethodName           = "/user.UserService/SetStatus"
-	UserService_ProjectInvites_FullMethodName      = "/user.UserService/ProjectInvites"
 	UserService_AcceptProjectInvite_FullMethodName = "/user.UserService/AcceptProjectInvite"
+	UserService_GetByEmail_FullMethodName          = "/user.UserService/GetByEmail"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -34,8 +34,8 @@ type UserServiceClient interface {
 	SignupUser(ctx context.Context, in *SignupUserRequest, opts ...grpc.CallOption) (*UserResponce, error)
 	GetRoles(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_GetRolesClient, error)
 	SetStatus(ctx context.Context, in *StatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_ProjectInvitesClient, error)
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetByEmail(ctx context.Context, in *GetByEmailReq, opts ...grpc.CallOption) (*GetByEmailRes, error)
 }
 
 type userServiceClient struct {
@@ -96,41 +96,18 @@ func (c *userServiceClient) SetStatus(ctx context.Context, in *StatusReq, opts .
 	return out, nil
 }
 
-func (c *userServiceClient) ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_ProjectInvitesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[1], UserService_ProjectInvites_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &userServiceProjectInvitesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type UserService_ProjectInvitesClient interface {
-	Recv() (*ProjectInvitesRes, error)
-	grpc.ClientStream
-}
-
-type userServiceProjectInvitesClient struct {
-	grpc.ClientStream
-}
-
-func (x *userServiceProjectInvitesClient) Recv() (*ProjectInvitesRes, error) {
-	m := new(ProjectInvitesRes)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *userServiceClient) AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, UserService_AcceptProjectInvite_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetByEmail(ctx context.Context, in *GetByEmailReq, opts ...grpc.CallOption) (*GetByEmailRes, error) {
+	out := new(GetByEmailRes)
+	err := c.cc.Invoke(ctx, UserService_GetByEmail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -144,8 +121,8 @@ type UserServiceServer interface {
 	SignupUser(context.Context, *SignupUserRequest) (*UserResponce, error)
 	GetRoles(*empty.Empty, UserService_GetRolesServer) error
 	SetStatus(context.Context, *StatusReq) (*empty.Empty, error)
-	ProjectInvites(*empty.Empty, UserService_ProjectInvitesServer) error
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
+	GetByEmail(context.Context, *GetByEmailReq) (*GetByEmailRes, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -162,11 +139,11 @@ func (UnimplementedUserServiceServer) GetRoles(*empty.Empty, UserService_GetRole
 func (UnimplementedUserServiceServer) SetStatus(context.Context, *StatusReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetStatus not implemented")
 }
-func (UnimplementedUserServiceServer) ProjectInvites(*empty.Empty, UserService_ProjectInvitesServer) error {
-	return status.Errorf(codes.Unimplemented, "method ProjectInvites not implemented")
-}
 func (UnimplementedUserServiceServer) AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcceptProjectInvite not implemented")
+}
+func (UnimplementedUserServiceServer) GetByEmail(context.Context, *GetByEmailReq) (*GetByEmailRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByEmail not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -238,27 +215,6 @@ func _UserService_SetStatus_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_ProjectInvites_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(empty.Empty)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(UserServiceServer).ProjectInvites(m, &userServiceProjectInvitesServer{stream})
-}
-
-type UserService_ProjectInvitesServer interface {
-	Send(*ProjectInvitesRes) error
-	grpc.ServerStream
-}
-
-type userServiceProjectInvitesServer struct {
-	grpc.ServerStream
-}
-
-func (x *userServiceProjectInvitesServer) Send(m *ProjectInvitesRes) error {
-	return x.ServerStream.SendMsg(m)
-}
-
 func _UserService_AcceptProjectInvite_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AcceptProjectInviteReq)
 	if err := dec(in); err != nil {
@@ -273,6 +229,24 @@ func _UserService_AcceptProjectInvite_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).AcceptProjectInvite(ctx, req.(*AcceptProjectInviteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByEmailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetByEmail(ctx, req.(*GetByEmailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -296,16 +270,15 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AcceptProjectInvite",
 			Handler:    _UserService_AcceptProjectInvite_Handler,
 		},
+		{
+			MethodName: "GetByEmail",
+			Handler:    _UserService_GetByEmail_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "GetRoles",
 			Handler:       _UserService_GetRoles_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "ProjectInvites",
-			Handler:       _UserService_ProjectInvites_Handler,
 			ServerStreams: true,
 		},
 	},

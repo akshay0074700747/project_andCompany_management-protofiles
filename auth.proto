@@ -7,19 +7,19 @@ option go_package = "./pb/authpb";
 import "google/protobuf/empty.proto";
 
 message LoginUserRequest {
-    string email = 1;
-    string password = 2;
+    string Email = 1;
+    string Password = 2;
 }
 
 message LoginUserRes {
-    string userID = 1;
-    bool isAdmin = 2;
+    string UserID = 1;
+    bool IsAdmin = 2;
 }
 
 message InsertUserReq {
-    string userID = 1;
-    string email = 2;
-    string password = 3;
+    string UserID = 1;
+    string Email = 2;
+    string Password = 3;
 }
 
 service AuthService {

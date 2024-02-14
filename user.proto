@@ -7,10 +7,10 @@ option go_package = "./pb/userpb";
 import "google/protobuf/empty.proto";
 
 message SignupUserRequest {
-    string name = 1;
-    string email = 2;
-    string mobile = 3;
-    string password = 4;
+    string Name = 1;
+    string Email = 2;
+    string Mobile = 3;
+    string Password = 4;
 }
 
 message Role {
@@ -20,15 +20,15 @@ message Role {
 
 message StatusReq {
     uint32 RoleID = 1;
-    bool isAvailable = 2;
+    bool IsAvailable = 2;
     string UserID = 3;
 }
 
 message UserResponce {
-    string id = 1;
-    string name = 2;
-    string email = 3;
-    string mobile = 4;
+    string Id = 1;
+    string Name = 2;
+    string Email = 3;
+    string Mobile = 4;
 } 
 
 message AcceptProjectInviteReq {
@@ -36,16 +36,18 @@ message AcceptProjectInviteReq {
     bool Accept = 2;
 }
 
-message ProjectInvitesRes {
-    string ProjectID = 1;
-    string ProjectAim = 2;
-    uint32 Members = 3;
+message GetByEmailReq {
+    string Email = 1;
+}
+
+message GetByEmailRes {
+    string UserID = 1;
 }
 
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
     rpc SetStatus(StatusReq)returns(google.protobuf.Empty);
-    rpc ProjectInvites(google.protobuf.Empty)returns(stream ProjectInvitesRes);
     rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
+    rpc GetByEmail(GetByEmailReq)returns(GetByEmailRes);
 }

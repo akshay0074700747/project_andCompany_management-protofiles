@@ -25,6 +25,7 @@ const (
 	ProjectService_GetPermissions_FullMethodName   = "/project.ProjectService/GetPermissions"
 	ProjectService_AddMembers_FullMethodName       = "/project.ProjectService/AddMembers"
 	ProjectService_SearchforMembers_FullMethodName = "/project.ProjectService/SearchforMembers"
+	ProjectService_ProjectInvites_FullMethodName   = "/project.ProjectService/ProjectInvites"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -35,6 +36,7 @@ type ProjectServiceClient interface {
 	GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_GetPermissionsClient, error)
 	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (ProjectService_SearchforMembersClient, error)
+	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
 }
 
 type projectServiceClient struct {
@@ -127,6 +129,38 @@ func (x *projectServiceSearchforMembersClient) Recv() (*SearchRes, error) {
 	return m, nil
 }
 
+func (c *projectServiceClient) ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[2], ProjectService_ProjectInvites_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceProjectInvitesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_ProjectInvitesClient interface {
+	Recv() (*ProjectInvitesRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceProjectInvitesClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceProjectInvitesClient) Recv() (*ProjectInvitesRes, error) {
+	m := new(ProjectInvitesRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -135,6 +169,7 @@ type ProjectServiceServer interface {
 	GetPermissions(*empty.Empty, ProjectService_GetPermissionsServer) error
 	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
 	SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error
+	ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -153,6 +188,9 @@ func (UnimplementedProjectServiceServer) AddMembers(context.Context, *AddMemberR
 }
 func (UnimplementedProjectServiceServer) SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error {
 	return status.Errorf(codes.Unimplemented, "method SearchforMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error {
+	return status.Errorf(codes.Unimplemented, "method ProjectInvites not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -245,6 +283,27 @@ func (x *projectServiceSearchforMembersServer) Send(m *SearchRes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ProjectService_ProjectInvites_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(empty.Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).ProjectInvites(m, &projectServiceProjectInvitesServer{stream})
+}
+
+type ProjectService_ProjectInvitesServer interface {
+	Send(*ProjectInvitesRes) error
+	grpc.ServerStream
+}
+
+type projectServiceProjectInvitesServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceProjectInvitesServer) Send(m *ProjectInvitesRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +329,11 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "SearchforMembers",
 			Handler:       _ProjectService_SearchforMembers_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ProjectInvites",
+			Handler:       _ProjectService_ProjectInvites_Handler,
 			ServerStreams: true,
 		},
 	},

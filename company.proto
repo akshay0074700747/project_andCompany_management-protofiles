@@ -9,21 +9,21 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 message Address {
-    string street = 1;
-    int32 streetNo = 2;
-    int32 pinNo = 3;
-    string district = 4;
-    string state = 5;
+    string Street = 1;
+    int32 StreetNo = 2;
+    int32 PinNo = 3;
+    string District = 4;
+    string State = 5;
     string Nation = 6;
 }
 
 message RegisterCompanyRequest {
-    string name = 1;
-    Address address = 2;
-    repeated string emails = 3;
-    repeated string mobiles = 4;
-    string companyusername = 5;
-    uint32 typeID = 6;
+    string Name = 1;
+    Address Address = 2;
+    repeated string Emails = 3;
+    repeated string Mobiles = 4;
+    string Companyusername = 5;
+    uint32 TypeID = 6;
 }
 
 message GetCompanyTypesRes {
@@ -32,12 +32,12 @@ message GetCompanyTypesRes {
 }
 
 message CompanyResponce {
-    string name = 1;
-    Address address = 2;
-    repeated string emails = 3;
-    repeated string mobiles = 4;
-    string companyusername = 5;
-    string companyID =6;
+    string Name = 1;
+    Address Address = 2;
+    repeated string Emails = 3;
+    repeated string Mobiles = 4;
+    string Companyusername = 5;
+    string CompanyID =6;
 }
 
 message Permission {
@@ -46,7 +46,7 @@ message Permission {
 }
 
 message AddEmployeeReq {
-    string memberID = 1;
+    string Email = 1;
     uint32 PermissionID = 2;
     uint32 RoleID = 3;
     google.protobuf.Timestamp Deadline = 4;
