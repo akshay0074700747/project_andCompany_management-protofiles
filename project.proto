@@ -33,15 +33,6 @@ message AddMemberReq {
     uint32 RoleID = 3;
 }
 
-message SearchReq {
-    uint32 RoleID = 1;
-}
-
-message SearchRes {
-    string Name = 1;
-    string Email = 2;
-}
-
 message ProjectInvitesRes {
     string ProjectID = 1;
     string ProjectAim = 2;
@@ -58,7 +49,6 @@ service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc GetPermissions(google.protobuf.Empty)returns(stream company.Permission);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
-    rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc ProjectInvites(google.protobuf.Empty)returns(stream ProjectInvitesRes);
     rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
 }

@@ -39,9 +39,19 @@ message GetByEmailRes {
     string UserID = 1;
 }
 
+message SearchReq {
+    uint32 RoleID = 1;
+}
+
+message SearchRes {
+    string Name = 1;
+    string Email = 2;
+}
+
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
     rpc SetStatus(StatusReq)returns(google.protobuf.Empty);
     rpc GetByEmail(GetByEmailReq)returns(GetByEmailRes);
+    rpc SearchforMembers(SearchReq)returns(stream SearchRes);
 }

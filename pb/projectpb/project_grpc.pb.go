@@ -7,10 +7,8 @@
 package projectpb
 
 import (
-	// companypb "./pb/companypb"
-	context "context"
-
 	companypb "github.com/akshay0074700747/projectandCompany_management_protofiles/pb/companypb"
+	context "context"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -26,7 +24,6 @@ const (
 	ProjectService_CreateProject_FullMethodName       = "/project.ProjectService/CreateProject"
 	ProjectService_GetPermissions_FullMethodName      = "/project.ProjectService/GetPermissions"
 	ProjectService_AddMembers_FullMethodName          = "/project.ProjectService/AddMembers"
-	ProjectService_SearchforMembers_FullMethodName    = "/project.ProjectService/SearchforMembers"
 	ProjectService_ProjectInvites_FullMethodName      = "/project.ProjectService/ProjectInvites"
 	ProjectService_AcceptProjectInvite_FullMethodName = "/project.ProjectService/AcceptProjectInvite"
 )
@@ -38,7 +35,6 @@ type ProjectServiceClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectReq, opts ...grpc.CallOption) (*CreateProjectRes, error)
 	GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_GetPermissionsClient, error)
 	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (ProjectService_SearchforMembersClient, error)
 	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
@@ -101,40 +97,8 @@ func (c *projectServiceClient) AddMembers(ctx context.Context, in *AddMemberReq,
 	return out, nil
 }
 
-func (c *projectServiceClient) SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (ProjectService_SearchforMembersClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[1], ProjectService_SearchforMembers_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &projectServiceSearchforMembersClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type ProjectService_SearchforMembersClient interface {
-	Recv() (*SearchRes, error)
-	grpc.ClientStream
-}
-
-type projectServiceSearchforMembersClient struct {
-	grpc.ClientStream
-}
-
-func (x *projectServiceSearchforMembersClient) Recv() (*SearchRes, error) {
-	m := new(SearchRes)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *projectServiceClient) ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[2], ProjectService_ProjectInvites_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[1], ProjectService_ProjectInvites_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -181,7 +145,6 @@ type ProjectServiceServer interface {
 	CreateProject(context.Context, *CreateProjectReq) (*CreateProjectRes, error)
 	GetPermissions(*empty.Empty, ProjectService_GetPermissionsServer) error
 	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
-	SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error
 	ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
@@ -199,9 +162,6 @@ func (UnimplementedProjectServiceServer) GetPermissions(*empty.Empty, ProjectSer
 }
 func (UnimplementedProjectServiceServer) AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMembers not implemented")
-}
-func (UnimplementedProjectServiceServer) SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error {
-	return status.Errorf(codes.Unimplemented, "method SearchforMembers not implemented")
 }
 func (UnimplementedProjectServiceServer) ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ProjectInvites not implemented")
@@ -279,27 +239,6 @@ func _ProjectService_AddMembers_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProjectService_SearchforMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SearchReq)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(ProjectServiceServer).SearchforMembers(m, &projectServiceSearchforMembersServer{stream})
-}
-
-type ProjectService_SearchforMembersServer interface {
-	Send(*SearchRes) error
-	grpc.ServerStream
-}
-
-type projectServiceSearchforMembersServer struct {
-	grpc.ServerStream
-}
-
-func (x *projectServiceSearchforMembersServer) Send(m *SearchRes) error {
-	return x.ServerStream.SendMsg(m)
-}
-
 func _ProjectService_ProjectInvites_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(empty.Empty)
 	if err := stream.RecvMsg(m); err != nil {
@@ -363,11 +302,6 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetPermissions",
 			Handler:       _ProjectService_GetPermissions_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "SearchforMembers",
-			Handler:       _ProjectService_SearchforMembers_Handler,
 			ServerStreams: true,
 		},
 		{

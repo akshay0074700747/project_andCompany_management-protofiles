@@ -20,10 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_SignupUser_FullMethodName = "/user.UserService/SignupUser"
-	UserService_GetRoles_FullMethodName   = "/user.UserService/GetRoles"
-	UserService_SetStatus_FullMethodName  = "/user.UserService/SetStatus"
-	UserService_GetByEmail_FullMethodName = "/user.UserService/GetByEmail"
+	UserService_SignupUser_FullMethodName       = "/user.UserService/SignupUser"
+	UserService_GetRoles_FullMethodName         = "/user.UserService/GetRoles"
+	UserService_SetStatus_FullMethodName        = "/user.UserService/SetStatus"
+	UserService_GetByEmail_FullMethodName       = "/user.UserService/GetByEmail"
+	UserService_SearchforMembers_FullMethodName = "/user.UserService/SearchforMembers"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -34,6 +35,7 @@ type UserServiceClient interface {
 	GetRoles(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_GetRolesClient, error)
 	SetStatus(ctx context.Context, in *StatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetByEmail(ctx context.Context, in *GetByEmailReq, opts ...grpc.CallOption) (*GetByEmailRes, error)
+	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (UserService_SearchforMembersClient, error)
 }
 
 type userServiceClient struct {
@@ -103,6 +105,38 @@ func (c *userServiceClient) GetByEmail(ctx context.Context, in *GetByEmailReq, o
 	return out, nil
 }
 
+func (c *userServiceClient) SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (UserService_SearchforMembersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[1], UserService_SearchforMembers_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceSearchforMembersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UserService_SearchforMembersClient interface {
+	Recv() (*SearchRes, error)
+	grpc.ClientStream
+}
+
+type userServiceSearchforMembersClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceSearchforMembersClient) Recv() (*SearchRes, error) {
+	m := new(SearchRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -111,6 +145,7 @@ type UserServiceServer interface {
 	GetRoles(*empty.Empty, UserService_GetRolesServer) error
 	SetStatus(context.Context, *StatusReq) (*empty.Empty, error)
 	GetByEmail(context.Context, *GetByEmailReq) (*GetByEmailRes, error)
+	SearchforMembers(*SearchReq, UserService_SearchforMembersServer) error
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -129,6 +164,9 @@ func (UnimplementedUserServiceServer) SetStatus(context.Context, *StatusReq) (*e
 }
 func (UnimplementedUserServiceServer) GetByEmail(context.Context, *GetByEmailReq) (*GetByEmailRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByEmail not implemented")
+}
+func (UnimplementedUserServiceServer) SearchforMembers(*SearchReq, UserService_SearchforMembersServer) error {
+	return status.Errorf(codes.Unimplemented, "method SearchforMembers not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -218,6 +256,27 @@ func _UserService_GetByEmail_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_SearchforMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(SearchReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).SearchforMembers(m, &userServiceSearchforMembersServer{stream})
+}
+
+type UserService_SearchforMembersServer interface {
+	Send(*SearchRes) error
+	grpc.ServerStream
+}
+
+type userServiceSearchforMembersServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceSearchforMembersServer) Send(m *SearchRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +301,11 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetRoles",
 			Handler:       _UserService_GetRoles_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SearchforMembers",
+			Handler:       _UserService_SearchforMembers_Handler,
 			ServerStreams: true,
 		},
 	},
