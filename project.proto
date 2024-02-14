@@ -31,6 +31,7 @@ message AddMemberReq {
     string Email = 1;
     uint32 PermissionID = 2;
     uint32 RoleID = 3;
+    string ProjectID = 4;
 }
 
 message ProjectInvitesRes {

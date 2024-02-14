@@ -50,6 +50,7 @@ message AddEmployeeReq {
     uint32 PermissionID = 2;
     uint32 RoleID = 3;
     google.protobuf.Timestamp Deadline = 4;
+    string CompanyID = 5;
 }
 
 service CompanyService {
