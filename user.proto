@@ -31,11 +31,6 @@ message UserResponce {
     string Mobile = 4;
 } 
 
-message AcceptProjectInviteReq {
-    string ProjectID = 1;
-    bool Accept = 2;
-}
-
 message GetByEmailReq {
     string Email = 1;
 }
@@ -48,6 +43,5 @@ service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
     rpc SetStatus(StatusReq)returns(google.protobuf.Empty);
-    rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
     rpc GetByEmail(GetByEmailReq)returns(GetByEmailRes);
 }

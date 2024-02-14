@@ -7,8 +7,9 @@
 package projectpb
 
 import (
-	companypb "github.com/akshay0074700747/projectandCompany_management_protofiles/pb/companypb"
 	context "context"
+
+	companypb "github.com/akshay0074700747/projectandCompany_management_protofiles/pb/companypb"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -21,11 +22,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ProjectService_CreateProject_FullMethodName    = "/project.ProjectService/CreateProject"
-	ProjectService_GetPermissions_FullMethodName   = "/project.ProjectService/GetPermissions"
-	ProjectService_AddMembers_FullMethodName       = "/project.ProjectService/AddMembers"
-	ProjectService_SearchforMembers_FullMethodName = "/project.ProjectService/SearchforMembers"
-	ProjectService_ProjectInvites_FullMethodName   = "/project.ProjectService/ProjectInvites"
+	ProjectService_CreateProject_FullMethodName       = "/project.ProjectService/CreateProject"
+	ProjectService_GetPermissions_FullMethodName      = "/project.ProjectService/GetPermissions"
+	ProjectService_AddMembers_FullMethodName          = "/project.ProjectService/AddMembers"
+	ProjectService_SearchforMembers_FullMethodName    = "/project.ProjectService/SearchforMembers"
+	ProjectService_ProjectInvites_FullMethodName      = "/project.ProjectService/ProjectInvites"
+	ProjectService_AcceptProjectInvite_FullMethodName = "/project.ProjectService/AcceptProjectInvite"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -37,6 +39,7 @@ type ProjectServiceClient interface {
 	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (ProjectService_SearchforMembersClient, error)
 	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
+	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type projectServiceClient struct {
@@ -161,6 +164,15 @@ func (x *projectServiceProjectInvitesClient) Recv() (*ProjectInvitesRes, error) 
 	return m, nil
 }
 
+func (c *projectServiceClient) AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_AcceptProjectInvite_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -170,6 +182,7 @@ type ProjectServiceServer interface {
 	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
 	SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error
 	ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error
+	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -191,6 +204,9 @@ func (UnimplementedProjectServiceServer) SearchforMembers(*SearchReq, ProjectSer
 }
 func (UnimplementedProjectServiceServer) ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ProjectInvites not implemented")
+}
+func (UnimplementedProjectServiceServer) AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AcceptProjectInvite not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -304,6 +320,24 @@ func (x *projectServiceProjectInvitesServer) Send(m *ProjectInvitesRes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ProjectService_AcceptProjectInvite_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcceptProjectInviteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).AcceptProjectInvite(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_AcceptProjectInvite_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).AcceptProjectInvite(ctx, req.(*AcceptProjectInviteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -318,6 +352,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddMembers",
 			Handler:    _ProjectService_AddMembers_Handler,
+		},
+		{
+			MethodName: "AcceptProjectInvite",
+			Handler:    _ProjectService_AcceptProjectInvite_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

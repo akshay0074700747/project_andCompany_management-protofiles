@@ -48,10 +48,17 @@ message ProjectInvitesRes {
     uint32 Members = 3;
 }
 
+message AcceptProjectInviteReq {
+    string ProjectID = 1;
+    bool Accept = 2;
+    string UserID = 3;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc GetPermissions(google.protobuf.Empty)returns(stream company.Permission);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc ProjectInvites(google.protobuf.Empty)returns(stream ProjectInvitesRes);
+    rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
 }
