@@ -7,7 +7,9 @@
 package projectpb
 
 import (
+	companypb "github.com/akshay0074700747/projectandCompany_management_protofiles/pb/companypb"
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,7 +21,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ProjectService_CreateProject_FullMethodName = "/user.ProjectService/CreateProject"
+	ProjectService_CreateProject_FullMethodName    = "/project.ProjectService/CreateProject"
+	ProjectService_GetPermissions_FullMethodName   = "/project.ProjectService/GetPermissions"
+	ProjectService_AddMembers_FullMethodName       = "/project.ProjectService/AddMembers"
+	ProjectService_SearchforMembers_FullMethodName = "/project.ProjectService/SearchforMembers"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -27,6 +32,9 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProjectServiceClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectReq, opts ...grpc.CallOption) (*CreateProjectRes, error)
+	GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_GetPermissionsClient, error)
+	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (ProjectService_SearchforMembersClient, error)
 }
 
 type projectServiceClient struct {
@@ -46,11 +54,87 @@ func (c *projectServiceClient) CreateProject(ctx context.Context, in *CreateProj
 	return out, nil
 }
 
+func (c *projectServiceClient) GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_GetPermissionsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[0], ProjectService_GetPermissions_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetPermissionsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetPermissionsClient interface {
+	Recv() (*companypb.Permission, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetPermissionsClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetPermissionsClient) Recv() (*companypb.Permission, error) {
+	m := new(companypb.Permission)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *projectServiceClient) AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_AddMembers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (ProjectService_SearchforMembersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[1], ProjectService_SearchforMembers_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceSearchforMembersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_SearchforMembersClient interface {
+	Recv() (*SearchRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceSearchforMembersClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceSearchforMembersClient) Recv() (*SearchRes, error) {
+	m := new(SearchRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
 type ProjectServiceServer interface {
 	CreateProject(context.Context, *CreateProjectReq) (*CreateProjectRes, error)
+	GetPermissions(*empty.Empty, ProjectService_GetPermissionsServer) error
+	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
+	SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -60,6 +144,15 @@ type UnimplementedProjectServiceServer struct {
 
 func (UnimplementedProjectServiceServer) CreateProject(context.Context, *CreateProjectReq) (*CreateProjectRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
+}
+func (UnimplementedProjectServiceServer) GetPermissions(*empty.Empty, ProjectService_GetPermissionsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetPermissions not implemented")
+}
+func (UnimplementedProjectServiceServer) AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) SearchforMembers(*SearchReq, ProjectService_SearchforMembersServer) error {
+	return status.Errorf(codes.Unimplemented, "method SearchforMembers not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -92,18 +185,93 @@ func _ProjectService_CreateProject_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetPermissions_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(empty.Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetPermissions(m, &projectServiceGetPermissionsServer{stream})
+}
+
+type ProjectService_GetPermissionsServer interface {
+	Send(*companypb.Permission) error
+	grpc.ServerStream
+}
+
+type projectServiceGetPermissionsServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetPermissionsServer) Send(m *companypb.Permission) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ProjectService_AddMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddMemberReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).AddMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_AddMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).AddMembers(ctx, req.(*AddMemberReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_SearchforMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(SearchReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).SearchforMembers(m, &projectServiceSearchforMembersServer{stream})
+}
+
+type ProjectService_SearchforMembersServer interface {
+	Send(*SearchRes) error
+	grpc.ServerStream
+}
+
+type projectServiceSearchforMembersServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceSearchforMembersServer) Send(m *SearchRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ProjectService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "user.ProjectService",
+	ServiceName: "project.ProjectService",
 	HandlerType: (*ProjectServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateProject",
 			Handler:    _ProjectService_CreateProject_Handler,
 		},
+		{
+			MethodName: "AddMembers",
+			Handler:    _ProjectService_AddMembers_Handler,
+		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetPermissions",
+			Handler:       _ProjectService_GetPermissions_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SearchforMembers",
+			Handler:       _ProjectService_SearchforMembers_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "project.proto",
 }

@@ -1,8 +1,12 @@
 syntax = "proto3";
 
-package user;
+package company;
 
 option go_package = "./pb/companypb";
+
+import "google/protobuf/empty.proto";
+
+import "google/protobuf/timestamp.proto";
 
 message Address {
     string street = 1;
@@ -19,6 +23,12 @@ message RegisterCompanyRequest {
     repeated string emails = 3;
     repeated string mobiles = 4;
     string companyusername = 5;
+    uint32 typeID = 6;
+}
+
+message GetCompanyTypesRes {
+    uint32 ID = 1;
+    string Name = 2;
 }
 
 message CompanyResponce {
@@ -30,7 +40,22 @@ message CompanyResponce {
     string companyID =6;
 }
 
+message Permission {
+    uint32 ID = 1;
+    string Permission = 2;
+}
+
+message AddEmployeeReq {
+    string memberID = 1;
+    uint32 PermissionID = 2;
+    uint32 RoleID = 3;
+    google.protobuf.Timestamp Deadline = 4;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
+    rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
+    rpc GetPermissions(google.protobuf.Empty)returns(stream Permission);
+    rpc AddEmployees(AddEmployeeReq)returns(google.protobuf.Empty);
 }
 

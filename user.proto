@@ -4,6 +4,8 @@ package user;
 
 option go_package = "./pb/userpb";
 
+import "google/protobuf/empty.proto";
+
 message SignupUserRequest {
     string name = 1;
     string email = 2;
@@ -11,7 +13,15 @@ message SignupUserRequest {
     string password = 4;
 }
 
+message Role {
+    uint32 ID = 1;
+    string Role = 2;
+}
 
+message StatusReq {
+    uint32 RoleID = 1;
+    bool isAvailable = 2;
+}
 
 message UserResponce {
     string id = 1;
@@ -20,6 +30,21 @@ message UserResponce {
     string mobile = 4;
 } 
 
+message AcceptProjectInviteReq {
+    string ProjectID = 1;
+    bool Accept = 2;
+}
+
+message ProjectInvitesRes {
+    string ProjectID = 1;
+    string ProjectAim = 2;
+    uint32 Members = 3;
+}
+
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
+    rpc GetRoles(google.protobuf.Empty)returns(stream Role);
+    rpc SetStatus(StatusReq)returns(google.protobuf.Empty);
+    rpc ProjectInvites(google.protobuf.Empty)returns(stream ProjectInvitesRes);
+    rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
 }

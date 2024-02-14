@@ -8,6 +8,7 @@ package userpb
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,14 +20,22 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_Signupuser_FullMethodName = "/user.UserService/Signupuser"
+	UserService_SignupUser_FullMethodName          = "/user.UserService/SignupUser"
+	UserService_GetRoles_FullMethodName            = "/user.UserService/GetRoles"
+	UserService_SetStatus_FullMethodName           = "/user.UserService/SetStatus"
+	UserService_ProjectInvites_FullMethodName      = "/user.UserService/ProjectInvites"
+	UserService_AcceptProjectInvite_FullMethodName = "/user.UserService/AcceptProjectInvite"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	Signupuser(ctx context.Context, in *SignupUserRequest, opts ...grpc.CallOption) (*UserResponce, error)
+	SignupUser(ctx context.Context, in *SignupUserRequest, opts ...grpc.CallOption) (*UserResponce, error)
+	GetRoles(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_GetRolesClient, error)
+	SetStatus(ctx context.Context, in *StatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_ProjectInvitesClient, error)
+	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type userServiceClient struct {
@@ -37,9 +46,91 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) Signupuser(ctx context.Context, in *SignupUserRequest, opts ...grpc.CallOption) (*UserResponce, error) {
+func (c *userServiceClient) SignupUser(ctx context.Context, in *SignupUserRequest, opts ...grpc.CallOption) (*UserResponce, error) {
 	out := new(UserResponce)
-	err := c.cc.Invoke(ctx, UserService_Signupuser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserService_SignupUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetRoles(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_GetRolesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[0], UserService_GetRoles_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceGetRolesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UserService_GetRolesClient interface {
+	Recv() (*Role, error)
+	grpc.ClientStream
+}
+
+type userServiceGetRolesClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceGetRolesClient) Recv() (*Role, error) {
+	m := new(Role)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *userServiceClient) SetStatus(ctx context.Context, in *StatusReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, UserService_SetStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (UserService_ProjectInvitesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[1], UserService_ProjectInvites_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceProjectInvitesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UserService_ProjectInvitesClient interface {
+	Recv() (*ProjectInvitesRes, error)
+	grpc.ClientStream
+}
+
+type userServiceProjectInvitesClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceProjectInvitesClient) Recv() (*ProjectInvitesRes, error) {
+	m := new(ProjectInvitesRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *userServiceClient) AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, UserService_AcceptProjectInvite_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +141,11 @@ func (c *userServiceClient) Signupuser(ctx context.Context, in *SignupUserReques
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	Signupuser(context.Context, *SignupUserRequest) (*UserResponce, error)
+	SignupUser(context.Context, *SignupUserRequest) (*UserResponce, error)
+	GetRoles(*empty.Empty, UserService_GetRolesServer) error
+	SetStatus(context.Context, *StatusReq) (*empty.Empty, error)
+	ProjectInvites(*empty.Empty, UserService_ProjectInvitesServer) error
+	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -58,8 +153,20 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) Signupuser(context.Context, *SignupUserRequest) (*UserResponce, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Signupuser not implemented")
+func (UnimplementedUserServiceServer) SignupUser(context.Context, *SignupUserRequest) (*UserResponce, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignupUser not implemented")
+}
+func (UnimplementedUserServiceServer) GetRoles(*empty.Empty, UserService_GetRolesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetRoles not implemented")
+}
+func (UnimplementedUserServiceServer) SetStatus(context.Context, *StatusReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetStatus not implemented")
+}
+func (UnimplementedUserServiceServer) ProjectInvites(*empty.Empty, UserService_ProjectInvitesServer) error {
+	return status.Errorf(codes.Unimplemented, "method ProjectInvites not implemented")
+}
+func (UnimplementedUserServiceServer) AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AcceptProjectInvite not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -74,20 +181,98 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
 }
 
-func _UserService_Signupuser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _UserService_SignupUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SignupUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).Signupuser(ctx, in)
+		return srv.(UserServiceServer).SignupUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_Signupuser_FullMethodName,
+		FullMethod: UserService_SignupUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Signupuser(ctx, req.(*SignupUserRequest))
+		return srv.(UserServiceServer).SignupUser(ctx, req.(*SignupUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetRoles_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(empty.Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).GetRoles(m, &userServiceGetRolesServer{stream})
+}
+
+type UserService_GetRolesServer interface {
+	Send(*Role) error
+	grpc.ServerStream
+}
+
+type userServiceGetRolesServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceGetRolesServer) Send(m *Role) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _UserService_SetStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SetStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_SetStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SetStatus(ctx, req.(*StatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_ProjectInvites_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(empty.Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).ProjectInvites(m, &userServiceProjectInvitesServer{stream})
+}
+
+type UserService_ProjectInvitesServer interface {
+	Send(*ProjectInvitesRes) error
+	grpc.ServerStream
+}
+
+type userServiceProjectInvitesServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceProjectInvitesServer) Send(m *ProjectInvitesRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _UserService_AcceptProjectInvite_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AcceptProjectInviteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AcceptProjectInvite(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AcceptProjectInvite_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AcceptProjectInvite(ctx, req.(*AcceptProjectInviteReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -100,10 +285,29 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Signupuser",
-			Handler:    _UserService_Signupuser_Handler,
+			MethodName: "SignupUser",
+			Handler:    _UserService_SignupUser_Handler,
+		},
+		{
+			MethodName: "SetStatus",
+			Handler:    _UserService_SetStatus_Handler,
+		},
+		{
+			MethodName: "AcceptProjectInvite",
+			Handler:    _UserService_AcceptProjectInvite_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetRoles",
+			Handler:       _UserService_GetRoles_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ProjectInvites",
+			Handler:       _UserService_ProjectInvites_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "user.proto",
 }

@@ -1,8 +1,12 @@
 syntax = "proto3";
 
-package user;
+package project;
 
 option go_package = "./pb/projectpb";
+
+import "google/protobuf/empty.proto";
+
+import "company.proto";
 
 message CreateProjectReq {
     string name = 1;
@@ -23,6 +27,25 @@ message CreateProjectRes {
     string comapanyId = 7;
 }
 
+message AddMemberReq {
+    string memberID = 1;
+    uint32 PermissionID = 2;
+    uint32 RoleID = 3;
+}
+
+message SearchReq {
+    uint32 RoleID = 1;
+}
+
+message SearchRes {
+    string memberID = 1;
+    string name = 2;
+    string email = 3;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
+    rpc GetPermissions(google.protobuf.Empty)returns(stream company.Permission);
+    rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
+    rpc SearchforMembers(SearchReq)returns(stream SearchRes);
 }
