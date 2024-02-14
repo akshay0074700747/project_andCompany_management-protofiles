@@ -18,7 +18,7 @@ message CreateProjectReq {
 }
 
 message CreateProjectRes {
-    string CompanyID = 1;
+    string ProjectID = 1;
     string Name = 2;
     string Description = 3;
     string ProjectUsername = 4;
