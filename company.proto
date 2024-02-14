@@ -47,10 +47,14 @@ message Permission {
 
 message AddEmployeeReq {
     string Email = 1;
-    uint32 PermissionID = 2;
     uint32 RoleID = 3;
     google.protobuf.Timestamp Deadline = 4;
     string CompanyID = 5;
+}
+
+message AttachRoleWithPermisssionsReq {
+    uint32 RoleID = 1;
+    uint32 PermissionID = 2;
 }
 
 service CompanyService {
@@ -58,5 +62,6 @@ service CompanyService {
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
     rpc GetPermissions(google.protobuf.Empty)returns(stream Permission);
     rpc AddEmployees(AddEmployeeReq)returns(google.protobuf.Empty);
+    rpc AttachRoleWithPermisssions(AttachRoleWithPermisssionsReq)returns(google.protobuf.Empty);
 }
 
