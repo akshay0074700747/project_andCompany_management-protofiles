@@ -7,7 +7,6 @@
 package projectpb
 
 import (
-	companypb "github.com/akshay0074700747/projectandCompany_management_protofiles/pb/companypb"
 	context "context"
 	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
@@ -22,7 +21,6 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ProjectService_CreateProject_FullMethodName       = "/project.ProjectService/CreateProject"
-	ProjectService_GetPermissions_FullMethodName      = "/project.ProjectService/GetPermissions"
 	ProjectService_AddMembers_FullMethodName          = "/project.ProjectService/AddMembers"
 	ProjectService_ProjectInvites_FullMethodName      = "/project.ProjectService/ProjectInvites"
 	ProjectService_AcceptProjectInvite_FullMethodName = "/project.ProjectService/AcceptProjectInvite"
@@ -33,7 +31,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProjectServiceClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectReq, opts ...grpc.CallOption) (*CreateProjectRes, error)
-	GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_GetPermissionsClient, error)
 	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -56,38 +53,6 @@ func (c *projectServiceClient) CreateProject(ctx context.Context, in *CreateProj
 	return out, nil
 }
 
-func (c *projectServiceClient) GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_GetPermissionsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[0], ProjectService_GetPermissions_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &projectServiceGetPermissionsClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type ProjectService_GetPermissionsClient interface {
-	Recv() (*companypb.Permission, error)
-	grpc.ClientStream
-}
-
-type projectServiceGetPermissionsClient struct {
-	grpc.ClientStream
-}
-
-func (x *projectServiceGetPermissionsClient) Recv() (*companypb.Permission, error) {
-	m := new(companypb.Permission)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *projectServiceClient) AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, ProjectService_AddMembers_FullMethodName, in, out, opts...)
@@ -98,7 +63,7 @@ func (c *projectServiceClient) AddMembers(ctx context.Context, in *AddMemberReq,
 }
 
 func (c *projectServiceClient) ProjectInvites(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[1], ProjectService_ProjectInvites_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[0], ProjectService_ProjectInvites_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -143,7 +108,6 @@ func (c *projectServiceClient) AcceptProjectInvite(ctx context.Context, in *Acce
 // for forward compatibility
 type ProjectServiceServer interface {
 	CreateProject(context.Context, *CreateProjectReq) (*CreateProjectRes, error)
-	GetPermissions(*empty.Empty, ProjectService_GetPermissionsServer) error
 	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
 	ProjectInvites(*empty.Empty, ProjectService_ProjectInvitesServer) error
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
@@ -156,9 +120,6 @@ type UnimplementedProjectServiceServer struct {
 
 func (UnimplementedProjectServiceServer) CreateProject(context.Context, *CreateProjectReq) (*CreateProjectRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProject not implemented")
-}
-func (UnimplementedProjectServiceServer) GetPermissions(*empty.Empty, ProjectService_GetPermissionsServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetPermissions not implemented")
 }
 func (UnimplementedProjectServiceServer) AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMembers not implemented")
@@ -198,27 +159,6 @@ func _ProjectService_CreateProject_Handler(srv interface{}, ctx context.Context,
 		return srv.(ProjectServiceServer).CreateProject(ctx, req.(*CreateProjectReq))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _ProjectService_GetPermissions_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(empty.Empty)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(ProjectServiceServer).GetPermissions(m, &projectServiceGetPermissionsServer{stream})
-}
-
-type ProjectService_GetPermissionsServer interface {
-	Send(*companypb.Permission) error
-	grpc.ServerStream
-}
-
-type projectServiceGetPermissionsServer struct {
-	grpc.ServerStream
-}
-
-func (x *projectServiceGetPermissionsServer) Send(m *companypb.Permission) error {
-	return x.ServerStream.SendMsg(m)
 }
 
 func _ProjectService_AddMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -299,11 +239,6 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "GetPermissions",
-			Handler:       _ProjectService_GetPermissions_Handler,
-			ServerStreams: true,
-		},
 		{
 			StreamName:    "ProjectInvites",
 			Handler:       _ProjectService_ProjectInvites_Handler,
