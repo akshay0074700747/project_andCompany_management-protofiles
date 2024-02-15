@@ -38,8 +38,7 @@ message ProjectInvitesReq {
 
 message ProjectInvitesRes {
     string ProjectID = 1;
-    string ProjectAim = 2;
-    uint32 Members = 3;
+    uint32 Members = 2;
 }
 
 message AcceptProjectInviteReq {
