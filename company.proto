@@ -64,7 +64,7 @@ message GetAttachedRoleswithPermissionsReq {
 
 message GetAttachedRoleswithPermissionsRes {
     uint32 ID = 1;
-    string Role = 2;
+    uint32 RoleID = 2;
     uint32 PermissionID = 3;
 }
 
