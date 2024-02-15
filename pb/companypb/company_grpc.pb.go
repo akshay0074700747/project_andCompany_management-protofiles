@@ -37,7 +37,7 @@ type CompanyServiceClient interface {
 	GetPermissions(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPermissionsClient, error)
 	AddEmployees(ctx context.Context, in *AddEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	AttachRoleWithPermisssions(ctx context.Context, in *AttachRoleWithPermisssionsReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	GetAttachedRoleswithPermissions(ctx context.Context, in *GetAttachedRoleswithPermissionsReq, opts ...grpc.CallOption) (*GetAttachedRoleswithPermissionsRes, error)
+	GetAttachedRoleswithPermissions(ctx context.Context, in *GetAttachedRoleswithPermissionsReq, opts ...grpc.CallOption) (CompanyService_GetAttachedRoleswithPermissionsClient, error)
 }
 
 type companyServiceClient struct {
@@ -139,13 +139,36 @@ func (c *companyServiceClient) AttachRoleWithPermisssions(ctx context.Context, i
 	return out, nil
 }
 
-func (c *companyServiceClient) GetAttachedRoleswithPermissions(ctx context.Context, in *GetAttachedRoleswithPermissionsReq, opts ...grpc.CallOption) (*GetAttachedRoleswithPermissionsRes, error) {
-	out := new(GetAttachedRoleswithPermissionsRes)
-	err := c.cc.Invoke(ctx, CompanyService_GetAttachedRoleswithPermissions_FullMethodName, in, out, opts...)
+func (c *companyServiceClient) GetAttachedRoleswithPermissions(ctx context.Context, in *GetAttachedRoleswithPermissionsReq, opts ...grpc.CallOption) (CompanyService_GetAttachedRoleswithPermissionsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[2], CompanyService_GetAttachedRoleswithPermissions_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &companyServiceGetAttachedRoleswithPermissionsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetAttachedRoleswithPermissionsClient interface {
+	Recv() (*GetAttachedRoleswithPermissionsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetAttachedRoleswithPermissionsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetAttachedRoleswithPermissionsClient) Recv() (*GetAttachedRoleswithPermissionsRes, error) {
+	m := new(GetAttachedRoleswithPermissionsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // CompanyServiceServer is the server API for CompanyService service.
@@ -157,7 +180,7 @@ type CompanyServiceServer interface {
 	GetPermissions(*empty.Empty, CompanyService_GetPermissionsServer) error
 	AddEmployees(context.Context, *AddEmployeeReq) (*empty.Empty, error)
 	AttachRoleWithPermisssions(context.Context, *AttachRoleWithPermisssionsReq) (*empty.Empty, error)
-	GetAttachedRoleswithPermissions(context.Context, *GetAttachedRoleswithPermissionsReq) (*GetAttachedRoleswithPermissionsRes, error)
+	GetAttachedRoleswithPermissions(*GetAttachedRoleswithPermissionsReq, CompanyService_GetAttachedRoleswithPermissionsServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -180,8 +203,8 @@ func (UnimplementedCompanyServiceServer) AddEmployees(context.Context, *AddEmplo
 func (UnimplementedCompanyServiceServer) AttachRoleWithPermisssions(context.Context, *AttachRoleWithPermisssionsReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AttachRoleWithPermisssions not implemented")
 }
-func (UnimplementedCompanyServiceServer) GetAttachedRoleswithPermissions(context.Context, *GetAttachedRoleswithPermissionsReq) (*GetAttachedRoleswithPermissionsRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAttachedRoleswithPermissions not implemented")
+func (UnimplementedCompanyServiceServer) GetAttachedRoleswithPermissions(*GetAttachedRoleswithPermissionsReq, CompanyService_GetAttachedRoleswithPermissionsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAttachedRoleswithPermissions not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -292,22 +315,25 @@ func _CompanyService_AttachRoleWithPermisssions_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CompanyService_GetAttachedRoleswithPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAttachedRoleswithPermissionsReq)
-	if err := dec(in); err != nil {
-		return nil, err
+func _CompanyService_GetAttachedRoleswithPermissions_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetAttachedRoleswithPermissionsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(CompanyServiceServer).GetAttachedRoleswithPermissions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CompanyService_GetAttachedRoleswithPermissions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).GetAttachedRoleswithPermissions(ctx, req.(*GetAttachedRoleswithPermissionsReq))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(CompanyServiceServer).GetAttachedRoleswithPermissions(m, &companyServiceGetAttachedRoleswithPermissionsServer{stream})
+}
+
+type CompanyService_GetAttachedRoleswithPermissionsServer interface {
+	Send(*GetAttachedRoleswithPermissionsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetAttachedRoleswithPermissionsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetAttachedRoleswithPermissionsServer) Send(m *GetAttachedRoleswithPermissionsRes) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
@@ -329,10 +355,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AttachRoleWithPermisssions",
 			Handler:    _CompanyService_AttachRoleWithPermisssions_Handler,
 		},
-		{
-			MethodName: "GetAttachedRoleswithPermissions",
-			Handler:    _CompanyService_GetAttachedRoleswithPermissions_Handler,
-		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -343,6 +365,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetPermissions",
 			Handler:       _CompanyService_GetPermissions_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetAttachedRoleswithPermissions",
+			Handler:       _CompanyService_GetAttachedRoleswithPermissions_Handler,
 			ServerStreams: true,
 		},
 	},
