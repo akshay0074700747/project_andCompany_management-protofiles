@@ -6,7 +6,6 @@ option go_package = "./pb/companypb";
 
 import "google/protobuf/empty.proto";
 
-import "google/protobuf/timestamp.proto";
 
 message Address {
     string Street = 1;
@@ -49,8 +48,7 @@ message Permission {
 message AddEmployeeReq {
     string Email = 1;
     uint32 RoleID = 2;
-    google.protobuf.Timestamp Deadline = 3;
-    string CompanyID = 4;
+    string CompanyID = 3;
 }
 
 message AttachRoleWithPermisssionsReq {
