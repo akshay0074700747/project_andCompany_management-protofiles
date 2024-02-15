@@ -13,6 +13,7 @@ message CreateProjectReq {
     string Aim = 4;
     bool IsCompanybased = 5;
     string ComapanyId = 6;
+    string OwnerID = 7;
 }
 
 message CreateProjectRes {

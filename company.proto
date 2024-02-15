@@ -24,6 +24,7 @@ message RegisterCompanyRequest {
     repeated string Mobiles = 4;
     string Companyusername = 5;
     uint32 TypeID = 6;
+    string OwnerID = 7;
 }
 
 message GetCompanyTypesRes {
