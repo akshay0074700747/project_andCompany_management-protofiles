@@ -18,6 +18,10 @@ message Role {
     string Role = 2;
 }
 
+message AddRoleReq {
+    string Role = 1;
+}
+
 message StatusReq {
     uint32 RoleID = 1;
     bool IsAvailable = 2;
@@ -54,4 +58,5 @@ service UserService {
     rpc SetStatus(StatusReq)returns(google.protobuf.Empty);
     rpc GetByEmail(GetByEmailReq)returns(GetByEmailRes);
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
+    rpc AddRoles(AddRoleReq)returns(google.protobuf.Empty);
 }

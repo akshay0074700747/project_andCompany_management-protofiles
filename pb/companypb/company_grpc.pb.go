@@ -26,6 +26,8 @@ const (
 	CompanyService_AddEmployees_FullMethodName                    = "/company.CompanyService/AddEmployees"
 	CompanyService_AttachRoleWithPermisssions_FullMethodName      = "/company.CompanyService/AttachRoleWithPermisssions"
 	CompanyService_GetAttachedRoleswithPermissions_FullMethodName = "/company.CompanyService/GetAttachedRoleswithPermissions"
+	CompanyService_AddCompanyTypes_FullMethodName                 = "/company.CompanyService/AddCompanyTypes"
+	CompanyService_Permissions_FullMethodName                     = "/company.CompanyService/Permissions"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -38,6 +40,8 @@ type CompanyServiceClient interface {
 	AddEmployees(ctx context.Context, in *AddEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	AttachRoleWithPermisssions(ctx context.Context, in *AttachRoleWithPermisssionsReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetAttachedRoleswithPermissions(ctx context.Context, in *GetAttachedRoleswithPermissionsReq, opts ...grpc.CallOption) (CompanyService_GetAttachedRoleswithPermissionsClient, error)
+	AddCompanyTypes(ctx context.Context, in *AddCompanyTypeReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	Permissions(ctx context.Context, in *AddPermissionReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type companyServiceClient struct {
@@ -171,6 +175,24 @@ func (x *companyServiceGetAttachedRoleswithPermissionsClient) Recv() (*GetAttach
 	return m, nil
 }
 
+func (c *companyServiceClient) AddCompanyTypes(ctx context.Context, in *AddCompanyTypeReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_AddCompanyTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) Permissions(ctx context.Context, in *AddPermissionReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_Permissions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -181,6 +203,8 @@ type CompanyServiceServer interface {
 	AddEmployees(context.Context, *AddEmployeeReq) (*empty.Empty, error)
 	AttachRoleWithPermisssions(context.Context, *AttachRoleWithPermisssionsReq) (*empty.Empty, error)
 	GetAttachedRoleswithPermissions(*GetAttachedRoleswithPermissionsReq, CompanyService_GetAttachedRoleswithPermissionsServer) error
+	AddCompanyTypes(context.Context, *AddCompanyTypeReq) (*empty.Empty, error)
+	Permissions(context.Context, *AddPermissionReq) (*empty.Empty, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -205,6 +229,12 @@ func (UnimplementedCompanyServiceServer) AttachRoleWithPermisssions(context.Cont
 }
 func (UnimplementedCompanyServiceServer) GetAttachedRoleswithPermissions(*GetAttachedRoleswithPermissionsReq, CompanyService_GetAttachedRoleswithPermissionsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetAttachedRoleswithPermissions not implemented")
+}
+func (UnimplementedCompanyServiceServer) AddCompanyTypes(context.Context, *AddCompanyTypeReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCompanyTypes not implemented")
+}
+func (UnimplementedCompanyServiceServer) Permissions(context.Context, *AddPermissionReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Permissions not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -336,6 +366,42 @@ func (x *companyServiceGetAttachedRoleswithPermissionsServer) Send(m *GetAttache
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_AddCompanyTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCompanyTypeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).AddCompanyTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_AddCompanyTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).AddCompanyTypes(ctx, req.(*AddCompanyTypeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_Permissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPermissionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).Permissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_Permissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).Permissions(ctx, req.(*AddPermissionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -354,6 +420,14 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AttachRoleWithPermisssions",
 			Handler:    _CompanyService_AttachRoleWithPermisssions_Handler,
+		},
+		{
+			MethodName: "AddCompanyTypes",
+			Handler:    _CompanyService_AddCompanyTypes_Handler,
+		},
+		{
+			MethodName: "Permissions",
+			Handler:    _CompanyService_Permissions_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
