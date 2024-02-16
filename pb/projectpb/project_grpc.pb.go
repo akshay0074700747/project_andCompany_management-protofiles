@@ -24,6 +24,8 @@ const (
 	ProjectService_AddMembers_FullMethodName          = "/project.ProjectService/AddMembers"
 	ProjectService_ProjectInvites_FullMethodName      = "/project.ProjectService/ProjectInvites"
 	ProjectService_AcceptProjectInvite_FullMethodName = "/project.ProjectService/AcceptProjectInvite"
+	ProjectService_GetProjectDetailes_FullMethodName  = "/project.ProjectService/GetProjectDetailes"
+	ProjectService_GetProjectMembers_FullMethodName   = "/project.ProjectService/GetProjectMembers"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -34,6 +36,8 @@ type ProjectServiceClient interface {
 	AddMembers(ctx context.Context, in *AddMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	ProjectInvites(ctx context.Context, in *ProjectInvitesReq, opts ...grpc.CallOption) (ProjectService_ProjectInvitesClient, error)
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetProjectDetailes(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (*GetProjectDetailesRes, error)
+	GetProjectMembers(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (ProjectService_GetProjectMembersClient, error)
 }
 
 type projectServiceClient struct {
@@ -103,6 +107,47 @@ func (c *projectServiceClient) AcceptProjectInvite(ctx context.Context, in *Acce
 	return out, nil
 }
 
+func (c *projectServiceClient) GetProjectDetailes(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (*GetProjectDetailesRes, error) {
+	out := new(GetProjectDetailesRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetProjectDetailes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetProjectMembers(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (ProjectService_GetProjectMembersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[1], ProjectService_GetProjectMembers_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetProjectMembersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetProjectMembersClient interface {
+	Recv() (*GetProjectMembersRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetProjectMembersClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetProjectMembersClient) Recv() (*GetProjectMembersRes, error) {
+	m := new(GetProjectMembersRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -111,6 +156,8 @@ type ProjectServiceServer interface {
 	AddMembers(context.Context, *AddMemberReq) (*empty.Empty, error)
 	ProjectInvites(*ProjectInvitesReq, ProjectService_ProjectInvitesServer) error
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
+	GetProjectDetailes(context.Context, *GetProjectReq) (*GetProjectDetailesRes, error)
+	GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -129,6 +176,12 @@ func (UnimplementedProjectServiceServer) ProjectInvites(*ProjectInvitesReq, Proj
 }
 func (UnimplementedProjectServiceServer) AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcceptProjectInvite not implemented")
+}
+func (UnimplementedProjectServiceServer) GetProjectDetailes(context.Context, *GetProjectReq) (*GetProjectDetailesRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProjectDetailes not implemented")
+}
+func (UnimplementedProjectServiceServer) GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetProjectMembers not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -218,6 +271,45 @@ func _ProjectService_AcceptProjectInvite_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetProjectDetailes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetProjectDetailes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetProjectDetailes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetProjectDetailes(ctx, req.(*GetProjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetProjectMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetProjectReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetProjectMembers(m, &projectServiceGetProjectMembersServer{stream})
+}
+
+type ProjectService_GetProjectMembersServer interface {
+	Send(*GetProjectMembersRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetProjectMembersServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetProjectMembersServer) Send(m *GetProjectMembersRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -237,11 +329,20 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AcceptProjectInvite",
 			Handler:    _ProjectService_AcceptProjectInvite_Handler,
 		},
+		{
+			MethodName: "GetProjectDetailes",
+			Handler:    _ProjectService_GetProjectDetailes_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "ProjectInvites",
 			Handler:       _ProjectService_ProjectInvites_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetProjectMembers",
+			Handler:       _ProjectService_GetProjectMembers_Handler,
 			ServerStreams: true,
 		},
 	},

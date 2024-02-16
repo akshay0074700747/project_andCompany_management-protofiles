@@ -75,6 +75,23 @@ message AddPermissionReq {
     string Name = 1;
 }
 
+message GetCompanyReq {
+    string CompanyID = 1;
+}
+
+message GetCompanyDetailsRes {
+    string CompanyID = 1;
+    string Name = 2;
+    string Aim = 3;
+    uint32 Members = 4;
+    uint32 InvitesPending = 5;
+}
+
+message GetCompanyEmployeesRes {
+    string EmployeeID = 1;
+    bool Status = 2;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -84,5 +101,7 @@ service CompanyService {
     rpc GetAttachedRoleswithPermissions(GetAttachedRoleswithPermissionsReq)returns(stream GetAttachedRoleswithPermissionsRes);
     rpc AddCompanyTypes(AddCompanyTypeReq)returns(google.protobuf.Empty);
     rpc Permissions(AddPermissionReq)returns(google.protobuf.Empty);
+    rpc GetCompanyDetails(GetCompanyReq)returns(GetCompanyDetailsRes);
+    rpc GetCompanyEmployees(GetCompanyReq)returns(stream GetCompanyEmployeesRes);
 }
 

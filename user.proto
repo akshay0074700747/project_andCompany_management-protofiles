@@ -52,6 +52,16 @@ message SearchRes {
     string Email = 2;
 }
 
+message GetUserDetailsReq {
+string UserID = 1;
+}
+
+message GetUserDetailsRes {
+string UserID = 1;
+string Email = 2;
+string Mobile = 3;
+}
+
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
@@ -59,4 +69,5 @@ service UserService {
     rpc GetByEmail(GetByEmailReq)returns(GetByEmailRes);
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc AddRoles(AddRoleReq)returns(google.protobuf.Empty);
+    rpc GetUserDetails(GetUserDetailsReq)returns(GetUserDetailsRes);
 }

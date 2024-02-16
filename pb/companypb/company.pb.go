@@ -730,6 +730,187 @@ func (x *AddPermissionReq) GetName() string {
 	return ""
 }
 
+type GetCompanyReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CompanyID string `protobuf:"bytes,1,opt,name=CompanyID,proto3" json:"CompanyID,omitempty"`
+}
+
+func (x *GetCompanyReq) Reset() {
+	*x = GetCompanyReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_company_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCompanyReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCompanyReq) ProtoMessage() {}
+
+func (x *GetCompanyReq) ProtoReflect() protoreflect.Message {
+	mi := &file_company_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCompanyReq.ProtoReflect.Descriptor instead.
+func (*GetCompanyReq) Descriptor() ([]byte, []int) {
+	return file_company_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetCompanyReq) GetCompanyID() string {
+	if x != nil {
+		return x.CompanyID
+	}
+	return ""
+}
+
+type GetCompanyDetailsRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CompanyID      string `protobuf:"bytes,1,opt,name=CompanyID,proto3" json:"CompanyID,omitempty"`
+	Name           string `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Aim            string `protobuf:"bytes,3,opt,name=Aim,proto3" json:"Aim,omitempty"`
+	Members        uint32 `protobuf:"varint,4,opt,name=Members,proto3" json:"Members,omitempty"`
+	InvitesPending uint32 `protobuf:"varint,5,opt,name=InvitesPending,proto3" json:"InvitesPending,omitempty"`
+}
+
+func (x *GetCompanyDetailsRes) Reset() {
+	*x = GetCompanyDetailsRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_company_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCompanyDetailsRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCompanyDetailsRes) ProtoMessage() {}
+
+func (x *GetCompanyDetailsRes) ProtoReflect() protoreflect.Message {
+	mi := &file_company_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCompanyDetailsRes.ProtoReflect.Descriptor instead.
+func (*GetCompanyDetailsRes) Descriptor() ([]byte, []int) {
+	return file_company_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetCompanyDetailsRes) GetCompanyID() string {
+	if x != nil {
+		return x.CompanyID
+	}
+	return ""
+}
+
+func (x *GetCompanyDetailsRes) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GetCompanyDetailsRes) GetAim() string {
+	if x != nil {
+		return x.Aim
+	}
+	return ""
+}
+
+func (x *GetCompanyDetailsRes) GetMembers() uint32 {
+	if x != nil {
+		return x.Members
+	}
+	return 0
+}
+
+func (x *GetCompanyDetailsRes) GetInvitesPending() uint32 {
+	if x != nil {
+		return x.InvitesPending
+	}
+	return 0
+}
+
+type GetCompanyEmployeesRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	EmployeeID string `protobuf:"bytes,1,opt,name=EmployeeID,proto3" json:"EmployeeID,omitempty"`
+	Status     bool   `protobuf:"varint,2,opt,name=Status,proto3" json:"Status,omitempty"`
+}
+
+func (x *GetCompanyEmployeesRes) Reset() {
+	*x = GetCompanyEmployeesRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_company_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCompanyEmployeesRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCompanyEmployeesRes) ProtoMessage() {}
+
+func (x *GetCompanyEmployeesRes) ProtoReflect() protoreflect.Message {
+	mi := &file_company_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCompanyEmployeesRes.ProtoReflect.Descriptor instead.
+func (*GetCompanyEmployeesRes) Descriptor() ([]byte, []int) {
+	return file_company_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetCompanyEmployeesRes) GetEmployeeID() string {
+	if x != nil {
+		return x.EmployeeID
+	}
+	return ""
+}
+
+func (x *GetCompanyEmployeesRes) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
 var File_company_proto protoreflect.FileDescriptor
 
 var file_company_proto_rawDesc = []byte{
@@ -811,7 +992,25 @@ var file_company_proto_rawDesc = []byte{
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x26, 0x0a, 0x10,
 	0x41, 0x64, 0x64, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
 	0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
-	0x4e, 0x61, 0x6d, 0x65, 0x32, 0x90, 0x05, 0x0a, 0x0e, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
+	0x4e, 0x61, 0x6d, 0x65, 0x22, 0x2d, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61,
+	0x6e, 0x79, 0x52, 0x65, 0x71, 0x12, 0x1c, 0x0a, 0x09, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
+	0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
+	0x79, 0x49, 0x44, 0x22, 0x9c, 0x01, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61,
+	0x6e, 0x79, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x12, 0x1c, 0x0a, 0x09,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x49, 0x44, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61,
+	0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x10,
+	0x0a, 0x03, 0x41, 0x69, 0x6d, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x41, 0x69, 0x6d,
+	0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x0d, 0x52, 0x07, 0x4d, 0x65, 0x6d, 0x62, 0x65, 0x72, 0x73, 0x12, 0x26, 0x0a, 0x0e, 0x49, 0x6e,
+	0x76, 0x69, 0x74, 0x65, 0x73, 0x50, 0x65, 0x6e, 0x64, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x0d, 0x52, 0x0e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x73, 0x50, 0x65, 0x6e, 0x64, 0x69,
+	0x6e, 0x67, 0x22, 0x50, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
+	0x45, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x73, 0x52, 0x65, 0x73, 0x12, 0x1e, 0x0a, 0x0a,
+	0x45, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0a, 0x45, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x49, 0x44, 0x12, 0x16, 0x0a, 0x06,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x53, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x32, 0xae, 0x06, 0x0a, 0x0e, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79,
 	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x4c, 0x0a, 0x0f, 0x52, 0x65, 0x67, 0x69, 0x73,
 	0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x12, 0x1f, 0x2e, 0x63, 0x6f, 0x6d,
 	0x70, 0x61, 0x6e, 0x79, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d,
@@ -852,9 +1051,18 @@ var file_company_proto_rawDesc = []byte{
 	0x69, 0x6f, 0x6e, 0x73, 0x12, 0x19, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x2e, 0x41,
 	0x64, 0x64, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x1a,
 	0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x70, 0x62, 0x2f,
-	0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x4a, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x43, 0x6f,
+	0x6d, 0x70, 0x61, 0x6e, 0x79, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x16, 0x2e, 0x63,
+	0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
+	0x79, 0x52, 0x65, 0x71, 0x1a, 0x1d, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x2e, 0x47,
+	0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73,
+	0x52, 0x65, 0x73, 0x12, 0x50, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e,
+	0x79, 0x45, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x73, 0x12, 0x16, 0x2e, 0x63, 0x6f, 0x6d,
+	0x70, 0x61, 0x6e, 0x79, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x52,
+	0x65, 0x71, 0x1a, 0x1f, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x2e, 0x47, 0x65, 0x74,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x6e, 0x79, 0x45, 0x6d, 0x70, 0x6c, 0x6f, 0x79, 0x65, 0x65, 0x73,
+	0x52, 0x65, 0x73, 0x30, 0x01, 0x42, 0x10, 0x5a, 0x0e, 0x2e, 0x2f, 0x70, 0x62, 0x2f, 0x63, 0x6f,
+	0x6d, 0x70, 0x61, 0x6e, 0x79, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -869,7 +1077,7 @@ func file_company_proto_rawDescGZIP() []byte {
 	return file_company_proto_rawDescData
 }
 
-var file_company_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_company_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_company_proto_goTypes = []interface{}{
 	(*Address)(nil),                            // 0: company.Address
 	(*RegisterCompanyRequest)(nil),             // 1: company.RegisterCompanyRequest
@@ -882,29 +1090,36 @@ var file_company_proto_goTypes = []interface{}{
 	(*GetAttachedRoleswithPermissionsRes)(nil), // 8: company.GetAttachedRoleswithPermissionsRes
 	(*AddCompanyTypeReq)(nil),                  // 9: company.AddCompanyTypeReq
 	(*AddPermissionReq)(nil),                   // 10: company.AddPermissionReq
-	(*empty.Empty)(nil),                        // 11: google.protobuf.Empty
+	(*GetCompanyReq)(nil),                      // 11: company.GetCompanyReq
+	(*GetCompanyDetailsRes)(nil),               // 12: company.GetCompanyDetailsRes
+	(*GetCompanyEmployeesRes)(nil),             // 13: company.GetCompanyEmployeesRes
+	(*empty.Empty)(nil),                        // 14: google.protobuf.Empty
 }
 var file_company_proto_depIdxs = []int32{
 	0,  // 0: company.RegisterCompanyRequest.Address:type_name -> company.Address
 	0,  // 1: company.CompanyResponce.Address:type_name -> company.Address
 	1,  // 2: company.CompanyService.RegisterCompany:input_type -> company.RegisterCompanyRequest
-	11, // 3: company.CompanyService.GetCompanyTypes:input_type -> google.protobuf.Empty
-	11, // 4: company.CompanyService.GetPermissions:input_type -> google.protobuf.Empty
+	14, // 3: company.CompanyService.GetCompanyTypes:input_type -> google.protobuf.Empty
+	14, // 4: company.CompanyService.GetPermissions:input_type -> google.protobuf.Empty
 	5,  // 5: company.CompanyService.AddEmployees:input_type -> company.AddEmployeeReq
 	6,  // 6: company.CompanyService.AttachRoleWithPermisssions:input_type -> company.AttachRoleWithPermisssionsReq
 	7,  // 7: company.CompanyService.GetAttachedRoleswithPermissions:input_type -> company.GetAttachedRoleswithPermissionsReq
 	9,  // 8: company.CompanyService.AddCompanyTypes:input_type -> company.AddCompanyTypeReq
 	10, // 9: company.CompanyService.Permissions:input_type -> company.AddPermissionReq
-	3,  // 10: company.CompanyService.RegisterCompany:output_type -> company.CompanyResponce
-	2,  // 11: company.CompanyService.GetCompanyTypes:output_type -> company.GetCompanyTypesRes
-	4,  // 12: company.CompanyService.GetPermissions:output_type -> company.Permission
-	11, // 13: company.CompanyService.AddEmployees:output_type -> google.protobuf.Empty
-	11, // 14: company.CompanyService.AttachRoleWithPermisssions:output_type -> google.protobuf.Empty
-	8,  // 15: company.CompanyService.GetAttachedRoleswithPermissions:output_type -> company.GetAttachedRoleswithPermissionsRes
-	11, // 16: company.CompanyService.AddCompanyTypes:output_type -> google.protobuf.Empty
-	11, // 17: company.CompanyService.Permissions:output_type -> google.protobuf.Empty
-	10, // [10:18] is the sub-list for method output_type
-	2,  // [2:10] is the sub-list for method input_type
+	11, // 10: company.CompanyService.GetCompanyDetails:input_type -> company.GetCompanyReq
+	11, // 11: company.CompanyService.GetCompanyEmployees:input_type -> company.GetCompanyReq
+	3,  // 12: company.CompanyService.RegisterCompany:output_type -> company.CompanyResponce
+	2,  // 13: company.CompanyService.GetCompanyTypes:output_type -> company.GetCompanyTypesRes
+	4,  // 14: company.CompanyService.GetPermissions:output_type -> company.Permission
+	14, // 15: company.CompanyService.AddEmployees:output_type -> google.protobuf.Empty
+	14, // 16: company.CompanyService.AttachRoleWithPermisssions:output_type -> google.protobuf.Empty
+	8,  // 17: company.CompanyService.GetAttachedRoleswithPermissions:output_type -> company.GetAttachedRoleswithPermissionsRes
+	14, // 18: company.CompanyService.AddCompanyTypes:output_type -> google.protobuf.Empty
+	14, // 19: company.CompanyService.Permissions:output_type -> google.protobuf.Empty
+	12, // 20: company.CompanyService.GetCompanyDetails:output_type -> company.GetCompanyDetailsRes
+	13, // 21: company.CompanyService.GetCompanyEmployees:output_type -> company.GetCompanyEmployeesRes
+	12, // [12:22] is the sub-list for method output_type
+	2,  // [2:12] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -1048,6 +1263,42 @@ func file_company_proto_init() {
 				return nil
 			}
 		}
+		file_company_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCompanyReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_company_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCompanyDetailsRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_company_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetCompanyEmployeesRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1055,7 +1306,7 @@ func file_company_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_company_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
