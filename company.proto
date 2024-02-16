@@ -82,9 +82,8 @@ message GetCompanyReq {
 message GetCompanyDetailsRes {
     string CompanyID = 1;
     string Name = 2;
-    string Aim = 3;
+    string CompanyUsername = 3;
     uint32 Members = 4;
-    uint32 InvitesPending = 5;
 }
 
 message GetCompanyEmployeesRes {
