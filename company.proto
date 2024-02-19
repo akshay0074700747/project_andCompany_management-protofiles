@@ -91,6 +91,14 @@ message GetCompanyEmployeesRes {
     bool Status = 2;
 }
 
+message LogintoCompanyReq {
+    string CompanyUsername = 1;
+}
+
+message SearchCompanyReq {
+    uint32 ID = 1;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -102,5 +110,7 @@ service CompanyService {
     rpc Permissions(AddPermissionReq)returns(google.protobuf.Empty);
     rpc GetCompanyDetails(GetCompanyReq)returns(GetCompanyDetailsRes);
     rpc GetCompanyEmployees(GetCompanyReq)returns(stream GetCompanyEmployeesRes);
+    rpc LogintoCompany(LogintoCompanyReq)returns(google.protobuf.Empty);
+    rpc SearchCompanies(SearchCompanyReq)returns(stream GetCompanyDetailsRes);
 }
 

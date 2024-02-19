@@ -64,6 +64,10 @@ message GetProjectMembersRes {
     bool Status = 2;
 }
 
+message LogintoProjectReq {
+    string ProjectUsername = 1;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -71,4 +75,5 @@ service ProjectService {
     rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
     rpc GetProjectDetailes(GetProjectReq)returns(GetProjectDetailesRes);
     rpc GetProjectMembers(GetProjectReq)returns(stream GetProjectMembersRes);
+    rpc LogintoProject(LogintoProjectReq)returns(google.protobuf.Empty);
 }

@@ -26,6 +26,7 @@ const (
 	ProjectService_AcceptProjectInvite_FullMethodName = "/project.ProjectService/AcceptProjectInvite"
 	ProjectService_GetProjectDetailes_FullMethodName  = "/project.ProjectService/GetProjectDetailes"
 	ProjectService_GetProjectMembers_FullMethodName   = "/project.ProjectService/GetProjectMembers"
+	ProjectService_LogintoProject_FullMethodName      = "/project.ProjectService/LogintoProject"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -38,6 +39,7 @@ type ProjectServiceClient interface {
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetProjectDetailes(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (*GetProjectDetailesRes, error)
 	GetProjectMembers(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (ProjectService_GetProjectMembersClient, error)
+	LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type projectServiceClient struct {
@@ -148,6 +150,15 @@ func (x *projectServiceGetProjectMembersClient) Recv() (*GetProjectMembersRes, e
 	return m, nil
 }
 
+func (c *projectServiceClient) LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_LogintoProject_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -158,6 +169,7 @@ type ProjectServiceServer interface {
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
 	GetProjectDetailes(context.Context, *GetProjectReq) (*GetProjectDetailesRes, error)
 	GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error
+	LogintoProject(context.Context, *LogintoProjectReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -182,6 +194,9 @@ func (UnimplementedProjectServiceServer) GetProjectDetailes(context.Context, *Ge
 }
 func (UnimplementedProjectServiceServer) GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetProjectMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) LogintoProject(context.Context, *LogintoProjectReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LogintoProject not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -310,6 +325,24 @@ func (x *projectServiceGetProjectMembersServer) Send(m *GetProjectMembersRes) er
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ProjectService_LogintoProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogintoProjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).LogintoProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_LogintoProject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).LogintoProject(ctx, req.(*LogintoProjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -332,6 +365,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProjectDetailes",
 			Handler:    _ProjectService_GetProjectDetailes_Handler,
+		},
+		{
+			MethodName: "LogintoProject",
+			Handler:    _ProjectService_LogintoProject_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

@@ -30,6 +30,8 @@ const (
 	CompanyService_Permissions_FullMethodName                     = "/company.CompanyService/Permissions"
 	CompanyService_GetCompanyDetails_FullMethodName               = "/company.CompanyService/GetCompanyDetails"
 	CompanyService_GetCompanyEmployees_FullMethodName             = "/company.CompanyService/GetCompanyEmployees"
+	CompanyService_LogintoCompany_FullMethodName                  = "/company.CompanyService/LogintoCompany"
+	CompanyService_SearchCompanies_FullMethodName                 = "/company.CompanyService/SearchCompanies"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -46,6 +48,8 @@ type CompanyServiceClient interface {
 	Permissions(ctx context.Context, in *AddPermissionReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetCompanyDetails(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (*GetCompanyDetailsRes, error)
 	GetCompanyEmployees(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (CompanyService_GetCompanyEmployeesClient, error)
+	LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	SearchCompanies(ctx context.Context, in *SearchCompanyReq, opts ...grpc.CallOption) (CompanyService_SearchCompaniesClient, error)
 }
 
 type companyServiceClient struct {
@@ -238,6 +242,47 @@ func (x *companyServiceGetCompanyEmployeesClient) Recv() (*GetCompanyEmployeesRe
 	return m, nil
 }
 
+func (c *companyServiceClient) LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_LogintoCompany_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) SearchCompanies(ctx context.Context, in *SearchCompanyReq, opts ...grpc.CallOption) (CompanyService_SearchCompaniesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[4], CompanyService_SearchCompanies_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceSearchCompaniesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_SearchCompaniesClient interface {
+	Recv() (*GetCompanyDetailsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceSearchCompaniesClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceSearchCompaniesClient) Recv() (*GetCompanyDetailsRes, error) {
+	m := new(GetCompanyDetailsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -252,6 +297,8 @@ type CompanyServiceServer interface {
 	Permissions(context.Context, *AddPermissionReq) (*empty.Empty, error)
 	GetCompanyDetails(context.Context, *GetCompanyReq) (*GetCompanyDetailsRes, error)
 	GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error
+	LogintoCompany(context.Context, *LogintoCompanyReq) (*empty.Empty, error)
+	SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -288,6 +335,12 @@ func (UnimplementedCompanyServiceServer) GetCompanyDetails(context.Context, *Get
 }
 func (UnimplementedCompanyServiceServer) GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetCompanyEmployees not implemented")
+}
+func (UnimplementedCompanyServiceServer) LogintoCompany(context.Context, *LogintoCompanyReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LogintoCompany not implemented")
+}
+func (UnimplementedCompanyServiceServer) SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error {
+	return status.Errorf(codes.Unimplemented, "method SearchCompanies not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -494,6 +547,45 @@ func (x *companyServiceGetCompanyEmployeesServer) Send(m *GetCompanyEmployeesRes
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_LogintoCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogintoCompanyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).LogintoCompany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_LogintoCompany_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).LogintoCompany(ctx, req.(*LogintoCompanyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_SearchCompanies_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(SearchCompanyReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).SearchCompanies(m, &companyServiceSearchCompaniesServer{stream})
+}
+
+type CompanyService_SearchCompaniesServer interface {
+	Send(*GetCompanyDetailsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceSearchCompaniesServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceSearchCompaniesServer) Send(m *GetCompanyDetailsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -525,6 +617,10 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetCompanyDetails",
 			Handler:    _CompanyService_GetCompanyDetails_Handler,
 		},
+		{
+			MethodName: "LogintoCompany",
+			Handler:    _CompanyService_LogintoCompany_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -545,6 +641,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetCompanyEmployees",
 			Handler:       _CompanyService_GetCompanyEmployees_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "SearchCompanies",
+			Handler:       _CompanyService_SearchCompanies_Handler,
 			ServerStreams: true,
 		},
 	},
