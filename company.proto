@@ -49,22 +49,27 @@ message AddEmployeeReq {
     string Email = 1;
     uint32 RoleID = 2;
     string CompanyID = 3;
+    string RecruiterID = 4;
 }
 
 message AttachRoleWithPermisssionsReq {
     uint32 RoleID = 1;
     uint32 PermissionID = 2;
     string CompanyID = 3;
+    string MemberID = 4;
 }
 
 message GetAttachedRoleswithPermissionsReq {
     string companyID = 1;
+    string MemberID = 2;
 }
 
 message GetAttachedRoleswithPermissionsRes {
     uint32 ID = 1;
     uint32 RoleID = 2;
-    uint32 PermissionID = 3;
+    string Role = 3;
+    uint32 PermissionID = 4;
+    string Permission = 5;
 }
 
 message AddCompanyTypeReq {
@@ -76,19 +81,26 @@ message AddPermissionReq {
 }
 
 message GetCompanyReq {
-    string CompanyID = 1;
+    string CompanyUsername = 1;
+    string CompanyID = 2;
+    string MemberID = 3;
 }
 
 message GetCompanyDetailsRes {
     string CompanyID = 1;
-    string Name = 2;
-    string CompanyUsername = 3;
-    uint32 Members = 4;
+    string CompanyUsername = 2;
+    uint32 Members = 3;
+    repeated GetCompanyEmployeesRes MembersDetails = 4;
+    uint32 MembersTerminated = 5;
+    uint32 Clients = 6;
+    uint32 ActiveProjects = 7;
 }
 
 message GetCompanyEmployeesRes {
-    string EmployeeID = 1;
-    bool Status = 2;
+    string Email = 1;
+    string Name = 2;
+    string Role = 3;
+    string Permission = 4;
 }
 
 message LogintoCompanyReq {

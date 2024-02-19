@@ -14,6 +14,7 @@ message CreateProjectReq {
     bool IsCompanybased = 5;
     string ComapanyId = 6;
     string OwnerID = 7;
+    bool IsPublic = 8;
 }
 
 message CreateProjectRes {
@@ -31,6 +32,7 @@ message AddMemberReq {
     uint32 PermissionID = 2;
     uint32 RoleID = 3;
     string ProjectID = 4;
+    string RecruiterID = 5;
 }
 
 message ProjectInvitesReq {
@@ -50,6 +52,16 @@ message AcceptProjectInviteReq {
 
 message GetProjectReq {
     string ProjectID = 1;
+    string ProjectUsername = 2;
+    string MemberID = 3;
+}
+
+message GetProjectMembersRes {
+    string Email = 1;
+    string Name = 2;
+    string Role = 3;
+    string Permission = 4;
+    uint32 Reputation = 5;
 }
 
 message GetProjectDetailesRes {
@@ -57,11 +69,11 @@ message GetProjectDetailesRes {
     string ProjectUsername = 2;
     string Aim = 3;
     uint32 Members = 4;
-}
-
-message GetProjectMembersRes {
-    string MemberID = 1;
-    bool Status = 2;
+    repeated GetProjectMembersRes MembersDetails = 5;
+    uint32 MembersTerminated = 6;
+    uint32 IssuesRaised = 7;
+    uint32 WorkflowsRunning = 8;
+    uint32 IssuesPending = 9;
 }
 
 message LogintoProjectReq {
