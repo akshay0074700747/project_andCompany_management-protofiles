@@ -48,7 +48,7 @@ type CompanyServiceClient interface {
 	Permissions(ctx context.Context, in *AddPermissionReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetCompanyDetails(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (*GetCompanyDetailsRes, error)
 	GetCompanyEmployees(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (CompanyService_GetCompanyEmployeesClient, error)
-	LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*LogintoCompanyRes, error)
 	SearchCompanies(ctx context.Context, in *SearchCompanyReq, opts ...grpc.CallOption) (CompanyService_SearchCompaniesClient, error)
 }
 
@@ -242,8 +242,8 @@ func (x *companyServiceGetCompanyEmployeesClient) Recv() (*GetCompanyEmployeesRe
 	return m, nil
 }
 
-func (c *companyServiceClient) LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *companyServiceClient) LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*LogintoCompanyRes, error) {
+	out := new(LogintoCompanyRes)
 	err := c.cc.Invoke(ctx, CompanyService_LogintoCompany_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -297,7 +297,7 @@ type CompanyServiceServer interface {
 	Permissions(context.Context, *AddPermissionReq) (*empty.Empty, error)
 	GetCompanyDetails(context.Context, *GetCompanyReq) (*GetCompanyDetailsRes, error)
 	GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error
-	LogintoCompany(context.Context, *LogintoCompanyReq) (*empty.Empty, error)
+	LogintoCompany(context.Context, *LogintoCompanyReq) (*LogintoCompanyRes, error)
 	SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
@@ -336,7 +336,7 @@ func (UnimplementedCompanyServiceServer) GetCompanyDetails(context.Context, *Get
 func (UnimplementedCompanyServiceServer) GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetCompanyEmployees not implemented")
 }
-func (UnimplementedCompanyServiceServer) LogintoCompany(context.Context, *LogintoCompanyReq) (*empty.Empty, error) {
+func (UnimplementedCompanyServiceServer) LogintoCompany(context.Context, *LogintoCompanyReq) (*LogintoCompanyRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LogintoCompany not implemented")
 }
 func (UnimplementedCompanyServiceServer) SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error {

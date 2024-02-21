@@ -32,7 +32,6 @@ message AddMemberReq {
     uint32 PermissionID = 2;
     uint32 RoleID = 3;
     string ProjectID = 4;
-    string RecruiterID = 5;
 }
 
 message ProjectInvitesReq {
@@ -53,7 +52,6 @@ message AcceptProjectInviteReq {
 message GetProjectReq {
     string ProjectID = 1;
     string ProjectUsername = 2;
-    string MemberID = 3;
 }
 
 message GetProjectMembersRes {
@@ -78,6 +76,12 @@ message GetProjectDetailesRes {
 
 message LogintoProjectReq {
     string ProjectUsername = 1;
+    string MemberID = 2;
+}
+
+message LogintoProjectRes {
+    string ProjectID = 1;
+    string Permission = 2;
 }
 
 service ProjectService {
@@ -87,5 +91,5 @@ service ProjectService {
     rpc AcceptProjectInvite(AcceptProjectInviteReq)returns(google.protobuf.Empty);
     rpc GetProjectDetailes(GetProjectReq)returns(GetProjectDetailesRes);
     rpc GetProjectMembers(GetProjectReq)returns(stream GetProjectMembersRes);
-    rpc LogintoProject(LogintoProjectReq)returns(google.protobuf.Empty);
+    rpc LogintoProject(LogintoProjectReq)returns(LogintoProjectRes);
 }

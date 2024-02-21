@@ -39,7 +39,7 @@ type ProjectServiceClient interface {
 	AcceptProjectInvite(ctx context.Context, in *AcceptProjectInviteReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetProjectDetailes(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (*GetProjectDetailesRes, error)
 	GetProjectMembers(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (ProjectService_GetProjectMembersClient, error)
-	LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*LogintoProjectRes, error)
 }
 
 type projectServiceClient struct {
@@ -150,8 +150,8 @@ func (x *projectServiceGetProjectMembersClient) Recv() (*GetProjectMembersRes, e
 	return m, nil
 }
 
-func (c *projectServiceClient) LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *projectServiceClient) LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*LogintoProjectRes, error) {
+	out := new(LogintoProjectRes)
 	err := c.cc.Invoke(ctx, ProjectService_LogintoProject_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -169,7 +169,7 @@ type ProjectServiceServer interface {
 	AcceptProjectInvite(context.Context, *AcceptProjectInviteReq) (*empty.Empty, error)
 	GetProjectDetailes(context.Context, *GetProjectReq) (*GetProjectDetailesRes, error)
 	GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error
-	LogintoProject(context.Context, *LogintoProjectReq) (*empty.Empty, error)
+	LogintoProject(context.Context, *LogintoProjectReq) (*LogintoProjectRes, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -195,7 +195,7 @@ func (UnimplementedProjectServiceServer) GetProjectDetailes(context.Context, *Ge
 func (UnimplementedProjectServiceServer) GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetProjectMembers not implemented")
 }
-func (UnimplementedProjectServiceServer) LogintoProject(context.Context, *LogintoProjectReq) (*empty.Empty, error) {
+func (UnimplementedProjectServiceServer) LogintoProject(context.Context, *LogintoProjectReq) (*LogintoProjectRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LogintoProject not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
