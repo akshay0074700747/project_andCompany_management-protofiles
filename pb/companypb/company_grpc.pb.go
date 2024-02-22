@@ -32,6 +32,7 @@ const (
 	CompanyService_GetCompanyEmployees_FullMethodName             = "/company.CompanyService/GetCompanyEmployees"
 	CompanyService_LogintoCompany_FullMethodName                  = "/company.CompanyService/LogintoCompany"
 	CompanyService_SearchCompanies_FullMethodName                 = "/company.CompanyService/SearchCompanies"
+	CompanyService_AddMemberStatus_FullMethodName                 = "/company.CompanyService/AddMemberStatus"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -50,6 +51,7 @@ type CompanyServiceClient interface {
 	GetCompanyEmployees(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (CompanyService_GetCompanyEmployeesClient, error)
 	LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*LogintoCompanyRes, error)
 	SearchCompanies(ctx context.Context, in *SearchCompanyReq, opts ...grpc.CallOption) (CompanyService_SearchCompaniesClient, error)
+	AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type companyServiceClient struct {
@@ -283,6 +285,15 @@ func (x *companyServiceSearchCompaniesClient) Recv() (*GetCompanyDetailsRes, err
 	return m, nil
 }
 
+func (c *companyServiceClient) AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_AddMemberStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -299,6 +310,7 @@ type CompanyServiceServer interface {
 	GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error
 	LogintoCompany(context.Context, *LogintoCompanyReq) (*LogintoCompanyRes, error)
 	SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error
+	AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -341,6 +353,9 @@ func (UnimplementedCompanyServiceServer) LogintoCompany(context.Context, *Logint
 }
 func (UnimplementedCompanyServiceServer) SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error {
 	return status.Errorf(codes.Unimplemented, "method SearchCompanies not implemented")
+}
+func (UnimplementedCompanyServiceServer) AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddMemberStatus not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -586,6 +601,24 @@ func (x *companyServiceSearchCompaniesServer) Send(m *GetCompanyDetailsRes) erro
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_AddMemberStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MemberStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).AddMemberStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_AddMemberStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).AddMemberStatus(ctx, req.(*MemberStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -620,6 +653,10 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LogintoCompany",
 			Handler:    _CompanyService_LogintoCompany_Handler,
+		},
+		{
+			MethodName: "AddMemberStatus",
+			Handler:    _CompanyService_AddMemberStatus_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

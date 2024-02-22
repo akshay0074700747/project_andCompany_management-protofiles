@@ -27,6 +27,7 @@ const (
 	ProjectService_GetProjectDetailes_FullMethodName  = "/project.ProjectService/GetProjectDetailes"
 	ProjectService_GetProjectMembers_FullMethodName   = "/project.ProjectService/GetProjectMembers"
 	ProjectService_LogintoProject_FullMethodName      = "/project.ProjectService/LogintoProject"
+	ProjectService_AddMemberStatus_FullMethodName     = "/project.ProjectService/AddMemberStatus"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -40,6 +41,7 @@ type ProjectServiceClient interface {
 	GetProjectDetailes(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (*GetProjectDetailesRes, error)
 	GetProjectMembers(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (ProjectService_GetProjectMembersClient, error)
 	LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*LogintoProjectRes, error)
+	AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type projectServiceClient struct {
@@ -159,6 +161,15 @@ func (c *projectServiceClient) LogintoProject(ctx context.Context, in *LogintoPr
 	return out, nil
 }
 
+func (c *projectServiceClient) AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_AddMemberStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -170,6 +181,7 @@ type ProjectServiceServer interface {
 	GetProjectDetailes(context.Context, *GetProjectReq) (*GetProjectDetailesRes, error)
 	GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error
 	LogintoProject(context.Context, *LogintoProjectReq) (*LogintoProjectRes, error)
+	AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -197,6 +209,9 @@ func (UnimplementedProjectServiceServer) GetProjectMembers(*GetProjectReq, Proje
 }
 func (UnimplementedProjectServiceServer) LogintoProject(context.Context, *LogintoProjectReq) (*LogintoProjectRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LogintoProject not implemented")
+}
+func (UnimplementedProjectServiceServer) AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddMemberStatus not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -343,6 +358,24 @@ func _ProjectService_LogintoProject_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_AddMemberStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MemberStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).AddMemberStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_AddMemberStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).AddMemberStatus(ctx, req.(*MemberStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -369,6 +402,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LogintoProject",
 			Handler:    _ProjectService_LogintoProject_Handler,
+		},
+		{
+			MethodName: "AddMemberStatus",
+			Handler:    _ProjectService_AddMemberStatus_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
