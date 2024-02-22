@@ -88,6 +88,27 @@ message MemberStatusReq {
     string Status = 1;
 }
 
+message GetAssignedTaskReq {
+    string UserID = 1;
+    string ProjectID = 2;
+}
+
+message GetAssignedTaskRes {
+    string Task = 1;
+    string Description = 2;
+    string TaskFileID = 3;
+}
+
+message DownloadTaskReq {
+    string UserID = 1;
+    string ProjectID = 2;
+    string TaskFileID = 3;
+}
+
+message DownloadTaskRes {
+    bytes File = 1;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -97,4 +118,6 @@ service ProjectService {
     rpc GetProjectMembers(GetProjectReq)returns(stream GetProjectMembersRes);
     rpc LogintoProject(LogintoProjectReq)returns(LogintoProjectRes);
     rpc AddMemberStatus(MemberStatusReq)returns(google.protobuf.Empty);
+    rpc GetAssignedTask(GetAssignedTaskReq)returns(GetAssignedTaskRes);
+    rpc DownloadTask(DownloadTaskReq)returns(DownloadTaskRes);
 }

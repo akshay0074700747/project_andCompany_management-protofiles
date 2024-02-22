@@ -28,6 +28,8 @@ const (
 	ProjectService_GetProjectMembers_FullMethodName   = "/project.ProjectService/GetProjectMembers"
 	ProjectService_LogintoProject_FullMethodName      = "/project.ProjectService/LogintoProject"
 	ProjectService_AddMemberStatus_FullMethodName     = "/project.ProjectService/AddMemberStatus"
+	ProjectService_GetAssignedTask_FullMethodName     = "/project.ProjectService/GetAssignedTask"
+	ProjectService_DownloadTask_FullMethodName        = "/project.ProjectService/DownloadTask"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -42,6 +44,8 @@ type ProjectServiceClient interface {
 	GetProjectMembers(ctx context.Context, in *GetProjectReq, opts ...grpc.CallOption) (ProjectService_GetProjectMembersClient, error)
 	LogintoProject(ctx context.Context, in *LogintoProjectReq, opts ...grpc.CallOption) (*LogintoProjectRes, error)
 	AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetAssignedTask(ctx context.Context, in *GetAssignedTaskReq, opts ...grpc.CallOption) (*GetAssignedTaskRes, error)
+	DownloadTask(ctx context.Context, in *DownloadTaskReq, opts ...grpc.CallOption) (*DownloadTaskRes, error)
 }
 
 type projectServiceClient struct {
@@ -170,6 +174,24 @@ func (c *projectServiceClient) AddMemberStatus(ctx context.Context, in *MemberSt
 	return out, nil
 }
 
+func (c *projectServiceClient) GetAssignedTask(ctx context.Context, in *GetAssignedTaskReq, opts ...grpc.CallOption) (*GetAssignedTaskRes, error) {
+	out := new(GetAssignedTaskRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetAssignedTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) DownloadTask(ctx context.Context, in *DownloadTaskReq, opts ...grpc.CallOption) (*DownloadTaskRes, error) {
+	out := new(DownloadTaskRes)
+	err := c.cc.Invoke(ctx, ProjectService_DownloadTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -182,6 +204,8 @@ type ProjectServiceServer interface {
 	GetProjectMembers(*GetProjectReq, ProjectService_GetProjectMembersServer) error
 	LogintoProject(context.Context, *LogintoProjectReq) (*LogintoProjectRes, error)
 	AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error)
+	GetAssignedTask(context.Context, *GetAssignedTaskReq) (*GetAssignedTaskRes, error)
+	DownloadTask(context.Context, *DownloadTaskReq) (*DownloadTaskRes, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -212,6 +236,12 @@ func (UnimplementedProjectServiceServer) LogintoProject(context.Context, *Logint
 }
 func (UnimplementedProjectServiceServer) AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMemberStatus not implemented")
+}
+func (UnimplementedProjectServiceServer) GetAssignedTask(context.Context, *GetAssignedTaskReq) (*GetAssignedTaskRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAssignedTask not implemented")
+}
+func (UnimplementedProjectServiceServer) DownloadTask(context.Context, *DownloadTaskReq) (*DownloadTaskRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DownloadTask not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -376,6 +406,42 @@ func _ProjectService_AddMemberStatus_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetAssignedTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssignedTaskReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetAssignedTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetAssignedTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetAssignedTask(ctx, req.(*GetAssignedTaskReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_DownloadTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownloadTaskReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).DownloadTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_DownloadTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).DownloadTask(ctx, req.(*DownloadTaskReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -406,6 +472,14 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddMemberStatus",
 			Handler:    _ProjectService_AddMemberStatus_Handler,
+		},
+		{
+			MethodName: "GetAssignedTask",
+			Handler:    _ProjectService_GetAssignedTask_Handler,
+		},
+		{
+			MethodName: "DownloadTask",
+			Handler:    _ProjectService_DownloadTask_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
