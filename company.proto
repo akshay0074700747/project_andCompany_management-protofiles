@@ -49,6 +49,7 @@ message AddEmployeeReq {
     string Email = 1;
     uint32 RoleID = 2;
     string CompanyID = 3;
+    uint32 CTC = 4;
 }
 
 message AttachRoleWithPermisssionsReq {
@@ -107,6 +108,7 @@ message LogintoCompanyReq {
 message LogintoCompanyRes {
     string CompanyID = 1;
     string Permission = 2;
+    string Role = 3;
 }
 
 message SearchCompanyReq {
@@ -115,6 +117,99 @@ message SearchCompanyReq {
 
 message MemberStatusReq {
     string Status = 1;
+}
+
+message GetLiveProjectsReq {
+    string CompanyID = 1;
+}
+
+message GetLiveProjectsRes {
+    string ProjectID = 1;
+    string ProjectUsername = 2;
+    string ProjectDescription = 3;
+    uint32 MembersWorking = 4;
+    uint32 Progress = 5;
+    string Version = 6;
+}
+
+message GetEmployeesLeaderBoardReq {
+    string CompanyID = 1;
+}
+
+message GetEmployeesLeaderBoardRes {
+    string EmployeeID = 1;
+    uint32 Reputation = 2;
+    uint32 CurrentProjectProgress = 3;
+    uint32 Salary = 4;
+    uint32 ProjectsParticipated = 5;
+}
+
+message SalaryIncrementofEmployeeReq {
+    string CompanyID = 1;
+    string EmployeeID = 2;
+    uint32 Increment = 3;
+}
+
+message SalaryIncrementofRoleReq {
+    string CompanyID = 1;
+    uint32 RoleID = 2;
+    uint32 Increment = 3;
+}
+
+message GetAverageSalaryperRoleReq {
+    string CompanyID = 1;
+}
+
+message GetAverageSalaryperRoleRes {
+    string Role = 1;
+    uint32 Salary = 2;
+}
+
+message GetSalaryLeaderboardReq {
+    string CompanyID = 1;
+}
+
+message GetSalaryLeaderboardRes {
+    string EmployeeID = 1;
+    string Email = 2;
+    string Name = 3;
+    uint32 Salary = 4;
+    string Role = 5;
+}
+
+message RaiseProblemReq {
+    string Problem = 1;
+}
+
+message GetProblemsReq {
+    string CompanyID = 1;
+}
+
+message GetProblemsRes {
+    string Problem = 1;
+    string RaisedBy = 2;
+}
+
+message GetProfileViewsReq {
+    string CompanyID = 1;
+}
+
+message GetProfileViewsRes {
+    string CompanyID = 1;
+    uint32 Views = 2;
+}
+
+message GetPopularityofCompaniesRes {
+    string CompanyID = 1;
+    uint32 Popularity = 2;
+}
+
+message ListCompaniesRes {
+    string CompanyID = 1;
+    string Aim = 2;
+    string Description = 3;
+    uint32 Employees = 4;
+    uint32 Popularity = 5;
 }
 
 service CompanyService {
@@ -131,5 +226,16 @@ service CompanyService {
     rpc LogintoCompany(LogintoCompanyReq)returns(LogintoCompanyRes);
     rpc SearchCompanies(SearchCompanyReq)returns(stream GetCompanyDetailsRes);
     rpc AddMemberStatus(MemberStatusReq)returns(google.protobuf.Empty);
+    rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
+    rpc GetEmployeesLeaderBoard(GetEmployeesLeaderBoardReq)returns(stream GetEmployeesLeaderBoardRes);
+    rpc SalaryIncrementofEmployee(SalaryIncrementofEmployeeReq)returns(google.protobuf.Empty);
+    rpc SalaryIncrementofRole(SalaryIncrementofRoleReq)returns(google.protobuf.Empty);
+    rpc GetAverageSalaryperRole(GetAverageSalaryperRoleReq)returns(stream GetAverageSalaryperRoleRes);
+    rpc GetSalaryLeaderboard(GetSalaryLeaderboardReq)returns(GetSalaryLeaderboardRes);
+    rpc RaiseProblem(RaiseProblemReq)returns(google.protobuf.Empty);
+    rpc GetProblems(GetProblemsReq)returns(GetProblemsRes);
+    rpc GetProfileViews(GetProblemsReq)returns(GetProfileViewsRes);
+    rpc GetPopularityofCompanies(google.protobuf.Empty)returns(stream GetPopularityofCompaniesRes);
+    rpc ListCompanies(google.protobuf.Empty)returns(ListCompaniesRes);
 }
 

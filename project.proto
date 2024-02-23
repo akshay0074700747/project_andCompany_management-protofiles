@@ -15,6 +15,7 @@ message CreateProjectReq {
     string ComapanyId = 6;
     string OwnerID = 7;
     bool IsPublic = 8;
+    string Deadline = 9;
 }
 
 message CreateProjectRes {
@@ -25,6 +26,7 @@ message CreateProjectRes {
     string Aim = 5;
     bool IsCompanybased = 6;
     string ComapanyID = 7;
+    string Deadline = 8;
 }
 
 message AddMemberReq {
@@ -82,6 +84,7 @@ message LogintoProjectReq {
 message LogintoProjectRes {
     string ProjectID = 1;
     string Permission = 2;
+    string Role = 3;
 }
 
 message MemberStatusReq {
@@ -109,6 +112,79 @@ message DownloadTaskRes {
     bytes File = 1;
 }
 
+message GetProgressofMembersReq {
+    string ProjectID = 1;
+}
+
+message GetProgressofMembersRes {
+    string MemberID = 1;
+    string Email = 2;
+    string Name = 3;
+    string TaskDeadline = 4;
+    string Progress = 5;
+    string TaskStatus = 6;
+    string Role = 7;
+}
+
+message GetProgressofMemberRes {
+    string MemberID = 1;
+    string Email = 2;
+    string Name = 3;
+    string TaskDeadline = 4;
+    uint32 TasksCompleted = 5;
+    uint32 TasksLeft = 6;
+    string Progress = 7;
+    repeated TaskDetails Details = 8;
+    string Role = 9;
+}
+
+message TaskDetails {
+    string Key = 1;
+    string Description = 2;
+    string FileSnapshotName = 3;
+}
+
+message GetProgressofMemberReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+}
+
+message MarkProgressofNonTechnicalReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+    string CompletedTask = 3;
+    string Description = 4;
+}
+
+message GetProjectProgressReq {
+    string ProjectID = 1;
+}
+
+message GetProjectProgressRes {
+    string ProjectID = 1;
+    uint32 Progress = 2;
+    string Deadline = 3;
+    uint32 LiveMembers = 4;
+    uint32 TaskCompletedMembers = 5;
+    uint32 TaskCriticalMembers = 6;
+}
+
+message CheckReputationReq {
+    string ProjectID = 1;
+}
+
+message CheckReputationRes {
+    string memberID = 1;
+    string Name = 2;
+    string Email = 3;
+    string Role = 4;
+    uint32 Reputation = 5;
+}
+
+message AddTaskStatusesReq {
+    string Status = 1;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -120,4 +196,10 @@ service ProjectService {
     rpc AddMemberStatus(MemberStatusReq)returns(google.protobuf.Empty);
     rpc GetAssignedTask(GetAssignedTaskReq)returns(GetAssignedTaskRes);
     rpc DownloadTask(DownloadTaskReq)returns(DownloadTaskRes);
+    rpc GetProgressofMembers(GetProgressofMembersReq)returns(stream GetProgressofMembersRes);
+    rpc GetProgressofMember(GetProgressofMemberReq)returns(GetProgressofMemberRes);
+    rpc GetProjectProgress(GetProjectProgressReq)returns(GetProjectProgressRes);
+    rpc MarkProgressofNonTechnical(MarkProgressofNonTechnicalReq)returns(google.protobuf.Empty);
+    rpc CheckReputation(CheckReputationReq)returns(CheckReputationRes);
+    rpc AddTaskStatuses(AddTaskStatusesReq)returns(google.protobuf.Empty);
 }

@@ -20,16 +20,22 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ProjectService_CreateProject_FullMethodName       = "/project.ProjectService/CreateProject"
-	ProjectService_AddMembers_FullMethodName          = "/project.ProjectService/AddMembers"
-	ProjectService_ProjectInvites_FullMethodName      = "/project.ProjectService/ProjectInvites"
-	ProjectService_AcceptProjectInvite_FullMethodName = "/project.ProjectService/AcceptProjectInvite"
-	ProjectService_GetProjectDetailes_FullMethodName  = "/project.ProjectService/GetProjectDetailes"
-	ProjectService_GetProjectMembers_FullMethodName   = "/project.ProjectService/GetProjectMembers"
-	ProjectService_LogintoProject_FullMethodName      = "/project.ProjectService/LogintoProject"
-	ProjectService_AddMemberStatus_FullMethodName     = "/project.ProjectService/AddMemberStatus"
-	ProjectService_GetAssignedTask_FullMethodName     = "/project.ProjectService/GetAssignedTask"
-	ProjectService_DownloadTask_FullMethodName        = "/project.ProjectService/DownloadTask"
+	ProjectService_CreateProject_FullMethodName              = "/project.ProjectService/CreateProject"
+	ProjectService_AddMembers_FullMethodName                 = "/project.ProjectService/AddMembers"
+	ProjectService_ProjectInvites_FullMethodName             = "/project.ProjectService/ProjectInvites"
+	ProjectService_AcceptProjectInvite_FullMethodName        = "/project.ProjectService/AcceptProjectInvite"
+	ProjectService_GetProjectDetailes_FullMethodName         = "/project.ProjectService/GetProjectDetailes"
+	ProjectService_GetProjectMembers_FullMethodName          = "/project.ProjectService/GetProjectMembers"
+	ProjectService_LogintoProject_FullMethodName             = "/project.ProjectService/LogintoProject"
+	ProjectService_AddMemberStatus_FullMethodName            = "/project.ProjectService/AddMemberStatus"
+	ProjectService_GetAssignedTask_FullMethodName            = "/project.ProjectService/GetAssignedTask"
+	ProjectService_DownloadTask_FullMethodName               = "/project.ProjectService/DownloadTask"
+	ProjectService_GetProgressofMembers_FullMethodName       = "/project.ProjectService/GetProgressofMembers"
+	ProjectService_GetProgressofMember_FullMethodName        = "/project.ProjectService/GetProgressofMember"
+	ProjectService_GetProjectProgress_FullMethodName         = "/project.ProjectService/GetProjectProgress"
+	ProjectService_MarkProgressofNonTechnical_FullMethodName = "/project.ProjectService/MarkProgressofNonTechnical"
+	ProjectService_CheckReputation_FullMethodName            = "/project.ProjectService/CheckReputation"
+	ProjectService_AddTaskStatuses_FullMethodName            = "/project.ProjectService/AddTaskStatuses"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -46,6 +52,12 @@ type ProjectServiceClient interface {
 	AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetAssignedTask(ctx context.Context, in *GetAssignedTaskReq, opts ...grpc.CallOption) (*GetAssignedTaskRes, error)
 	DownloadTask(ctx context.Context, in *DownloadTaskReq, opts ...grpc.CallOption) (*DownloadTaskRes, error)
+	GetProgressofMembers(ctx context.Context, in *GetProgressofMembersReq, opts ...grpc.CallOption) (ProjectService_GetProgressofMembersClient, error)
+	GetProgressofMember(ctx context.Context, in *GetProgressofMemberReq, opts ...grpc.CallOption) (*GetProgressofMemberRes, error)
+	GetProjectProgress(ctx context.Context, in *GetProjectProgressReq, opts ...grpc.CallOption) (*GetProjectProgressRes, error)
+	MarkProgressofNonTechnical(ctx context.Context, in *MarkProgressofNonTechnicalReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	CheckReputation(ctx context.Context, in *CheckReputationReq, opts ...grpc.CallOption) (*CheckReputationRes, error)
+	AddTaskStatuses(ctx context.Context, in *AddTaskStatusesReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type projectServiceClient struct {
@@ -192,6 +204,83 @@ func (c *projectServiceClient) DownloadTask(ctx context.Context, in *DownloadTas
 	return out, nil
 }
 
+func (c *projectServiceClient) GetProgressofMembers(ctx context.Context, in *GetProgressofMembersReq, opts ...grpc.CallOption) (ProjectService_GetProgressofMembersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[2], ProjectService_GetProgressofMembers_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetProgressofMembersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetProgressofMembersClient interface {
+	Recv() (*GetProgressofMembersRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetProgressofMembersClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetProgressofMembersClient) Recv() (*GetProgressofMembersRes, error) {
+	m := new(GetProgressofMembersRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *projectServiceClient) GetProgressofMember(ctx context.Context, in *GetProgressofMemberReq, opts ...grpc.CallOption) (*GetProgressofMemberRes, error) {
+	out := new(GetProgressofMemberRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetProgressofMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetProjectProgress(ctx context.Context, in *GetProjectProgressReq, opts ...grpc.CallOption) (*GetProjectProgressRes, error) {
+	out := new(GetProjectProgressRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetProjectProgress_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) MarkProgressofNonTechnical(ctx context.Context, in *MarkProgressofNonTechnicalReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_MarkProgressofNonTechnical_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) CheckReputation(ctx context.Context, in *CheckReputationReq, opts ...grpc.CallOption) (*CheckReputationRes, error) {
+	out := new(CheckReputationRes)
+	err := c.cc.Invoke(ctx, ProjectService_CheckReputation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) AddTaskStatuses(ctx context.Context, in *AddTaskStatusesReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_AddTaskStatuses_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -206,6 +295,12 @@ type ProjectServiceServer interface {
 	AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error)
 	GetAssignedTask(context.Context, *GetAssignedTaskReq) (*GetAssignedTaskRes, error)
 	DownloadTask(context.Context, *DownloadTaskReq) (*DownloadTaskRes, error)
+	GetProgressofMembers(*GetProgressofMembersReq, ProjectService_GetProgressofMembersServer) error
+	GetProgressofMember(context.Context, *GetProgressofMemberReq) (*GetProgressofMemberRes, error)
+	GetProjectProgress(context.Context, *GetProjectProgressReq) (*GetProjectProgressRes, error)
+	MarkProgressofNonTechnical(context.Context, *MarkProgressofNonTechnicalReq) (*empty.Empty, error)
+	CheckReputation(context.Context, *CheckReputationReq) (*CheckReputationRes, error)
+	AddTaskStatuses(context.Context, *AddTaskStatusesReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -242,6 +337,24 @@ func (UnimplementedProjectServiceServer) GetAssignedTask(context.Context, *GetAs
 }
 func (UnimplementedProjectServiceServer) DownloadTask(context.Context, *DownloadTaskReq) (*DownloadTaskRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DownloadTask not implemented")
+}
+func (UnimplementedProjectServiceServer) GetProgressofMembers(*GetProgressofMembersReq, ProjectService_GetProgressofMembersServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetProgressofMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) GetProgressofMember(context.Context, *GetProgressofMemberReq) (*GetProgressofMemberRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProgressofMember not implemented")
+}
+func (UnimplementedProjectServiceServer) GetProjectProgress(context.Context, *GetProjectProgressReq) (*GetProjectProgressRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProjectProgress not implemented")
+}
+func (UnimplementedProjectServiceServer) MarkProgressofNonTechnical(context.Context, *MarkProgressofNonTechnicalReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MarkProgressofNonTechnical not implemented")
+}
+func (UnimplementedProjectServiceServer) CheckReputation(context.Context, *CheckReputationReq) (*CheckReputationRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckReputation not implemented")
+}
+func (UnimplementedProjectServiceServer) AddTaskStatuses(context.Context, *AddTaskStatusesReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTaskStatuses not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -442,6 +555,117 @@ func _ProjectService_DownloadTask_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetProgressofMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetProgressofMembersReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetProgressofMembers(m, &projectServiceGetProgressofMembersServer{stream})
+}
+
+type ProjectService_GetProgressofMembersServer interface {
+	Send(*GetProgressofMembersRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetProgressofMembersServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetProgressofMembersServer) Send(m *GetProgressofMembersRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ProjectService_GetProgressofMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProgressofMemberReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetProgressofMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetProgressofMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetProgressofMember(ctx, req.(*GetProgressofMemberReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetProjectProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectProgressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetProjectProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetProjectProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetProjectProgress(ctx, req.(*GetProjectProgressReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_MarkProgressofNonTechnical_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MarkProgressofNonTechnicalReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).MarkProgressofNonTechnical(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_MarkProgressofNonTechnical_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).MarkProgressofNonTechnical(ctx, req.(*MarkProgressofNonTechnicalReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_CheckReputation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckReputationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).CheckReputation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_CheckReputation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).CheckReputation(ctx, req.(*CheckReputationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_AddTaskStatuses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddTaskStatusesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).AddTaskStatuses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_AddTaskStatuses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).AddTaskStatuses(ctx, req.(*AddTaskStatusesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -481,6 +705,26 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "DownloadTask",
 			Handler:    _ProjectService_DownloadTask_Handler,
 		},
+		{
+			MethodName: "GetProgressofMember",
+			Handler:    _ProjectService_GetProgressofMember_Handler,
+		},
+		{
+			MethodName: "GetProjectProgress",
+			Handler:    _ProjectService_GetProjectProgress_Handler,
+		},
+		{
+			MethodName: "MarkProgressofNonTechnical",
+			Handler:    _ProjectService_MarkProgressofNonTechnical_Handler,
+		},
+		{
+			MethodName: "CheckReputation",
+			Handler:    _ProjectService_CheckReputation_Handler,
+		},
+		{
+			MethodName: "AddTaskStatuses",
+			Handler:    _ProjectService_AddTaskStatuses_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -491,6 +735,11 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetProjectMembers",
 			Handler:       _ProjectService_GetProjectMembers_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetProgressofMembers",
+			Handler:       _ProjectService_GetProgressofMembers_Handler,
 			ServerStreams: true,
 		},
 	},
