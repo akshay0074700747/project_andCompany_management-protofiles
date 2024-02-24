@@ -54,6 +54,7 @@ message SearchRes {
 
 message GetUserDetailsReq {
 string UserID = 1;
+uint32 RoleID = 2;
 }
 
 message GetUserDetailsRes {
@@ -61,15 +62,7 @@ string UserID = 1;
 string Email = 2;
 string Mobile = 3;
 string Name = 4;
-}
-
-message GetRolebyIDReq {
-    uint32 ID = 1;
-}
-
-message GetRolebyIDRes {
-    uint32 ID = 1;
-    string Role = 2;
+string Role = 5;
 }
 
 service UserService {
@@ -80,5 +73,4 @@ service UserService {
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc AddRoles(AddRoleReq)returns(google.protobuf.Empty);
     rpc GetUserDetails(GetUserDetailsReq)returns(GetUserDetailsRes);
-    rpc GetRolebyID(GetRolebyIDReq)returns(GetRolebyIDRes);
 }
