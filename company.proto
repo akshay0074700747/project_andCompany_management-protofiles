@@ -6,6 +6,8 @@ option go_package = "./pb/companypb";
 
 import "google/protobuf/empty.proto";
 
+import "google/protobuf/timestamp.proto";
+
 
 message Address {
     string Street = 1;
@@ -81,6 +83,7 @@ message AddPermissionReq {
 message GetCompanyReq {
     string CompanyUsername = 1;
     string CompanyID = 2;
+    string VisitorID = 3;
 }
 
 message GetCompanyDetailsRes {
@@ -202,6 +205,18 @@ message ListCompaniesRes {
     uint32 Popularity = 5;
 }
 
+message GetVisitorsReq {
+    string CompanyID = 1;
+    google.protobuf.Timestamp From = 2;
+    google.protobuf.Timestamp To = 3;
+}
+
+message GetVisitorsRes {
+    string Name = 1;
+    string Email = 2;
+    google.protobuf.Timestamp VisitedTime = 3;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -225,5 +240,6 @@ service CompanyService {
     rpc GetProfileViews(GetProblemsReq)returns(GetProfileViewsRes);
     rpc GetPopularityofCompanies(google.protobuf.Empty)returns(stream GetPopularityofCompaniesRes);
     rpc ListCompanies(google.protobuf.Empty)returns(ListCompaniesRes);
+    rpc GetVisitors(GetVisitorsReq)returns(stream GetVisitorsRes);
 }
 

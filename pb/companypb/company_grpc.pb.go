@@ -42,6 +42,7 @@ const (
 	CompanyService_GetProfileViews_FullMethodName                 = "/company.CompanyService/GetProfileViews"
 	CompanyService_GetPopularityofCompanies_FullMethodName        = "/company.CompanyService/GetPopularityofCompanies"
 	CompanyService_ListCompanies_FullMethodName                   = "/company.CompanyService/ListCompanies"
+	CompanyService_GetVisitors_FullMethodName                     = "/company.CompanyService/GetVisitors"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -70,6 +71,7 @@ type CompanyServiceClient interface {
 	GetProfileViews(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error)
 	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListCompaniesRes, error)
+	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
 }
 
 type companyServiceClient struct {
@@ -462,6 +464,38 @@ func (c *companyServiceClient) ListCompanies(ctx context.Context, in *empty.Empt
 	return out, nil
 }
 
+func (c *companyServiceClient) GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetVisitors_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetVisitorsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetVisitorsClient interface {
+	Recv() (*GetVisitorsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetVisitorsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetVisitorsClient) Recv() (*GetVisitorsRes, error) {
+	m := new(GetVisitorsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -488,6 +522,7 @@ type CompanyServiceServer interface {
 	GetProfileViews(context.Context, *GetProblemsReq) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error
 	ListCompanies(context.Context, *empty.Empty) (*ListCompaniesRes, error)
+	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -560,6 +595,9 @@ func (UnimplementedCompanyServiceServer) GetPopularityofCompanies(*empty.Empty, 
 }
 func (UnimplementedCompanyServiceServer) ListCompanies(context.Context, *empty.Empty) (*ListCompaniesRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCompanies not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetVisitors not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -994,6 +1032,27 @@ func _CompanyService_ListCompanies_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyService_GetVisitors_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetVisitorsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetVisitors(m, &companyServiceGetVisitorsServer{stream})
+}
+
+type CompanyService_GetVisitorsServer interface {
+	Send(*GetVisitorsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetVisitorsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetVisitorsServer) Send(m *GetVisitorsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1097,6 +1156,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetPopularityofCompanies",
 			Handler:       _CompanyService_GetPopularityofCompanies_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetVisitors",
+			Handler:       _CompanyService_GetVisitors_Handler,
 			ServerStreams: true,
 		},
 	},
