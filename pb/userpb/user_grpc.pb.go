@@ -28,6 +28,7 @@ const (
 	UserService_AddRoles_FullMethodName               = "/user.UserService/AddRoles"
 	UserService_GetUserDetails_FullMethodName         = "/user.UserService/GetUserDetails"
 	UserService_GetStreamofUserDetails_FullMethodName = "/user.UserService/GetStreamofUserDetails"
+	UserService_GetStreamofRoles_FullMethodName       = "/user.UserService/GetStreamofRoles"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -41,7 +42,8 @@ type UserServiceClient interface {
 	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (UserService_SearchforMembersClient, error)
 	AddRoles(ctx context.Context, in *AddRoleReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetUserDetails(ctx context.Context, in *GetUserDetailsReq, opts ...grpc.CallOption) (*GetUserDetailsRes, error)
-	GetStreamofUserDetails(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error)
+	GetStreamofUserDetails(ctx context.Context, in *GetStreamofUserDetailsReq, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error)
+	GetStreamofRoles(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofRolesClient, error)
 }
 
 type userServiceClient struct {
@@ -161,17 +163,22 @@ func (c *userServiceClient) GetUserDetails(ctx context.Context, in *GetUserDetai
 	return out, nil
 }
 
-func (c *userServiceClient) GetStreamofUserDetails(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error) {
+func (c *userServiceClient) GetStreamofUserDetails(ctx context.Context, in *GetStreamofUserDetailsReq, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error) {
 	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[2], UserService_GetStreamofUserDetails_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
 	x := &userServiceGetStreamofUserDetailsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
 	return x, nil
 }
 
 type UserService_GetStreamofUserDetailsClient interface {
-	Send(*GetUserDetailsReq) error
 	Recv() (*GetUserDetailsRes, error)
 	grpc.ClientStream
 }
@@ -180,12 +187,42 @@ type userServiceGetStreamofUserDetailsClient struct {
 	grpc.ClientStream
 }
 
-func (x *userServiceGetStreamofUserDetailsClient) Send(m *GetUserDetailsReq) error {
+func (x *userServiceGetStreamofUserDetailsClient) Recv() (*GetUserDetailsRes, error) {
+	m := new(GetUserDetailsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *userServiceClient) GetStreamofRoles(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofRolesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[3], UserService_GetStreamofRoles_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceGetStreamofRolesClient{stream}
+	return x, nil
+}
+
+type UserService_GetStreamofRolesClient interface {
+	Send(*GetStreamofRolesReq) error
+	CloseAndRecv() (*GetStreamofRolesRes, error)
+	grpc.ClientStream
+}
+
+type userServiceGetStreamofRolesClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceGetStreamofRolesClient) Send(m *GetStreamofRolesReq) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *userServiceGetStreamofUserDetailsClient) Recv() (*GetUserDetailsRes, error) {
-	m := new(GetUserDetailsRes)
+func (x *userServiceGetStreamofRolesClient) CloseAndRecv() (*GetStreamofRolesRes, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(GetStreamofRolesRes)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -203,7 +240,8 @@ type UserServiceServer interface {
 	SearchforMembers(*SearchReq, UserService_SearchforMembersServer) error
 	AddRoles(context.Context, *AddRoleReq) (*empty.Empty, error)
 	GetUserDetails(context.Context, *GetUserDetailsReq) (*GetUserDetailsRes, error)
-	GetStreamofUserDetails(UserService_GetStreamofUserDetailsServer) error
+	GetStreamofUserDetails(*GetStreamofUserDetailsReq, UserService_GetStreamofUserDetailsServer) error
+	GetStreamofRoles(UserService_GetStreamofRolesServer) error
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -232,8 +270,11 @@ func (UnimplementedUserServiceServer) AddRoles(context.Context, *AddRoleReq) (*e
 func (UnimplementedUserServiceServer) GetUserDetails(context.Context, *GetUserDetailsReq) (*GetUserDetailsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserDetails not implemented")
 }
-func (UnimplementedUserServiceServer) GetStreamofUserDetails(UserService_GetStreamofUserDetailsServer) error {
+func (UnimplementedUserServiceServer) GetStreamofUserDetails(*GetStreamofUserDetailsReq, UserService_GetStreamofUserDetailsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetStreamofUserDetails not implemented")
+}
+func (UnimplementedUserServiceServer) GetStreamofRoles(UserService_GetStreamofRolesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetStreamofRoles not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -381,12 +422,15 @@ func _UserService_GetUserDetails_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _UserService_GetStreamofUserDetails_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(UserServiceServer).GetStreamofUserDetails(&userServiceGetStreamofUserDetailsServer{stream})
+	m := new(GetStreamofUserDetailsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).GetStreamofUserDetails(m, &userServiceGetStreamofUserDetailsServer{stream})
 }
 
 type UserService_GetStreamofUserDetailsServer interface {
 	Send(*GetUserDetailsRes) error
-	Recv() (*GetUserDetailsReq, error)
 	grpc.ServerStream
 }
 
@@ -398,8 +442,26 @@ func (x *userServiceGetStreamofUserDetailsServer) Send(m *GetUserDetailsRes) err
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *userServiceGetStreamofUserDetailsServer) Recv() (*GetUserDetailsReq, error) {
-	m := new(GetUserDetailsReq)
+func _UserService_GetStreamofRoles_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(UserServiceServer).GetStreamofRoles(&userServiceGetStreamofRolesServer{stream})
+}
+
+type UserService_GetStreamofRolesServer interface {
+	SendAndClose(*GetStreamofRolesRes) error
+	Recv() (*GetStreamofRolesReq, error)
+	grpc.ServerStream
+}
+
+type userServiceGetStreamofRolesServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceGetStreamofRolesServer) SendAndClose(m *GetStreamofRolesRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *userServiceGetStreamofRolesServer) Recv() (*GetStreamofRolesReq, error) {
+	m := new(GetStreamofRolesReq)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -449,6 +511,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "GetStreamofUserDetails",
 			Handler:       _UserService_GetStreamofUserDetails_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetStreamofRoles",
+			Handler:       _UserService_GetStreamofRoles_Handler,
 			ClientStreams: true,
 		},
 	},
