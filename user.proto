@@ -73,4 +73,5 @@ service UserService {
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc AddRoles(AddRoleReq)returns(google.protobuf.Empty);
     rpc GetUserDetails(GetUserDetailsReq)returns(GetUserDetailsRes);
+    rpc GetStreamofUserDetails(stream GetUserDetailsReq)returns(stream GetUserDetailsRes);
 }

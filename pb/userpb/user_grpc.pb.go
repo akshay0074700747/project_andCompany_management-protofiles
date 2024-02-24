@@ -20,13 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_SignupUser_FullMethodName       = "/user.UserService/SignupUser"
-	UserService_GetRoles_FullMethodName         = "/user.UserService/GetRoles"
-	UserService_SetStatus_FullMethodName        = "/user.UserService/SetStatus"
-	UserService_GetByEmail_FullMethodName       = "/user.UserService/GetByEmail"
-	UserService_SearchforMembers_FullMethodName = "/user.UserService/SearchforMembers"
-	UserService_AddRoles_FullMethodName         = "/user.UserService/AddRoles"
-	UserService_GetUserDetails_FullMethodName   = "/user.UserService/GetUserDetails"
+	UserService_SignupUser_FullMethodName             = "/user.UserService/SignupUser"
+	UserService_GetRoles_FullMethodName               = "/user.UserService/GetRoles"
+	UserService_SetStatus_FullMethodName              = "/user.UserService/SetStatus"
+	UserService_GetByEmail_FullMethodName             = "/user.UserService/GetByEmail"
+	UserService_SearchforMembers_FullMethodName       = "/user.UserService/SearchforMembers"
+	UserService_AddRoles_FullMethodName               = "/user.UserService/AddRoles"
+	UserService_GetUserDetails_FullMethodName         = "/user.UserService/GetUserDetails"
+	UserService_GetStreamofUserDetails_FullMethodName = "/user.UserService/GetStreamofUserDetails"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -40,6 +41,7 @@ type UserServiceClient interface {
 	SearchforMembers(ctx context.Context, in *SearchReq, opts ...grpc.CallOption) (UserService_SearchforMembersClient, error)
 	AddRoles(ctx context.Context, in *AddRoleReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetUserDetails(ctx context.Context, in *GetUserDetailsReq, opts ...grpc.CallOption) (*GetUserDetailsRes, error)
+	GetStreamofUserDetails(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error)
 }
 
 type userServiceClient struct {
@@ -159,6 +161,37 @@ func (c *userServiceClient) GetUserDetails(ctx context.Context, in *GetUserDetai
 	return out, nil
 }
 
+func (c *userServiceClient) GetStreamofUserDetails(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[2], UserService_GetStreamofUserDetails_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceGetStreamofUserDetailsClient{stream}
+	return x, nil
+}
+
+type UserService_GetStreamofUserDetailsClient interface {
+	Send(*GetUserDetailsReq) error
+	Recv() (*GetUserDetailsRes, error)
+	grpc.ClientStream
+}
+
+type userServiceGetStreamofUserDetailsClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceGetStreamofUserDetailsClient) Send(m *GetUserDetailsReq) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *userServiceGetStreamofUserDetailsClient) Recv() (*GetUserDetailsRes, error) {
+	m := new(GetUserDetailsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -170,6 +203,7 @@ type UserServiceServer interface {
 	SearchforMembers(*SearchReq, UserService_SearchforMembersServer) error
 	AddRoles(context.Context, *AddRoleReq) (*empty.Empty, error)
 	GetUserDetails(context.Context, *GetUserDetailsReq) (*GetUserDetailsRes, error)
+	GetStreamofUserDetails(UserService_GetStreamofUserDetailsServer) error
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -197,6 +231,9 @@ func (UnimplementedUserServiceServer) AddRoles(context.Context, *AddRoleReq) (*e
 }
 func (UnimplementedUserServiceServer) GetUserDetails(context.Context, *GetUserDetailsReq) (*GetUserDetailsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserDetails not implemented")
+}
+func (UnimplementedUserServiceServer) GetStreamofUserDetails(UserService_GetStreamofUserDetailsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetStreamofUserDetails not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -343,6 +380,32 @@ func _UserService_GetUserDetails_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetStreamofUserDetails_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(UserServiceServer).GetStreamofUserDetails(&userServiceGetStreamofUserDetailsServer{stream})
+}
+
+type UserService_GetStreamofUserDetailsServer interface {
+	Send(*GetUserDetailsRes) error
+	Recv() (*GetUserDetailsReq, error)
+	grpc.ServerStream
+}
+
+type userServiceGetStreamofUserDetailsServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceGetStreamofUserDetailsServer) Send(m *GetUserDetailsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *userServiceGetStreamofUserDetailsServer) Recv() (*GetUserDetailsReq, error) {
+	m := new(GetUserDetailsReq)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -381,6 +444,12 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "SearchforMembers",
 			Handler:       _UserService_SearchforMembers_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetStreamofUserDetails",
+			Handler:       _UserService_GetStreamofUserDetails_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "user.proto",
