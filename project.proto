@@ -185,6 +185,19 @@ message AddTaskStatusesReq {
     string Status = 1;
 }
 
+message GetLiveProjectsReq {
+    string CompanyID = 1;
+}
+
+message GetLiveProjectsRes {
+    string ProjectID = 1;
+    string ProjectUsername = 2;
+    string ProjectDescription = 3;
+    uint32 MembersWorking = 4;
+    uint32 Progress = 5;
+    string Version = 6;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -202,4 +215,5 @@ service ProjectService {
     rpc MarkProgressofNonTechnical(MarkProgressofNonTechnicalReq)returns(google.protobuf.Empty);
     rpc CheckReputation(CheckReputationReq)returns(CheckReputationRes);
     rpc AddTaskStatuses(AddTaskStatusesReq)returns(google.protobuf.Empty);
+    rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
 }

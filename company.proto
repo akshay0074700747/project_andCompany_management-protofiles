@@ -119,19 +119,6 @@ message MemberStatusReq {
     string Status = 1;
 }
 
-message GetLiveProjectsReq {
-    string CompanyID = 1;
-}
-
-message GetLiveProjectsRes {
-    string ProjectID = 1;
-    string ProjectUsername = 2;
-    string ProjectDescription = 3;
-    uint32 MembersWorking = 4;
-    uint32 Progress = 5;
-    string Version = 6;
-}
-
 message GetEmployeesLeaderBoardReq {
     string CompanyID = 1;
     uint32 RoleID = 2;
@@ -226,7 +213,6 @@ service CompanyService {
     rpc GetCompanyEmployees(GetCompanyReq)returns(stream GetCompanyEmployeesRes);
     rpc LogintoCompany(LogintoCompanyReq)returns(LogintoCompanyRes);
     rpc AddMemberStatus(MemberStatusReq)returns(google.protobuf.Empty);
-    rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
     rpc GetEmployeesLeaderBoard(GetEmployeesLeaderBoardReq)returns(stream GetEmployeesLeaderBoardRes);
     rpc SalaryIncrementofEmployee(SalaryIncrementofEmployeeReq)returns(google.protobuf.Empty);
     rpc SalaryIncrementofRole(SalaryIncrementofRoleReq)returns(google.protobuf.Empty);
