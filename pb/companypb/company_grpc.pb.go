@@ -31,7 +31,6 @@ const (
 	CompanyService_GetCompanyDetails_FullMethodName               = "/company.CompanyService/GetCompanyDetails"
 	CompanyService_GetCompanyEmployees_FullMethodName             = "/company.CompanyService/GetCompanyEmployees"
 	CompanyService_LogintoCompany_FullMethodName                  = "/company.CompanyService/LogintoCompany"
-	CompanyService_SearchCompanies_FullMethodName                 = "/company.CompanyService/SearchCompanies"
 	CompanyService_AddMemberStatus_FullMethodName                 = "/company.CompanyService/AddMemberStatus"
 	CompanyService_GetLiveProjects_FullMethodName                 = "/company.CompanyService/GetLiveProjects"
 	CompanyService_GetEmployeesLeaderBoard_FullMethodName         = "/company.CompanyService/GetEmployeesLeaderBoard"
@@ -61,7 +60,6 @@ type CompanyServiceClient interface {
 	GetCompanyDetails(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (*GetCompanyDetailsRes, error)
 	GetCompanyEmployees(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (CompanyService_GetCompanyEmployeesClient, error)
 	LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*LogintoCompanyRes, error)
-	SearchCompanies(ctx context.Context, in *SearchCompanyReq, opts ...grpc.CallOption) (CompanyService_SearchCompaniesClient, error)
 	AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetLiveProjects(ctx context.Context, in *GetLiveProjectsReq, opts ...grpc.CallOption) (CompanyService_GetLiveProjectsClient, error)
 	GetEmployeesLeaderBoard(ctx context.Context, in *GetEmployeesLeaderBoardReq, opts ...grpc.CallOption) (CompanyService_GetEmployeesLeaderBoardClient, error)
@@ -275,38 +273,6 @@ func (c *companyServiceClient) LogintoCompany(ctx context.Context, in *LogintoCo
 	return out, nil
 }
 
-func (c *companyServiceClient) SearchCompanies(ctx context.Context, in *SearchCompanyReq, opts ...grpc.CallOption) (CompanyService_SearchCompaniesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[4], CompanyService_SearchCompanies_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &companyServiceSearchCompaniesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type CompanyService_SearchCompaniesClient interface {
-	Recv() (*GetCompanyDetailsRes, error)
-	grpc.ClientStream
-}
-
-type companyServiceSearchCompaniesClient struct {
-	grpc.ClientStream
-}
-
-func (x *companyServiceSearchCompaniesClient) Recv() (*GetCompanyDetailsRes, error) {
-	m := new(GetCompanyDetailsRes)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *companyServiceClient) AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, CompanyService_AddMemberStatus_FullMethodName, in, out, opts...)
@@ -317,7 +283,7 @@ func (c *companyServiceClient) AddMemberStatus(ctx context.Context, in *MemberSt
 }
 
 func (c *companyServiceClient) GetLiveProjects(ctx context.Context, in *GetLiveProjectsReq, opts ...grpc.CallOption) (CompanyService_GetLiveProjectsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[5], CompanyService_GetLiveProjects_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[4], CompanyService_GetLiveProjects_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -349,7 +315,7 @@ func (x *companyServiceGetLiveProjectsClient) Recv() (*GetLiveProjectsRes, error
 }
 
 func (c *companyServiceClient) GetEmployeesLeaderBoard(ctx context.Context, in *GetEmployeesLeaderBoardReq, opts ...grpc.CallOption) (CompanyService_GetEmployeesLeaderBoardClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[6], CompanyService_GetEmployeesLeaderBoard_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[5], CompanyService_GetEmployeesLeaderBoard_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -399,7 +365,7 @@ func (c *companyServiceClient) SalaryIncrementofRole(ctx context.Context, in *Sa
 }
 
 func (c *companyServiceClient) GetAverageSalaryperRole(ctx context.Context, in *GetAverageSalaryperRoleReq, opts ...grpc.CallOption) (CompanyService_GetAverageSalaryperRoleClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_GetAverageSalaryperRole_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[6], CompanyService_GetAverageSalaryperRole_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -467,7 +433,7 @@ func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProbl
 }
 
 func (c *companyServiceClient) GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetPopularityofCompanies_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_GetPopularityofCompanies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -522,7 +488,6 @@ type CompanyServiceServer interface {
 	GetCompanyDetails(context.Context, *GetCompanyReq) (*GetCompanyDetailsRes, error)
 	GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error
 	LogintoCompany(context.Context, *LogintoCompanyReq) (*LogintoCompanyRes, error)
-	SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error
 	AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error)
 	GetLiveProjects(*GetLiveProjectsReq, CompanyService_GetLiveProjectsServer) error
 	GetEmployeesLeaderBoard(*GetEmployeesLeaderBoardReq, CompanyService_GetEmployeesLeaderBoardServer) error
@@ -574,9 +539,6 @@ func (UnimplementedCompanyServiceServer) GetCompanyEmployees(*GetCompanyReq, Com
 }
 func (UnimplementedCompanyServiceServer) LogintoCompany(context.Context, *LogintoCompanyReq) (*LogintoCompanyRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LogintoCompany not implemented")
-}
-func (UnimplementedCompanyServiceServer) SearchCompanies(*SearchCompanyReq, CompanyService_SearchCompaniesServer) error {
-	return status.Errorf(codes.Unimplemented, "method SearchCompanies not implemented")
 }
 func (UnimplementedCompanyServiceServer) AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMemberStatus not implemented")
@@ -835,27 +797,6 @@ func _CompanyService_LogintoCompany_Handler(srv interface{}, ctx context.Context
 		return srv.(CompanyServiceServer).LogintoCompany(ctx, req.(*LogintoCompanyReq))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _CompanyService_SearchCompanies_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SearchCompanyReq)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(CompanyServiceServer).SearchCompanies(m, &companyServiceSearchCompaniesServer{stream})
-}
-
-type CompanyService_SearchCompaniesServer interface {
-	Send(*GetCompanyDetailsRes) error
-	grpc.ServerStream
-}
-
-type companyServiceSearchCompaniesServer struct {
-	grpc.ServerStream
-}
-
-func (x *companyServiceSearchCompaniesServer) Send(m *GetCompanyDetailsRes) error {
-	return x.ServerStream.SendMsg(m)
 }
 
 func _CompanyService_AddMemberStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1173,11 +1114,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetCompanyEmployees",
 			Handler:       _CompanyService_GetCompanyEmployees_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "SearchCompanies",
-			Handler:       _CompanyService_SearchCompanies_Handler,
 			ServerStreams: true,
 		},
 		{

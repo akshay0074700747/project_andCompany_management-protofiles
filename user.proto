@@ -60,6 +60,7 @@ message GetUserDetailsRes {
 string UserID = 1;
 string Email = 2;
 string Mobile = 3;
+string Name = 4;
 }
 
 service UserService {

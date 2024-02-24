@@ -224,7 +224,6 @@ service CompanyService {
     rpc GetCompanyDetails(GetCompanyReq)returns(GetCompanyDetailsRes);
     rpc GetCompanyEmployees(GetCompanyReq)returns(stream GetCompanyEmployeesRes);
     rpc LogintoCompany(LogintoCompanyReq)returns(LogintoCompanyRes);
-    rpc SearchCompanies(SearchCompanyReq)returns(stream GetCompanyDetailsRes);
     rpc AddMemberStatus(MemberStatusReq)returns(google.protobuf.Empty);
     rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
     rpc GetEmployeesLeaderBoard(GetEmployeesLeaderBoardReq)returns(stream GetEmployeesLeaderBoardRes);
