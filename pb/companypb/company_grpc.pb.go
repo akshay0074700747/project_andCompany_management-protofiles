@@ -66,7 +66,7 @@ type CompanyServiceClient interface {
 	GetAverageSalaryperRole(ctx context.Context, in *GetAverageSalaryperRoleReq, opts ...grpc.CallOption) (CompanyService_GetAverageSalaryperRoleClient, error)
 	GetSalaryLeaderboard(ctx context.Context, in *GetSalaryLeaderboardReq, opts ...grpc.CallOption) (*GetSalaryLeaderboardRes, error)
 	RaiseProblem(ctx context.Context, in *RaiseProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProblemsRes, error)
+	GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (CompanyService_GetProblemsClient, error)
 	GetProfileViews(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error)
 	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListCompaniesRes, error)
@@ -380,13 +380,36 @@ func (c *companyServiceClient) RaiseProblem(ctx context.Context, in *RaiseProble
 	return out, nil
 }
 
-func (c *companyServiceClient) GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProblemsRes, error) {
-	out := new(GetProblemsRes)
-	err := c.cc.Invoke(ctx, CompanyService_GetProblems_FullMethodName, in, out, opts...)
+func (c *companyServiceClient) GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (CompanyService_GetProblemsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[6], CompanyService_GetProblems_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &companyServiceGetProblemsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetProblemsClient interface {
+	Recv() (*GetProblemsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetProblemsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetProblemsClient) Recv() (*GetProblemsRes, error) {
+	m := new(GetProblemsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error) {
@@ -399,7 +422,7 @@ func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProbl
 }
 
 func (c *companyServiceClient) GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[6], CompanyService_GetPopularityofCompanies_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_GetPopularityofCompanies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -461,7 +484,7 @@ type CompanyServiceServer interface {
 	GetAverageSalaryperRole(*GetAverageSalaryperRoleReq, CompanyService_GetAverageSalaryperRoleServer) error
 	GetSalaryLeaderboard(context.Context, *GetSalaryLeaderboardReq) (*GetSalaryLeaderboardRes, error)
 	RaiseProblem(context.Context, *RaiseProblemReq) (*empty.Empty, error)
-	GetProblems(context.Context, *GetProblemsReq) (*GetProblemsRes, error)
+	GetProblems(*GetProblemsReq, CompanyService_GetProblemsServer) error
 	GetProfileViews(context.Context, *GetProblemsReq) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error
 	ListCompanies(context.Context, *empty.Empty) (*ListCompaniesRes, error)
@@ -526,8 +549,8 @@ func (UnimplementedCompanyServiceServer) GetSalaryLeaderboard(context.Context, *
 func (UnimplementedCompanyServiceServer) RaiseProblem(context.Context, *RaiseProblemReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RaiseProblem not implemented")
 }
-func (UnimplementedCompanyServiceServer) GetProblems(context.Context, *GetProblemsReq) (*GetProblemsRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProblems not implemented")
+func (UnimplementedCompanyServiceServer) GetProblems(*GetProblemsReq, CompanyService_GetProblemsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetProblems not implemented")
 }
 func (UnimplementedCompanyServiceServer) GetProfileViews(context.Context, *GetProblemsReq) (*GetProfileViewsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProfileViews not implemented")
@@ -893,22 +916,25 @@ func _CompanyService_RaiseProblem_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CompanyService_GetProblems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProblemsReq)
-	if err := dec(in); err != nil {
-		return nil, err
+func _CompanyService_GetProblems_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetProblemsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(CompanyServiceServer).GetProblems(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CompanyService_GetProblems_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).GetProblems(ctx, req.(*GetProblemsReq))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(CompanyServiceServer).GetProblems(m, &companyServiceGetProblemsServer{stream})
+}
+
+type CompanyService_GetProblemsServer interface {
+	Send(*GetProblemsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetProblemsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetProblemsServer) Send(m *GetProblemsRes) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _CompanyService_GetProfileViews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1024,10 +1050,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CompanyService_RaiseProblem_Handler,
 		},
 		{
-			MethodName: "GetProblems",
-			Handler:    _CompanyService_GetProblems_Handler,
-		},
-		{
 			MethodName: "GetProfileViews",
 			Handler:    _CompanyService_GetProfileViews_Handler,
 		},
@@ -1065,6 +1087,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetAverageSalaryperRole",
 			Handler:       _CompanyService_GetAverageSalaryperRole_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetProblems",
+			Handler:       _CompanyService_GetProblems_Handler,
 			ServerStreams: true,
 		},
 		{

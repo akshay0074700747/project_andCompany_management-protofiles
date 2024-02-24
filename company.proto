@@ -221,7 +221,7 @@ service CompanyService {
     rpc GetAverageSalaryperRole(GetAverageSalaryperRoleReq)returns(stream GetAverageSalaryperRoleRes);
     rpc GetSalaryLeaderboard(GetSalaryLeaderboardReq)returns(GetSalaryLeaderboardRes);
     rpc RaiseProblem(RaiseProblemReq)returns(google.protobuf.Empty);
-    rpc GetProblems(GetProblemsReq)returns(GetProblemsRes);
+    rpc GetProblems(GetProblemsReq)returns(stream GetProblemsRes);
     rpc GetProfileViews(GetProblemsReq)returns(GetProfileViewsRes);
     rpc GetPopularityofCompanies(google.protobuf.Empty)returns(stream GetPopularityofCompaniesRes);
     rpc ListCompanies(google.protobuf.Empty)returns(ListCompaniesRes);
