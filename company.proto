@@ -134,6 +134,7 @@ message GetLiveProjectsRes {
 
 message GetEmployeesLeaderBoardReq {
     string CompanyID = 1;
+    uint32 RoleID = 2;
 }
 
 message GetEmployeesLeaderBoardRes {
