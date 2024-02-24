@@ -63,6 +63,15 @@ string Mobile = 3;
 string Name = 4;
 }
 
+message GetRolebyIDReq {
+    uint32 ID = 1;
+}
+
+message GetRolebyIDRes {
+    uint32 ID = 1;
+    string Role = 2;
+}
+
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
@@ -71,4 +80,5 @@ service UserService {
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc AddRoles(AddRoleReq)returns(google.protobuf.Empty);
     rpc GetUserDetails(GetUserDetailsReq)returns(GetUserDetailsRes);
+    rpc GetRolebyID(GetRolebyIDReq)returns(GetRolebyIDRes);
 }
