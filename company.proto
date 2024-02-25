@@ -129,10 +129,9 @@ message GetEmployeesLeaderBoardReq {
 
 message GetEmployeesLeaderBoardRes {
     string EmployeeID = 1;
-    uint32 Reputation = 2;
-    uint32 CurrentProjectProgress = 3;
-    uint32 Salary = 4;
-    uint32 ProjectsParticipated = 5;
+    string CurrentProjectProgress = 2;
+    uint32 Salary = 3;
+    uint32 ProjectsParticipated = 4;
 }
 
 message SalaryIncrementofEmployeeReq {
