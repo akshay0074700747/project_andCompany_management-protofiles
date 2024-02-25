@@ -73,10 +73,6 @@ message GetStreamofRolesRes {
     map<uint32, string> RoleIDsWithNames = 1;
 }
 
-message GetStreamofUserDetailsReq {
-    repeated GetUserDetailsReq UserandRoleIDs = 1;
-}
-
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
@@ -85,6 +81,6 @@ service UserService {
     rpc SearchforMembers(SearchReq)returns(stream SearchRes);
     rpc AddRoles(AddRoleReq)returns(google.protobuf.Empty);
     rpc GetUserDetails(GetUserDetailsReq)returns(GetUserDetailsRes);
-    rpc GetStreamofUserDetails(GetStreamofUserDetailsReq)returns(stream GetUserDetailsRes);
+    rpc GetStreamofUserDetails(stream GetUserDetailsReq)returns(stream GetUserDetailsRes);
     rpc GetStreamofRoles(stream GetStreamofRolesReq)returns(GetStreamofRolesRes);
 }
