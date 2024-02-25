@@ -198,7 +198,6 @@ message ListCompaniesRes {
     string Aim = 2;
     string Description = 3;
     uint32 Employees = 4;
-    uint32 Popularity = 5;
 }
 
 message GetVisitorsReq {
