@@ -752,6 +752,100 @@ func (x *GetStreamofRolesRes) GetRoleIDsWithNames() map[uint32]string {
 	return nil
 }
 
+type GetRoleReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID uint32 `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+}
+
+func (x *GetRoleReq) Reset() {
+	*x = GetRoleReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRoleReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRoleReq) ProtoMessage() {}
+
+func (x *GetRoleReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRoleReq.ProtoReflect.Descriptor instead.
+func (*GetRoleReq) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetRoleReq) GetID() uint32 {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
+type GetRoleRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Role string `protobuf:"bytes,1,opt,name=Role,proto3" json:"Role,omitempty"`
+}
+
+func (x *GetRoleRes) Reset() {
+	*x = GetRoleRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRoleRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRoleRes) ProtoMessage() {}
+
+func (x *GetRoleRes) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRoleRes.ProtoReflect.Descriptor instead.
+func (*GetRoleRes) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetRoleRes) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
 var File_user_proto protoreflect.FileDescriptor
 
 var file_user_proto_rawDesc = []byte{
@@ -819,8 +913,12 @@ var file_user_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x49, 0x44, 0x73, 0x57, 0x69, 0x74, 0x68, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x45, 0x6e,
 	0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d,
 	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x32,
-	0xb6, 0x04, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22,
+	0x1c, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a,
+	0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x02, 0x49, 0x44, 0x22, 0x20, 0x0a,
+	0x0a, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x52,
+	0x6f, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x52, 0x6f, 0x6c, 0x65, 0x32,
+	0xe5, 0x04, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
 	0x39, 0x0a, 0x0a, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x55, 0x73, 0x65, 0x72, 0x12, 0x17, 0x2e,
 	0x75, 0x73, 0x65, 0x72, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73,
@@ -855,8 +953,11 @@ var file_user_proto_rawDesc = []byte{
 	0x12, 0x19, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x74, 0x72, 0x65, 0x61,
 	0x6d, 0x6f, 0x66, 0x52, 0x6f, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x19, 0x2e, 0x75, 0x73,
 	0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x6f, 0x66, 0x52, 0x6f,
-	0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x28, 0x01, 0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x70, 0x62,
-	0x2f, 0x75, 0x73, 0x65, 0x72, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x28, 0x01, 0x12, 0x2d, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x52,
+	0x6f, 0x6c, 0x65, 0x12, 0x10, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f,
+	0x6c, 0x65, 0x52, 0x65, 0x71, 0x1a, 0x10, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74,
+	0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x70, 0x62, 0x2f,
+	0x75, 0x73, 0x65, 0x72, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -871,7 +972,7 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_user_proto_goTypes = []interface{}{
 	(*SignupUserRequest)(nil),   // 0: user.SignupUserRequest
 	(*Role)(nil),                // 1: user.Role
@@ -886,13 +987,15 @@ var file_user_proto_goTypes = []interface{}{
 	(*GetUserDetailsRes)(nil),   // 10: user.GetUserDetailsRes
 	(*GetStreamofRolesReq)(nil), // 11: user.GetStreamofRolesReq
 	(*GetStreamofRolesRes)(nil), // 12: user.GetStreamofRolesRes
-	nil,                         // 13: user.GetStreamofRolesRes.RoleIDsWithNamesEntry
-	(*empty.Empty)(nil),         // 14: google.protobuf.Empty
+	(*GetRoleReq)(nil),          // 13: user.GetRoleReq
+	(*GetRoleRes)(nil),          // 14: user.GetRoleRes
+	nil,                         // 15: user.GetStreamofRolesRes.RoleIDsWithNamesEntry
+	(*empty.Empty)(nil),         // 16: google.protobuf.Empty
 }
 var file_user_proto_depIdxs = []int32{
-	13, // 0: user.GetStreamofRolesRes.RoleIDsWithNames:type_name -> user.GetStreamofRolesRes.RoleIDsWithNamesEntry
+	15, // 0: user.GetStreamofRolesRes.RoleIDsWithNames:type_name -> user.GetStreamofRolesRes.RoleIDsWithNamesEntry
 	0,  // 1: user.UserService.SignupUser:input_type -> user.SignupUserRequest
-	14, // 2: user.UserService.GetRoles:input_type -> google.protobuf.Empty
+	16, // 2: user.UserService.GetRoles:input_type -> google.protobuf.Empty
 	3,  // 3: user.UserService.SetStatus:input_type -> user.StatusReq
 	5,  // 4: user.UserService.GetByEmail:input_type -> user.GetByEmailReq
 	7,  // 5: user.UserService.SearchforMembers:input_type -> user.SearchReq
@@ -900,17 +1003,19 @@ var file_user_proto_depIdxs = []int32{
 	9,  // 7: user.UserService.GetUserDetails:input_type -> user.GetUserDetailsReq
 	9,  // 8: user.UserService.GetStreamofUserDetails:input_type -> user.GetUserDetailsReq
 	11, // 9: user.UserService.GetStreamofRoles:input_type -> user.GetStreamofRolesReq
-	4,  // 10: user.UserService.SignupUser:output_type -> user.UserResponce
-	1,  // 11: user.UserService.GetRoles:output_type -> user.Role
-	14, // 12: user.UserService.SetStatus:output_type -> google.protobuf.Empty
-	6,  // 13: user.UserService.GetByEmail:output_type -> user.GetByEmailRes
-	8,  // 14: user.UserService.SearchforMembers:output_type -> user.SearchRes
-	14, // 15: user.UserService.AddRoles:output_type -> google.protobuf.Empty
-	10, // 16: user.UserService.GetUserDetails:output_type -> user.GetUserDetailsRes
-	10, // 17: user.UserService.GetStreamofUserDetails:output_type -> user.GetUserDetailsRes
-	12, // 18: user.UserService.GetStreamofRoles:output_type -> user.GetStreamofRolesRes
-	10, // [10:19] is the sub-list for method output_type
-	1,  // [1:10] is the sub-list for method input_type
+	13, // 10: user.UserService.GetRole:input_type -> user.GetRoleReq
+	4,  // 11: user.UserService.SignupUser:output_type -> user.UserResponce
+	1,  // 12: user.UserService.GetRoles:output_type -> user.Role
+	16, // 13: user.UserService.SetStatus:output_type -> google.protobuf.Empty
+	6,  // 14: user.UserService.GetByEmail:output_type -> user.GetByEmailRes
+	8,  // 15: user.UserService.SearchforMembers:output_type -> user.SearchRes
+	16, // 16: user.UserService.AddRoles:output_type -> google.protobuf.Empty
+	10, // 17: user.UserService.GetUserDetails:output_type -> user.GetUserDetailsRes
+	10, // 18: user.UserService.GetStreamofUserDetails:output_type -> user.GetUserDetailsRes
+	12, // 19: user.UserService.GetStreamofRoles:output_type -> user.GetStreamofRolesRes
+	14, // 20: user.UserService.GetRole:output_type -> user.GetRoleRes
+	11, // [11:21] is the sub-list for method output_type
+	1,  // [1:11] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name
 	1,  // [1:1] is the sub-list for extension extendee
 	0,  // [0:1] is the sub-list for field type_name
@@ -1078,6 +1183,30 @@ func file_user_proto_init() {
 				return nil
 			}
 		}
+		file_user_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRoleReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_user_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRoleRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1085,7 +1214,7 @@ func file_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_user_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -29,6 +29,7 @@ const (
 	UserService_GetUserDetails_FullMethodName         = "/user.UserService/GetUserDetails"
 	UserService_GetStreamofUserDetails_FullMethodName = "/user.UserService/GetStreamofUserDetails"
 	UserService_GetStreamofRoles_FullMethodName       = "/user.UserService/GetStreamofRoles"
+	UserService_GetRole_FullMethodName                = "/user.UserService/GetRole"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -44,6 +45,7 @@ type UserServiceClient interface {
 	GetUserDetails(ctx context.Context, in *GetUserDetailsReq, opts ...grpc.CallOption) (*GetUserDetailsRes, error)
 	GetStreamofUserDetails(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error)
 	GetStreamofRoles(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofRolesClient, error)
+	GetRole(ctx context.Context, in *GetRoleReq, opts ...grpc.CallOption) (*GetRoleRes, error)
 }
 
 type userServiceClient struct {
@@ -228,6 +230,15 @@ func (x *userServiceGetStreamofRolesClient) CloseAndRecv() (*GetStreamofRolesRes
 	return m, nil
 }
 
+func (c *userServiceClient) GetRole(ctx context.Context, in *GetRoleReq, opts ...grpc.CallOption) (*GetRoleRes, error) {
+	out := new(GetRoleRes)
+	err := c.cc.Invoke(ctx, UserService_GetRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -241,6 +252,7 @@ type UserServiceServer interface {
 	GetUserDetails(context.Context, *GetUserDetailsReq) (*GetUserDetailsRes, error)
 	GetStreamofUserDetails(UserService_GetStreamofUserDetailsServer) error
 	GetStreamofRoles(UserService_GetStreamofRolesServer) error
+	GetRole(context.Context, *GetRoleReq) (*GetRoleRes, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -274,6 +286,9 @@ func (UnimplementedUserServiceServer) GetStreamofUserDetails(UserService_GetStre
 }
 func (UnimplementedUserServiceServer) GetStreamofRoles(UserService_GetStreamofRolesServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetStreamofRoles not implemented")
+}
+func (UnimplementedUserServiceServer) GetRole(context.Context, *GetRoleReq) (*GetRoleRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRole not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -472,6 +487,24 @@ func (x *userServiceGetStreamofRolesServer) Recv() (*GetStreamofRolesReq, error)
 	return m, nil
 }
 
+func _UserService_GetRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetRole(ctx, req.(*GetRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -498,6 +531,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserDetails",
 			Handler:    _UserService_GetUserDetails_Handler,
+		},
+		{
+			MethodName: "GetRole",
+			Handler:    _UserService_GetRole_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
