@@ -188,6 +188,7 @@ message CheckReputationRes {
 
 message AddTaskStatusesReq {
     string Status = 1;
+    uint32 Below = 2;
 }
 
 message GetLiveProjectsReq {
