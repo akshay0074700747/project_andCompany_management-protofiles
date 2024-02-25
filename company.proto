@@ -185,6 +185,8 @@ message GetProblemsRes {
 
 message GetProfileViewsReq {
     string CompanyID = 1;
+    google.protobuf.Timestamp From = 2;
+    google.protobuf.Timestamp To = 3;
 }
 
 message GetProfileViewsRes {
