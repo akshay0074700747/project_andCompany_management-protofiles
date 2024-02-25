@@ -70,7 +70,7 @@ type CompanyServiceClient interface {
 	GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (CompanyService_GetProblemsClient, error)
 	GetProfileViews(ctx context.Context, in *GetProfileViewsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error)
-	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListCompaniesRes, error)
+	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_ListCompaniesClient, error)
 	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
 }
 
@@ -455,17 +455,40 @@ func (x *companyServiceGetPopularityofCompaniesClient) Recv() (*GetPopularityofC
 	return m, nil
 }
 
-func (c *companyServiceClient) ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListCompaniesRes, error) {
-	out := new(ListCompaniesRes)
-	err := c.cc.Invoke(ctx, CompanyService_ListCompanies_FullMethodName, in, out, opts...)
+func (c *companyServiceClient) ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_ListCompaniesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_ListCompanies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &companyServiceListCompaniesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_ListCompaniesClient interface {
+	Recv() (*ListCompaniesRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceListCompaniesClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceListCompaniesClient) Recv() (*ListCompaniesRes, error) {
+	m := new(ListCompaniesRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *companyServiceClient) GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetVisitors_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[9], CompanyService_GetVisitors_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -521,7 +544,7 @@ type CompanyServiceServer interface {
 	GetProblems(*GetProblemsReq, CompanyService_GetProblemsServer) error
 	GetProfileViews(context.Context, *GetProfileViewsReq) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error
-	ListCompanies(context.Context, *empty.Empty) (*ListCompaniesRes, error)
+	ListCompanies(*empty.Empty, CompanyService_ListCompaniesServer) error
 	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
@@ -593,8 +616,8 @@ func (UnimplementedCompanyServiceServer) GetProfileViews(context.Context, *GetPr
 func (UnimplementedCompanyServiceServer) GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetPopularityofCompanies not implemented")
 }
-func (UnimplementedCompanyServiceServer) ListCompanies(context.Context, *empty.Empty) (*ListCompaniesRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListCompanies not implemented")
+func (UnimplementedCompanyServiceServer) ListCompanies(*empty.Empty, CompanyService_ListCompaniesServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListCompanies not implemented")
 }
 func (UnimplementedCompanyServiceServer) GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetVisitors not implemented")
@@ -1014,22 +1037,25 @@ func (x *companyServiceGetPopularityofCompaniesServer) Send(m *GetPopularityofCo
 	return x.ServerStream.SendMsg(m)
 }
 
-func _CompanyService_ListCompanies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
+func _CompanyService_ListCompanies_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(empty.Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(CompanyServiceServer).ListCompanies(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CompanyService_ListCompanies_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).ListCompanies(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(CompanyServiceServer).ListCompanies(m, &companyServiceListCompaniesServer{stream})
+}
+
+type CompanyService_ListCompaniesServer interface {
+	Send(*ListCompaniesRes) error
+	grpc.ServerStream
+}
+
+type companyServiceListCompaniesServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceListCompaniesServer) Send(m *ListCompaniesRes) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _CompanyService_GetVisitors_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -1112,10 +1138,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetProfileViews",
 			Handler:    _CompanyService_GetProfileViews_Handler,
 		},
-		{
-			MethodName: "ListCompanies",
-			Handler:    _CompanyService_ListCompanies_Handler,
-		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -1156,6 +1178,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetPopularityofCompanies",
 			Handler:       _CompanyService_GetPopularityofCompanies_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListCompanies",
+			Handler:       _CompanyService_ListCompanies_Handler,
 			ServerStreams: true,
 		},
 		{

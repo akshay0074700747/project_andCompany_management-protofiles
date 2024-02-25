@@ -241,7 +241,7 @@ service CompanyService {
     rpc GetProblems(GetProblemsReq)returns(stream GetProblemsRes);
     rpc GetProfileViews(GetProfileViewsReq)returns(GetProfileViewsRes);
     rpc GetPopularityofCompanies(google.protobuf.Empty)returns(stream GetPopularityofCompaniesRes);
-    rpc ListCompanies(google.protobuf.Empty)returns(ListCompaniesRes);
+    rpc ListCompanies(google.protobuf.Empty)returns(stream ListCompaniesRes);
     rpc GetVisitors(GetVisitorsReq)returns(stream GetVisitorsRes);
 }
 
