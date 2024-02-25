@@ -219,6 +219,14 @@ message GetVisitorsRes {
     google.protobuf.Timestamp VisitedTime = 3;
 }
 
+message GetPermisssionReq {
+    uint32 ID = 1;
+}
+
+message GetPermisssionRes {
+    string Permission = 1;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -243,5 +251,6 @@ service CompanyService {
     rpc GetPopularityofCompanies(google.protobuf.Empty)returns(stream GetPopularityofCompaniesRes);
     rpc ListCompanies(google.protobuf.Empty)returns(stream ListCompaniesRes);
     rpc GetVisitors(GetVisitorsReq)returns(stream GetVisitorsRes);
+    rpc GetPermission(GetPermisssionReq)returns(GetPermisssionRes);
 }
 

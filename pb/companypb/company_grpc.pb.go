@@ -43,6 +43,7 @@ const (
 	CompanyService_GetPopularityofCompanies_FullMethodName        = "/company.CompanyService/GetPopularityofCompanies"
 	CompanyService_ListCompanies_FullMethodName                   = "/company.CompanyService/ListCompanies"
 	CompanyService_GetVisitors_FullMethodName                     = "/company.CompanyService/GetVisitors"
+	CompanyService_GetPermission_FullMethodName                   = "/company.CompanyService/GetPermission"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -72,6 +73,7 @@ type CompanyServiceClient interface {
 	GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error)
 	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_ListCompaniesClient, error)
 	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
+	GetPermission(ctx context.Context, in *GetPermisssionReq, opts ...grpc.CallOption) (*GetPermisssionRes, error)
 }
 
 type companyServiceClient struct {
@@ -519,6 +521,15 @@ func (x *companyServiceGetVisitorsClient) Recv() (*GetVisitorsRes, error) {
 	return m, nil
 }
 
+func (c *companyServiceClient) GetPermission(ctx context.Context, in *GetPermisssionReq, opts ...grpc.CallOption) (*GetPermisssionRes, error) {
+	out := new(GetPermisssionRes)
+	err := c.cc.Invoke(ctx, CompanyService_GetPermission_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -546,6 +557,7 @@ type CompanyServiceServer interface {
 	GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error
 	ListCompanies(*empty.Empty, CompanyService_ListCompaniesServer) error
 	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
+	GetPermission(context.Context, *GetPermisssionReq) (*GetPermisssionRes, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -621,6 +633,9 @@ func (UnimplementedCompanyServiceServer) ListCompanies(*empty.Empty, CompanyServ
 }
 func (UnimplementedCompanyServiceServer) GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetVisitors not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetPermission(context.Context, *GetPermisssionReq) (*GetPermisssionRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPermission not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -1079,6 +1094,24 @@ func (x *companyServiceGetVisitorsServer) Send(m *GetVisitorsRes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_GetPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPermisssionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).GetPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_GetPermission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).GetPermission(ctx, req.(*GetPermisssionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1137,6 +1170,10 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProfileViews",
 			Handler:    _CompanyService_GetProfileViews_Handler,
+		},
+		{
+			MethodName: "GetPermission",
+			Handler:    _CompanyService_GetPermission_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
