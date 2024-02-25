@@ -167,7 +167,7 @@ message GetProjectProgressReq {
 
 message GetProjectProgressRes {
     string ProjectID = 1;
-    uint32 Progress = 2;
+    string Progress = 2;
     string Deadline = 3;
     uint32 LiveMembers = 4;
     uint32 TaskCompletedMembers = 5;
