@@ -68,7 +68,7 @@ type CompanyServiceClient interface {
 	GetSalaryLeaderboard(ctx context.Context, in *GetSalaryLeaderboardReq, opts ...grpc.CallOption) (*GetSalaryLeaderboardRes, error)
 	RaiseProblem(ctx context.Context, in *RaiseProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (CompanyService_GetProblemsClient, error)
-	GetProfileViews(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
+	GetProfileViews(ctx context.Context, in *GetProfileViewsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error)
 	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*ListCompaniesRes, error)
 	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
@@ -414,7 +414,7 @@ func (x *companyServiceGetProblemsClient) Recv() (*GetProblemsRes, error) {
 	return m, nil
 }
 
-func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error) {
+func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProfileViewsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error) {
 	out := new(GetProfileViewsRes)
 	err := c.cc.Invoke(ctx, CompanyService_GetProfileViews_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -519,7 +519,7 @@ type CompanyServiceServer interface {
 	GetSalaryLeaderboard(context.Context, *GetSalaryLeaderboardReq) (*GetSalaryLeaderboardRes, error)
 	RaiseProblem(context.Context, *RaiseProblemReq) (*empty.Empty, error)
 	GetProblems(*GetProblemsReq, CompanyService_GetProblemsServer) error
-	GetProfileViews(context.Context, *GetProblemsReq) (*GetProfileViewsRes, error)
+	GetProfileViews(context.Context, *GetProfileViewsReq) (*GetProfileViewsRes, error)
 	GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error
 	ListCompanies(context.Context, *empty.Empty) (*ListCompaniesRes, error)
 	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
@@ -587,7 +587,7 @@ func (UnimplementedCompanyServiceServer) RaiseProblem(context.Context, *RaisePro
 func (UnimplementedCompanyServiceServer) GetProblems(*GetProblemsReq, CompanyService_GetProblemsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetProblems not implemented")
 }
-func (UnimplementedCompanyServiceServer) GetProfileViews(context.Context, *GetProblemsReq) (*GetProfileViewsRes, error) {
+func (UnimplementedCompanyServiceServer) GetProfileViews(context.Context, *GetProfileViewsReq) (*GetProfileViewsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProfileViews not implemented")
 }
 func (UnimplementedCompanyServiceServer) GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error {
@@ -976,7 +976,7 @@ func (x *companyServiceGetProblemsServer) Send(m *GetProblemsRes) error {
 }
 
 func _CompanyService_GetProfileViews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProblemsReq)
+	in := new(GetProfileViewsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -988,7 +988,7 @@ func _CompanyService_GetProfileViews_Handler(srv interface{}, ctx context.Contex
 		FullMethod: CompanyService_GetProfileViews_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).GetProfileViews(ctx, req.(*GetProblemsReq))
+		return srv.(CompanyServiceServer).GetProfileViews(ctx, req.(*GetProfileViewsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
