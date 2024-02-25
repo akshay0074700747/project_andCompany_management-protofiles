@@ -6,6 +6,8 @@ option go_package = "./pb/projectpb";
 
 import "google/protobuf/empty.proto";
 
+import "google/protobuf/timestamp.proto";
+
 message CreateProjectReq {
     string Name = 1;
     string Description = 2;
@@ -100,6 +102,9 @@ message GetAssignedTaskRes {
     string Task = 1;
     string Description = 2;
     string TaskFileID = 3;
+    uint32 Stages = 4;
+    google.protobuf.Timestamp Deadline = 5;
+
 }
 
 message DownloadTaskReq {
