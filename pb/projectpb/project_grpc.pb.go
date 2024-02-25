@@ -34,7 +34,6 @@ const (
 	ProjectService_GetProgressofMember_FullMethodName        = "/project.ProjectService/GetProgressofMember"
 	ProjectService_GetProjectProgress_FullMethodName         = "/project.ProjectService/GetProjectProgress"
 	ProjectService_MarkProgressofNonTechnical_FullMethodName = "/project.ProjectService/MarkProgressofNonTechnical"
-	ProjectService_CheckReputation_FullMethodName            = "/project.ProjectService/CheckReputation"
 	ProjectService_AddTaskStatuses_FullMethodName            = "/project.ProjectService/AddTaskStatuses"
 	ProjectService_GetLiveProjects_FullMethodName            = "/project.ProjectService/GetLiveProjects"
 )
@@ -57,7 +56,6 @@ type ProjectServiceClient interface {
 	GetProgressofMember(ctx context.Context, in *GetProgressofMemberReq, opts ...grpc.CallOption) (*GetProgressofMemberRes, error)
 	GetProjectProgress(ctx context.Context, in *GetProjectProgressReq, opts ...grpc.CallOption) (*GetProjectProgressRes, error)
 	MarkProgressofNonTechnical(ctx context.Context, in *MarkProgressofNonTechnicalReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	CheckReputation(ctx context.Context, in *CheckReputationReq, opts ...grpc.CallOption) (*CheckReputationRes, error)
 	AddTaskStatuses(ctx context.Context, in *AddTaskStatusesReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetLiveProjects(ctx context.Context, in *GetLiveProjectsReq, opts ...grpc.CallOption) (ProjectService_GetLiveProjectsClient, error)
 }
@@ -265,15 +263,6 @@ func (c *projectServiceClient) MarkProgressofNonTechnical(ctx context.Context, i
 	return out, nil
 }
 
-func (c *projectServiceClient) CheckReputation(ctx context.Context, in *CheckReputationReq, opts ...grpc.CallOption) (*CheckReputationRes, error) {
-	out := new(CheckReputationRes)
-	err := c.cc.Invoke(ctx, ProjectService_CheckReputation_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *projectServiceClient) AddTaskStatuses(ctx context.Context, in *AddTaskStatusesReq, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, ProjectService_AddTaskStatuses_FullMethodName, in, out, opts...)
@@ -333,7 +322,6 @@ type ProjectServiceServer interface {
 	GetProgressofMember(context.Context, *GetProgressofMemberReq) (*GetProgressofMemberRes, error)
 	GetProjectProgress(context.Context, *GetProjectProgressReq) (*GetProjectProgressRes, error)
 	MarkProgressofNonTechnical(context.Context, *MarkProgressofNonTechnicalReq) (*empty.Empty, error)
-	CheckReputation(context.Context, *CheckReputationReq) (*CheckReputationRes, error)
 	AddTaskStatuses(context.Context, *AddTaskStatusesReq) (*empty.Empty, error)
 	GetLiveProjects(*GetLiveProjectsReq, ProjectService_GetLiveProjectsServer) error
 	mustEmbedUnimplementedProjectServiceServer()
@@ -384,9 +372,6 @@ func (UnimplementedProjectServiceServer) GetProjectProgress(context.Context, *Ge
 }
 func (UnimplementedProjectServiceServer) MarkProgressofNonTechnical(context.Context, *MarkProgressofNonTechnicalReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MarkProgressofNonTechnical not implemented")
-}
-func (UnimplementedProjectServiceServer) CheckReputation(context.Context, *CheckReputationReq) (*CheckReputationRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckReputation not implemented")
 }
 func (UnimplementedProjectServiceServer) AddTaskStatuses(context.Context, *AddTaskStatusesReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddTaskStatuses not implemented")
@@ -668,24 +653,6 @@ func _ProjectService_MarkProgressofNonTechnical_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ProjectService_CheckReputation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckReputationReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProjectServiceServer).CheckReputation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ProjectService_CheckReputation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProjectServiceServer).CheckReputation(ctx, req.(*CheckReputationReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ProjectService_AddTaskStatuses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddTaskStatusesReq)
 	if err := dec(in); err != nil {
@@ -775,10 +742,6 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MarkProgressofNonTechnical",
 			Handler:    _ProjectService_MarkProgressofNonTechnical_Handler,
-		},
-		{
-			MethodName: "CheckReputation",
-			Handler:    _ProjectService_CheckReputation_Handler,
 		},
 		{
 			MethodName: "AddTaskStatuses",

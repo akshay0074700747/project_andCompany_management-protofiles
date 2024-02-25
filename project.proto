@@ -174,18 +174,6 @@ message GetProjectProgressRes {
     uint32 TaskCriticalMembers = 6;
 }
 
-message CheckReputationReq {
-    string ProjectID = 1;
-}
-
-message CheckReputationRes {
-    string memberID = 1;
-    string Name = 2;
-    string Email = 3;
-    string Role = 4;
-    uint32 Reputation = 5;
-}
-
 message AddTaskStatusesReq {
     string Status = 1;
     uint32 Below = 2;
@@ -219,7 +207,6 @@ service ProjectService {
     rpc GetProgressofMember(GetProgressofMemberReq)returns(GetProgressofMemberRes);
     rpc GetProjectProgress(GetProjectProgressReq)returns(GetProjectProgressRes);
     rpc MarkProgressofNonTechnical(MarkProgressofNonTechnicalReq)returns(google.protobuf.Empty);
-    rpc CheckReputation(CheckReputationReq)returns(CheckReputationRes);
     rpc AddTaskStatuses(AddTaskStatusesReq)returns(google.protobuf.Empty);
     rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
 }

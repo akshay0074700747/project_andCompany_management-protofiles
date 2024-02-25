@@ -40,7 +40,6 @@ const (
 	CompanyService_RaiseProblem_FullMethodName                    = "/company.CompanyService/RaiseProblem"
 	CompanyService_GetProblems_FullMethodName                     = "/company.CompanyService/GetProblems"
 	CompanyService_GetProfileViews_FullMethodName                 = "/company.CompanyService/GetProfileViews"
-	CompanyService_GetPopularityofCompanies_FullMethodName        = "/company.CompanyService/GetPopularityofCompanies"
 	CompanyService_ListCompanies_FullMethodName                   = "/company.CompanyService/ListCompanies"
 	CompanyService_GetVisitors_FullMethodName                     = "/company.CompanyService/GetVisitors"
 	CompanyService_GetPermission_FullMethodName                   = "/company.CompanyService/GetPermission"
@@ -70,7 +69,6 @@ type CompanyServiceClient interface {
 	RaiseProblem(ctx context.Context, in *RaiseProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (CompanyService_GetProblemsClient, error)
 	GetProfileViews(ctx context.Context, in *GetProfileViewsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
-	GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error)
 	ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_ListCompaniesClient, error)
 	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
 	GetPermission(ctx context.Context, in *GetPermisssionReq, opts ...grpc.CallOption) (*GetPermisssionRes, error)
@@ -425,40 +423,8 @@ func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProfi
 	return out, nil
 }
 
-func (c *companyServiceClient) GetPopularityofCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_GetPopularityofCompaniesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_GetPopularityofCompanies_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &companyServiceGetPopularityofCompaniesClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type CompanyService_GetPopularityofCompaniesClient interface {
-	Recv() (*GetPopularityofCompaniesRes, error)
-	grpc.ClientStream
-}
-
-type companyServiceGetPopularityofCompaniesClient struct {
-	grpc.ClientStream
-}
-
-func (x *companyServiceGetPopularityofCompaniesClient) Recv() (*GetPopularityofCompaniesRes, error) {
-	m := new(GetPopularityofCompaniesRes)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *companyServiceClient) ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_ListCompaniesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_ListCompanies_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_ListCompanies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -490,7 +456,7 @@ func (x *companyServiceListCompaniesClient) Recv() (*ListCompaniesRes, error) {
 }
 
 func (c *companyServiceClient) GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[9], CompanyService_GetVisitors_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetVisitors_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -554,7 +520,6 @@ type CompanyServiceServer interface {
 	RaiseProblem(context.Context, *RaiseProblemReq) (*empty.Empty, error)
 	GetProblems(*GetProblemsReq, CompanyService_GetProblemsServer) error
 	GetProfileViews(context.Context, *GetProfileViewsReq) (*GetProfileViewsRes, error)
-	GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error
 	ListCompanies(*empty.Empty, CompanyService_ListCompaniesServer) error
 	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
 	GetPermission(context.Context, *GetPermisssionReq) (*GetPermisssionRes, error)
@@ -624,9 +589,6 @@ func (UnimplementedCompanyServiceServer) GetProblems(*GetProblemsReq, CompanySer
 }
 func (UnimplementedCompanyServiceServer) GetProfileViews(context.Context, *GetProfileViewsReq) (*GetProfileViewsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProfileViews not implemented")
-}
-func (UnimplementedCompanyServiceServer) GetPopularityofCompanies(*empty.Empty, CompanyService_GetPopularityofCompaniesServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetPopularityofCompanies not implemented")
 }
 func (UnimplementedCompanyServiceServer) ListCompanies(*empty.Empty, CompanyService_ListCompaniesServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListCompanies not implemented")
@@ -1031,27 +993,6 @@ func _CompanyService_GetProfileViews_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CompanyService_GetPopularityofCompanies_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(empty.Empty)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(CompanyServiceServer).GetPopularityofCompanies(m, &companyServiceGetPopularityofCompaniesServer{stream})
-}
-
-type CompanyService_GetPopularityofCompaniesServer interface {
-	Send(*GetPopularityofCompaniesRes) error
-	grpc.ServerStream
-}
-
-type companyServiceGetPopularityofCompaniesServer struct {
-	grpc.ServerStream
-}
-
-func (x *companyServiceGetPopularityofCompaniesServer) Send(m *GetPopularityofCompaniesRes) error {
-	return x.ServerStream.SendMsg(m)
-}
-
 func _CompanyService_ListCompanies_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(empty.Empty)
 	if err := stream.RecvMsg(m); err != nil {
@@ -1210,11 +1151,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetProblems",
 			Handler:       _CompanyService_GetProblems_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "GetPopularityofCompanies",
-			Handler:       _CompanyService_GetPopularityofCompanies_Handler,
 			ServerStreams: true,
 		},
 		{
