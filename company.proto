@@ -122,18 +122,6 @@ message MemberStatusReq {
     string Status = 1;
 }
 
-message GetEmployeesLeaderBoardReq {
-    string CompanyID = 1;
-    uint32 RoleID = 2;
-}
-
-message GetEmployeesLeaderBoardRes {
-    string EmployeeID = 1;
-    string CurrentProjectProgress = 2;
-    uint32 Salary = 3;
-    uint32 ProjectsParticipated = 4;
-}
-
 message SalaryIncrementofEmployeeReq {
     string CompanyID = 1;
     string EmployeeID = 2;
@@ -233,7 +221,6 @@ service CompanyService {
     rpc GetCompanyEmployees(GetCompanyReq)returns(stream GetCompanyEmployeesRes);
     rpc LogintoCompany(LogintoCompanyReq)returns(LogintoCompanyRes);
     rpc AddMemberStatus(MemberStatusReq)returns(google.protobuf.Empty);
-    rpc GetEmployeesLeaderBoard(GetEmployeesLeaderBoardReq)returns(stream GetEmployeesLeaderBoardRes);
     rpc SalaryIncrementofEmployee(SalaryIncrementofEmployeeReq)returns(google.protobuf.Empty);
     rpc SalaryIncrementofRole(SalaryIncrementofRoleReq)returns(google.protobuf.Empty);
     rpc GetAverageSalaryperRole(GetAverageSalaryperRoleReq)returns(stream GetAverageSalaryperRoleRes);

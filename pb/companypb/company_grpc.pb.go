@@ -32,7 +32,6 @@ const (
 	CompanyService_GetCompanyEmployees_FullMethodName             = "/company.CompanyService/GetCompanyEmployees"
 	CompanyService_LogintoCompany_FullMethodName                  = "/company.CompanyService/LogintoCompany"
 	CompanyService_AddMemberStatus_FullMethodName                 = "/company.CompanyService/AddMemberStatus"
-	CompanyService_GetEmployeesLeaderBoard_FullMethodName         = "/company.CompanyService/GetEmployeesLeaderBoard"
 	CompanyService_SalaryIncrementofEmployee_FullMethodName       = "/company.CompanyService/SalaryIncrementofEmployee"
 	CompanyService_SalaryIncrementofRole_FullMethodName           = "/company.CompanyService/SalaryIncrementofRole"
 	CompanyService_GetAverageSalaryperRole_FullMethodName         = "/company.CompanyService/GetAverageSalaryperRole"
@@ -61,7 +60,6 @@ type CompanyServiceClient interface {
 	GetCompanyEmployees(ctx context.Context, in *GetCompanyReq, opts ...grpc.CallOption) (CompanyService_GetCompanyEmployeesClient, error)
 	LogintoCompany(ctx context.Context, in *LogintoCompanyReq, opts ...grpc.CallOption) (*LogintoCompanyRes, error)
 	AddMemberStatus(ctx context.Context, in *MemberStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	GetEmployeesLeaderBoard(ctx context.Context, in *GetEmployeesLeaderBoardReq, opts ...grpc.CallOption) (CompanyService_GetEmployeesLeaderBoardClient, error)
 	SalaryIncrementofEmployee(ctx context.Context, in *SalaryIncrementofEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	SalaryIncrementofRole(ctx context.Context, in *SalaryIncrementofRoleReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetAverageSalaryperRole(ctx context.Context, in *GetAverageSalaryperRoleReq, opts ...grpc.CallOption) (CompanyService_GetAverageSalaryperRoleClient, error)
@@ -282,38 +280,6 @@ func (c *companyServiceClient) AddMemberStatus(ctx context.Context, in *MemberSt
 	return out, nil
 }
 
-func (c *companyServiceClient) GetEmployeesLeaderBoard(ctx context.Context, in *GetEmployeesLeaderBoardReq, opts ...grpc.CallOption) (CompanyService_GetEmployeesLeaderBoardClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[4], CompanyService_GetEmployeesLeaderBoard_FullMethodName, opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &companyServiceGetEmployeesLeaderBoardClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type CompanyService_GetEmployeesLeaderBoardClient interface {
-	Recv() (*GetEmployeesLeaderBoardRes, error)
-	grpc.ClientStream
-}
-
-type companyServiceGetEmployeesLeaderBoardClient struct {
-	grpc.ClientStream
-}
-
-func (x *companyServiceGetEmployeesLeaderBoardClient) Recv() (*GetEmployeesLeaderBoardRes, error) {
-	m := new(GetEmployeesLeaderBoardRes)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 func (c *companyServiceClient) SalaryIncrementofEmployee(ctx context.Context, in *SalaryIncrementofEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, CompanyService_SalaryIncrementofEmployee_FullMethodName, in, out, opts...)
@@ -333,7 +299,7 @@ func (c *companyServiceClient) SalaryIncrementofRole(ctx context.Context, in *Sa
 }
 
 func (c *companyServiceClient) GetAverageSalaryperRole(ctx context.Context, in *GetAverageSalaryperRoleReq, opts ...grpc.CallOption) (CompanyService_GetAverageSalaryperRoleClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[5], CompanyService_GetAverageSalaryperRole_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[4], CompanyService_GetAverageSalaryperRole_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -383,7 +349,7 @@ func (c *companyServiceClient) RaiseProblem(ctx context.Context, in *RaiseProble
 }
 
 func (c *companyServiceClient) GetProblems(ctx context.Context, in *GetProblemsReq, opts ...grpc.CallOption) (CompanyService_GetProblemsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[6], CompanyService_GetProblems_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[5], CompanyService_GetProblems_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -424,7 +390,7 @@ func (c *companyServiceClient) GetProfileViews(ctx context.Context, in *GetProfi
 }
 
 func (c *companyServiceClient) ListCompanies(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (CompanyService_ListCompaniesClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_ListCompanies_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[6], CompanyService_ListCompanies_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -456,7 +422,7 @@ func (x *companyServiceListCompaniesClient) Recv() (*ListCompaniesRes, error) {
 }
 
 func (c *companyServiceClient) GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetVisitors_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[7], CompanyService_GetVisitors_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -512,7 +478,6 @@ type CompanyServiceServer interface {
 	GetCompanyEmployees(*GetCompanyReq, CompanyService_GetCompanyEmployeesServer) error
 	LogintoCompany(context.Context, *LogintoCompanyReq) (*LogintoCompanyRes, error)
 	AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error)
-	GetEmployeesLeaderBoard(*GetEmployeesLeaderBoardReq, CompanyService_GetEmployeesLeaderBoardServer) error
 	SalaryIncrementofEmployee(context.Context, *SalaryIncrementofEmployeeReq) (*empty.Empty, error)
 	SalaryIncrementofRole(context.Context, *SalaryIncrementofRoleReq) (*empty.Empty, error)
 	GetAverageSalaryperRole(*GetAverageSalaryperRoleReq, CompanyService_GetAverageSalaryperRoleServer) error
@@ -565,9 +530,6 @@ func (UnimplementedCompanyServiceServer) LogintoCompany(context.Context, *Logint
 }
 func (UnimplementedCompanyServiceServer) AddMemberStatus(context.Context, *MemberStatusReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMemberStatus not implemented")
-}
-func (UnimplementedCompanyServiceServer) GetEmployeesLeaderBoard(*GetEmployeesLeaderBoardReq, CompanyService_GetEmployeesLeaderBoardServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetEmployeesLeaderBoard not implemented")
 }
 func (UnimplementedCompanyServiceServer) SalaryIncrementofEmployee(context.Context, *SalaryIncrementofEmployeeReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SalaryIncrementofEmployee not implemented")
@@ -838,27 +800,6 @@ func _CompanyService_AddMemberStatus_Handler(srv interface{}, ctx context.Contex
 		return srv.(CompanyServiceServer).AddMemberStatus(ctx, req.(*MemberStatusReq))
 	}
 	return interceptor(ctx, in, info, handler)
-}
-
-func _CompanyService_GetEmployeesLeaderBoard_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(GetEmployeesLeaderBoardReq)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(CompanyServiceServer).GetEmployeesLeaderBoard(m, &companyServiceGetEmployeesLeaderBoardServer{stream})
-}
-
-type CompanyService_GetEmployeesLeaderBoardServer interface {
-	Send(*GetEmployeesLeaderBoardRes) error
-	grpc.ServerStream
-}
-
-type companyServiceGetEmployeesLeaderBoardServer struct {
-	grpc.ServerStream
-}
-
-func (x *companyServiceGetEmployeesLeaderBoardServer) Send(m *GetEmployeesLeaderBoardRes) error {
-	return x.ServerStream.SendMsg(m)
 }
 
 func _CompanyService_SalaryIncrementofEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1136,11 +1077,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetCompanyEmployees",
 			Handler:       _CompanyService_GetCompanyEmployees_Handler,
-			ServerStreams: true,
-		},
-		{
-			StreamName:    "GetEmployeesLeaderBoard",
-			Handler:       _CompanyService_GetEmployeesLeaderBoard_Handler,
 			ServerStreams: true,
 		},
 		{
