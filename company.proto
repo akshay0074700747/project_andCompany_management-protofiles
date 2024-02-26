@@ -181,13 +181,6 @@ message GetProfileViewsRes {
     uint32 Views = 2;
 }
 
-message ListCompaniesRes {
-    string CompanyID = 1;
-    string Aim = 2;
-    string Description = 3;
-    uint32 Employees = 4;
-}
-
 message GetVisitorsReq {
     string CompanyID = 1;
     google.protobuf.Timestamp From = 2;
@@ -228,7 +221,6 @@ service CompanyService {
     rpc RaiseProblem(RaiseProblemReq)returns(google.protobuf.Empty);
     rpc GetProblems(GetProblemsReq)returns(stream GetProblemsRes);
     rpc GetProfileViews(GetProfileViewsReq)returns(GetProfileViewsRes);
-    rpc ListCompanies(google.protobuf.Empty)returns(stream ListCompaniesRes);
     rpc GetVisitors(GetVisitorsReq)returns(stream GetVisitorsRes);
     rpc GetPermission(GetPermisssionReq)returns(GetPermisssionRes);
 }
