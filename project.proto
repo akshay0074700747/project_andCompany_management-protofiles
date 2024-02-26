@@ -62,8 +62,7 @@ message GetProjectMembersRes {
     string Email = 1;
     string Name = 2;
     string Role = 3;
-    string Permission = 4;
-    uint32 Reputation = 5;
+    uint32 PermissionID = 4;
 }
 
 message GetProjectDetailesRes {
