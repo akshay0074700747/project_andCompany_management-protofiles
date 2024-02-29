@@ -97,10 +97,11 @@ message GetCompanyDetailsRes {
 }
 
 message GetCompanyEmployeesRes {
-    string Email = 1;
-    string Name = 2;
-    string Role = 3;
-    string Permission = 4;
+    string UserId = 1;
+    string Email = 2;
+    string Name = 3;
+    string Role = 4;
+    string Permission = 5;
 }
 
 message LogintoCompanyReq {

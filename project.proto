@@ -59,10 +59,11 @@ message GetProjectReq {
 }
 
 message GetProjectMembersRes {
-    string Email = 1;
-    string Name = 2;
-    string Role = 3;
-    uint32 PermissionID = 4;
+    string UserID = 1;
+    string Email = 2;
+    string Name = 3;
+    string Role = 4;
+    uint32 PermissionID = 5;
 }
 
 message GetProjectDetailesRes {
