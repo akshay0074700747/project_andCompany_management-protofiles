@@ -41,6 +41,7 @@ const (
 	CompanyService_GetProfileViews_FullMethodName                 = "/company.CompanyService/GetProfileViews"
 	CompanyService_GetVisitors_FullMethodName                     = "/company.CompanyService/GetVisitors"
 	CompanyService_GetPermission_FullMethodName                   = "/company.CompanyService/GetPermission"
+	CompanyService_IsEmployeeExists_FullMethodName                = "/company.CompanyService/IsEmployeeExists"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -68,6 +69,7 @@ type CompanyServiceClient interface {
 	GetProfileViews(ctx context.Context, in *GetProfileViewsReq, opts ...grpc.CallOption) (*GetProfileViewsRes, error)
 	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
 	GetPermission(ctx context.Context, in *GetPermisssionReq, opts ...grpc.CallOption) (*GetPermisssionRes, error)
+	IsEmployeeExists(ctx context.Context, in *IsEmployeeExistsReq, opts ...grpc.CallOption) (*IsEmployeeExistsRes, error)
 }
 
 type companyServiceClient struct {
@@ -451,6 +453,15 @@ func (c *companyServiceClient) GetPermission(ctx context.Context, in *GetPermiss
 	return out, nil
 }
 
+func (c *companyServiceClient) IsEmployeeExists(ctx context.Context, in *IsEmployeeExistsReq, opts ...grpc.CallOption) (*IsEmployeeExistsRes, error) {
+	out := new(IsEmployeeExistsRes)
+	err := c.cc.Invoke(ctx, CompanyService_IsEmployeeExists_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -476,6 +487,7 @@ type CompanyServiceServer interface {
 	GetProfileViews(context.Context, *GetProfileViewsReq) (*GetProfileViewsRes, error)
 	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
 	GetPermission(context.Context, *GetPermisssionReq) (*GetPermisssionRes, error)
+	IsEmployeeExists(context.Context, *IsEmployeeExistsReq) (*IsEmployeeExistsRes, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -545,6 +557,9 @@ func (UnimplementedCompanyServiceServer) GetVisitors(*GetVisitorsReq, CompanySer
 }
 func (UnimplementedCompanyServiceServer) GetPermission(context.Context, *GetPermisssionReq) (*GetPermisssionRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPermission not implemented")
+}
+func (UnimplementedCompanyServiceServer) IsEmployeeExists(context.Context, *IsEmployeeExistsReq) (*IsEmployeeExistsRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsEmployeeExists not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -961,6 +976,24 @@ func _CompanyService_GetPermission_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyService_IsEmployeeExists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsEmployeeExistsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).IsEmployeeExists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_IsEmployeeExists_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).IsEmployeeExists(ctx, req.(*IsEmployeeExistsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1019,6 +1052,10 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPermission",
 			Handler:    _CompanyService_GetPermission_Handler,
+		},
+		{
+			MethodName: "IsEmployeeExists",
+			Handler:    _CompanyService_IsEmployeeExists_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
