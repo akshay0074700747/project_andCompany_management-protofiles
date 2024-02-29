@@ -192,6 +192,11 @@ message GetLiveProjectsRes {
     string Version = 6;
 }
 
+message IsMemberAcceptedReq {
+    string UserID = 1;
+    string ProjectID = 2;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -209,4 +214,6 @@ service ProjectService {
     rpc MarkProgressofNonTechnical(MarkProgressofNonTechnicalReq)returns(google.protobuf.Empty);
     rpc AddTaskStatuses(AddTaskStatusesReq)returns(google.protobuf.Empty);
     rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
+    rpc IsMemberAccepted(IsMemberAcceptedReq)returns(google.protobuf.Empty);
+    
 }

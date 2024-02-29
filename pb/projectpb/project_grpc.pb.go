@@ -36,6 +36,7 @@ const (
 	ProjectService_MarkProgressofNonTechnical_FullMethodName = "/project.ProjectService/MarkProgressofNonTechnical"
 	ProjectService_AddTaskStatuses_FullMethodName            = "/project.ProjectService/AddTaskStatuses"
 	ProjectService_GetLiveProjects_FullMethodName            = "/project.ProjectService/GetLiveProjects"
+	ProjectService_IsMemberAccepted_FullMethodName           = "/project.ProjectService/IsMemberAccepted"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -58,6 +59,7 @@ type ProjectServiceClient interface {
 	MarkProgressofNonTechnical(ctx context.Context, in *MarkProgressofNonTechnicalReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	AddTaskStatuses(ctx context.Context, in *AddTaskStatusesReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetLiveProjects(ctx context.Context, in *GetLiveProjectsReq, opts ...grpc.CallOption) (ProjectService_GetLiveProjectsClient, error)
+	IsMemberAccepted(ctx context.Context, in *IsMemberAcceptedReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type projectServiceClient struct {
@@ -304,6 +306,15 @@ func (x *projectServiceGetLiveProjectsClient) Recv() (*GetLiveProjectsRes, error
 	return m, nil
 }
 
+func (c *projectServiceClient) IsMemberAccepted(ctx context.Context, in *IsMemberAcceptedReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_IsMemberAccepted_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -324,6 +335,7 @@ type ProjectServiceServer interface {
 	MarkProgressofNonTechnical(context.Context, *MarkProgressofNonTechnicalReq) (*empty.Empty, error)
 	AddTaskStatuses(context.Context, *AddTaskStatusesReq) (*empty.Empty, error)
 	GetLiveProjects(*GetLiveProjectsReq, ProjectService_GetLiveProjectsServer) error
+	IsMemberAccepted(context.Context, *IsMemberAcceptedReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -378,6 +390,9 @@ func (UnimplementedProjectServiceServer) AddTaskStatuses(context.Context, *AddTa
 }
 func (UnimplementedProjectServiceServer) GetLiveProjects(*GetLiveProjectsReq, ProjectService_GetLiveProjectsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetLiveProjects not implemented")
+}
+func (UnimplementedProjectServiceServer) IsMemberAccepted(context.Context, *IsMemberAcceptedReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsMemberAccepted not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -692,6 +707,24 @@ func (x *projectServiceGetLiveProjectsServer) Send(m *GetLiveProjectsRes) error 
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ProjectService_IsMemberAccepted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IsMemberAcceptedReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).IsMemberAccepted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_IsMemberAccepted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).IsMemberAccepted(ctx, req.(*IsMemberAcceptedReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -746,6 +779,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddTaskStatuses",
 			Handler:    _ProjectService_AddTaskStatuses_Handler,
+		},
+		{
+			MethodName: "IsMemberAccepted",
+			Handler:    _ProjectService_IsMemberAccepted_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
