@@ -56,6 +56,7 @@ const (
 	CompanyService_GetEmployeeLeaveRequests_FullMethodName        = "/company.CompanyService/GetEmployeeLeaveRequests"
 	CompanyService_DecideEmployeeLeave_FullMethodName             = "/company.CompanyService/DecideEmployeeLeave"
 	CompanyService_GetLeaves_FullMethodName                       = "/company.CompanyService/GetLeaves"
+	CompanyService_GetStreamofClients_FullMethodName              = "/company.CompanyService/GetStreamofClients"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -98,6 +99,7 @@ type CompanyServiceClient interface {
 	GetEmployeeLeaveRequests(ctx context.Context, in *GetEmployeeLeaveRequestsReq, opts ...grpc.CallOption) (CompanyService_GetEmployeeLeaveRequestsClient, error)
 	DecideEmployeeLeave(ctx context.Context, in *DecideEmployeeLeaveRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetLeaves(ctx context.Context, in *GetLeavesReq, opts ...grpc.CallOption) (CompanyService_GetLeavesClient, error)
+	GetStreamofClients(ctx context.Context, opts ...grpc.CallOption) (CompanyService_GetStreamofClientsClient, error)
 }
 
 type companyServiceClient struct {
@@ -731,6 +733,37 @@ func (x *companyServiceGetLeavesClient) Recv() (*GetLeavesRes, error) {
 	return m, nil
 }
 
+func (c *companyServiceClient) GetStreamofClients(ctx context.Context, opts ...grpc.CallOption) (CompanyService_GetStreamofClientsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[13], CompanyService_GetStreamofClients_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetStreamofClientsClient{stream}
+	return x, nil
+}
+
+type CompanyService_GetStreamofClientsClient interface {
+	Send(*GetStreamofClientsReq) error
+	Recv() (*GetStreamofClientsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetStreamofClientsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetStreamofClientsClient) Send(m *GetStreamofClientsReq) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *companyServiceGetStreamofClientsClient) Recv() (*GetStreamofClientsRes, error) {
+	m := new(GetStreamofClientsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -771,6 +804,7 @@ type CompanyServiceServer interface {
 	GetEmployeeLeaveRequests(*GetEmployeeLeaveRequestsReq, CompanyService_GetEmployeeLeaveRequestsServer) error
 	DecideEmployeeLeave(context.Context, *DecideEmployeeLeaveRequest) (*empty.Empty, error)
 	GetLeaves(*GetLeavesReq, CompanyService_GetLeavesServer) error
+	GetStreamofClients(CompanyService_GetStreamofClientsServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -885,6 +919,9 @@ func (UnimplementedCompanyServiceServer) DecideEmployeeLeave(context.Context, *D
 }
 func (UnimplementedCompanyServiceServer) GetLeaves(*GetLeavesReq, CompanyService_GetLeavesServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetLeaves not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetStreamofClients(CompanyService_GetStreamofClientsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetStreamofClients not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -1586,6 +1623,32 @@ func (x *companyServiceGetLeavesServer) Send(m *GetLeavesRes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_GetStreamofClients_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(CompanyServiceServer).GetStreamofClients(&companyServiceGetStreamofClientsServer{stream})
+}
+
+type CompanyService_GetStreamofClientsServer interface {
+	Send(*GetStreamofClientsRes) error
+	Recv() (*GetStreamofClientsReq, error)
+	grpc.ServerStream
+}
+
+type companyServiceGetStreamofClientsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetStreamofClientsServer) Send(m *GetStreamofClientsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *companyServiceGetStreamofClientsServer) Recv() (*GetStreamofClientsReq, error) {
+	m := new(GetStreamofClientsReq)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1751,6 +1814,12 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "GetLeaves",
 			Handler:       _CompanyService_GetLeaves_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetStreamofClients",
+			Handler:       _CompanyService_GetStreamofClients_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "company.proto",

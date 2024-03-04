@@ -327,6 +327,15 @@ message GetLeavesRes{
     string Description = 3;
 }
 
+message GetStreamofClientsReq {
+    string CompanyID = 1;
+    string ProjectID = 2;
+}
+
+message GetStreamofClientsRes {
+    string ClientID = 1;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -364,5 +373,6 @@ service CompanyService {
     rpc GetEmployeeLeaveRequests(GetEmployeeLeaveRequestsReq)returns(stream GetEmployeeLeaveRequestsRes);
     rpc DecideEmployeeLeave(DecideEmployeeLeaveRequest)returns(google.protobuf.Empty);
     rpc GetLeaves(GetLeavesReq)returns(stream GetLeavesRes);
+    rpc GetStreamofClients(stream GetStreamofClientsReq)returns(stream GetStreamofClientsRes);
 }
 
