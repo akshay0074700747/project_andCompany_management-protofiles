@@ -216,6 +216,7 @@ message IsEmployeeExistsRes {
 
 message AddClientReq {
     string Email = 1;
+    string CompanyID = 2;
 }
 
 message AssociateClientWithProjectReq {
