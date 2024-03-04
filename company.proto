@@ -224,6 +224,7 @@ message AssociateClientWithProjectReq {
     string ProjectID = 2;
     uint32 Contract = 3;
     bool IsRecieved = 4;
+    string CompanyID = 5;
 }
 
 message GetClientsReq {
@@ -235,7 +236,6 @@ message GetClientsRes {
     string Name  = 2;
     string Email = 3;
     repeated string ProjectIDs = 4;
-
 }
 
 message GetProjectsReq {
