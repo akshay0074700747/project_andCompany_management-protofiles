@@ -44,7 +44,6 @@ const (
 	CompanyService_IsEmployeeExists_FullMethodName                = "/company.CompanyService/IsEmployeeExists"
 	CompanyService_AddClient_FullMethodName                       = "/company.CompanyService/AddClient"
 	CompanyService_AssociateClientWithProject_FullMethodName      = "/company.CompanyService/AssociateClientWithProject"
-	CompanyService_GetLiveProjects_FullMethodName                 = "/company.CompanyService/GetLiveProjects"
 	CompanyService_GetPastProjects_FullMethodName                 = "/company.CompanyService/GetPastProjects"
 	CompanyService_GetClients_FullMethodName                      = "/company.CompanyService/GetClients"
 	CompanyService_GetRevenueGenerated_FullMethodName             = "/company.CompanyService/GetRevenueGenerated"
@@ -87,8 +86,7 @@ type CompanyServiceClient interface {
 	IsEmployeeExists(ctx context.Context, in *IsEmployeeExistsReq, opts ...grpc.CallOption) (*IsEmployeeExistsRes, error)
 	AddClient(ctx context.Context, in *AddClientReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	AssociateClientWithProject(ctx context.Context, in *AssociateClientWithProjectReq, opts ...grpc.CallOption) (*empty.Empty, error)
-	GetLiveProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (CompanyService_GetLiveProjectsClient, error)
-	GetPastProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (*GetProjectsRes, error)
+	GetPastProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (CompanyService_GetPastProjectsClient, error)
 	GetClients(ctx context.Context, in *GetClientsReq, opts ...grpc.CallOption) (CompanyService_GetClientsClient, error)
 	GetRevenueGenerated(ctx context.Context, in *GetRevenueGeneratedReq, opts ...grpc.CallOption) (CompanyService_GetRevenueGeneratedClient, error)
 	UpdateRevenueStatus(ctx context.Context, in *UpdateRevenueStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -510,12 +508,12 @@ func (c *companyServiceClient) AssociateClientWithProject(ctx context.Context, i
 	return out, nil
 }
 
-func (c *companyServiceClient) GetLiveProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (CompanyService_GetLiveProjectsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetLiveProjects_FullMethodName, opts...)
+func (c *companyServiceClient) GetPastProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (CompanyService_GetPastProjectsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetPastProjects_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &companyServiceGetLiveProjectsClient{stream}
+	x := &companyServiceGetPastProjectsClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -525,30 +523,21 @@ func (c *companyServiceClient) GetLiveProjects(ctx context.Context, in *GetProje
 	return x, nil
 }
 
-type CompanyService_GetLiveProjectsClient interface {
+type CompanyService_GetPastProjectsClient interface {
 	Recv() (*GetProjectsRes, error)
 	grpc.ClientStream
 }
 
-type companyServiceGetLiveProjectsClient struct {
+type companyServiceGetPastProjectsClient struct {
 	grpc.ClientStream
 }
 
-func (x *companyServiceGetLiveProjectsClient) Recv() (*GetProjectsRes, error) {
+func (x *companyServiceGetPastProjectsClient) Recv() (*GetProjectsRes, error) {
 	m := new(GetProjectsRes)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
-}
-
-func (c *companyServiceClient) GetPastProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (*GetProjectsRes, error) {
-	out := new(GetProjectsRes)
-	err := c.cc.Invoke(ctx, CompanyService_GetPastProjects_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *companyServiceClient) GetClients(ctx context.Context, in *GetClientsReq, opts ...grpc.CallOption) (CompanyService_GetClientsClient, error) {
@@ -770,8 +759,7 @@ type CompanyServiceServer interface {
 	IsEmployeeExists(context.Context, *IsEmployeeExistsReq) (*IsEmployeeExistsRes, error)
 	AddClient(context.Context, *AddClientReq) (*empty.Empty, error)
 	AssociateClientWithProject(context.Context, *AssociateClientWithProjectReq) (*empty.Empty, error)
-	GetLiveProjects(*GetProjectsReq, CompanyService_GetLiveProjectsServer) error
-	GetPastProjects(context.Context, *GetProjectsReq) (*GetProjectsRes, error)
+	GetPastProjects(*GetProjectsReq, CompanyService_GetPastProjectsServer) error
 	GetClients(*GetClientsReq, CompanyService_GetClientsServer) error
 	GetRevenueGenerated(*GetRevenueGeneratedReq, CompanyService_GetRevenueGeneratedServer) error
 	UpdateRevenueStatus(context.Context, *UpdateRevenueStatusReq) (*empty.Empty, error)
@@ -862,11 +850,8 @@ func (UnimplementedCompanyServiceServer) AddClient(context.Context, *AddClientRe
 func (UnimplementedCompanyServiceServer) AssociateClientWithProject(context.Context, *AssociateClientWithProjectReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssociateClientWithProject not implemented")
 }
-func (UnimplementedCompanyServiceServer) GetLiveProjects(*GetProjectsReq, CompanyService_GetLiveProjectsServer) error {
-	return status.Errorf(codes.Unimplemented, "method GetLiveProjects not implemented")
-}
-func (UnimplementedCompanyServiceServer) GetPastProjects(context.Context, *GetProjectsReq) (*GetProjectsRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPastProjects not implemented")
+func (UnimplementedCompanyServiceServer) GetPastProjects(*GetProjectsReq, CompanyService_GetPastProjectsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetPastProjects not implemented")
 }
 func (UnimplementedCompanyServiceServer) GetClients(*GetClientsReq, CompanyService_GetClientsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetClients not implemented")
@@ -1370,43 +1355,25 @@ func _CompanyService_AssociateClientWithProject_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CompanyService_GetLiveProjects_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _CompanyService_GetPastProjects_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetProjectsReq)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(CompanyServiceServer).GetLiveProjects(m, &companyServiceGetLiveProjectsServer{stream})
+	return srv.(CompanyServiceServer).GetPastProjects(m, &companyServiceGetPastProjectsServer{stream})
 }
 
-type CompanyService_GetLiveProjectsServer interface {
+type CompanyService_GetPastProjectsServer interface {
 	Send(*GetProjectsRes) error
 	grpc.ServerStream
 }
 
-type companyServiceGetLiveProjectsServer struct {
+type companyServiceGetPastProjectsServer struct {
 	grpc.ServerStream
 }
 
-func (x *companyServiceGetLiveProjectsServer) Send(m *GetProjectsRes) error {
+func (x *companyServiceGetPastProjectsServer) Send(m *GetProjectsRes) error {
 	return x.ServerStream.SendMsg(m)
-}
-
-func _CompanyService_GetPastProjects_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProjectsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CompanyServiceServer).GetPastProjects(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CompanyService_GetPastProjects_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).GetPastProjects(ctx, req.(*GetProjectsReq))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _CompanyService_GetClients_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -1691,10 +1658,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CompanyService_AssociateClientWithProject_Handler,
 		},
 		{
-			MethodName: "GetPastProjects",
-			Handler:    _CompanyService_GetPastProjects_Handler,
-		},
-		{
 			MethodName: "UpdateRevenueStatus",
 			Handler:    _CompanyService_UpdateRevenueStatus_Handler,
 		},
@@ -1765,8 +1728,8 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
-			StreamName:    "GetLiveProjects",
-			Handler:       _CompanyService_GetLiveProjects_Handler,
+			StreamName:    "GetPastProjects",
+			Handler:       _CompanyService_GetPastProjects_Handler,
 			ServerStreams: true,
 		},
 		{

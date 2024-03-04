@@ -352,8 +352,7 @@ service CompanyService {
     rpc IsEmployeeExists(IsEmployeeExistsReq)returns(IsEmployeeExistsRes);
     rpc AddClient(AddClientReq)returns(google.protobuf.Empty);
     rpc AssociateClientWithProject(AssociateClientWithProjectReq)returns(google.protobuf.Empty);
-    rpc GetLiveProjects(GetProjectsReq)returns(stream GetProjectsRes);
-    rpc GetPastProjects(GetProjectsReq)returns(GetProjectsRes);
+    rpc GetPastProjects(GetProjectsReq)returns(stream GetProjectsRes);
     rpc GetClients(GetClientsReq)returns(stream GetClientsRes);
     rpc GetRevenueGenerated(GetRevenueGeneratedReq)returns(stream GetRevenueGeneratedRes);
     rpc UpdateRevenueStatus(UpdateRevenueStatusReq)returns(google.protobuf.Empty);
