@@ -42,6 +42,21 @@ const (
 	CompanyService_GetVisitors_FullMethodName                     = "/company.CompanyService/GetVisitors"
 	CompanyService_GetPermission_FullMethodName                   = "/company.CompanyService/GetPermission"
 	CompanyService_IsEmployeeExists_FullMethodName                = "/company.CompanyService/IsEmployeeExists"
+	CompanyService_AddClient_FullMethodName                       = "/company.CompanyService/AddClient"
+	CompanyService_AssociateClientWithProject_FullMethodName      = "/company.CompanyService/AssociateClientWithProject"
+	CompanyService_GetLiveProjects_FullMethodName                 = "/company.CompanyService/GetLiveProjects"
+	CompanyService_GetPastProjects_FullMethodName                 = "/company.CompanyService/GetPastProjects"
+	CompanyService_GetClients_FullMethodName                      = "/company.CompanyService/GetClients"
+	CompanyService_GetRevenueGenerated_FullMethodName             = "/company.CompanyService/GetRevenueGenerated"
+	CompanyService_UpdateRevenueStatus_FullMethodName             = "/company.CompanyService/UpdateRevenueStatus"
+	CompanyService_AttachCompanyPolicies_FullMethodName           = "/company.CompanyService/AttachCompanyPolicies"
+	CompanyService_UpdatePaymentStatusofEmployee_FullMethodName   = "/company.CompanyService/UpdatePaymentStatusofEmployee"
+	CompanyService_AssignProblem_FullMethodName                   = "/company.CompanyService/AssignProblem"
+	CompanyService_ResolveProblem_FullMethodName                  = "/company.CompanyService/ResolveProblem"
+	CompanyService_ApplyForLeave_FullMethodName                   = "/company.CompanyService/ApplyForLeave"
+	CompanyService_GetEmployeeLeaveRequests_FullMethodName        = "/company.CompanyService/GetEmployeeLeaveRequests"
+	CompanyService_DecideEmployeeLeave_FullMethodName             = "/company.CompanyService/DecideEmployeeLeave"
+	CompanyService_GetLeaves_FullMethodName                       = "/company.CompanyService/GetLeaves"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -70,6 +85,21 @@ type CompanyServiceClient interface {
 	GetVisitors(ctx context.Context, in *GetVisitorsReq, opts ...grpc.CallOption) (CompanyService_GetVisitorsClient, error)
 	GetPermission(ctx context.Context, in *GetPermisssionReq, opts ...grpc.CallOption) (*GetPermisssionRes, error)
 	IsEmployeeExists(ctx context.Context, in *IsEmployeeExistsReq, opts ...grpc.CallOption) (*IsEmployeeExistsRes, error)
+	AddClient(ctx context.Context, in *AddClientReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	AssociateClientWithProject(ctx context.Context, in *AssociateClientWithProjectReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetLiveProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (CompanyService_GetLiveProjectsClient, error)
+	GetPastProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (*GetProjectsRes, error)
+	GetClients(ctx context.Context, in *GetClientsReq, opts ...grpc.CallOption) (CompanyService_GetClientsClient, error)
+	GetRevenueGenerated(ctx context.Context, in *GetRevenueGeneratedReq, opts ...grpc.CallOption) (CompanyService_GetRevenueGeneratedClient, error)
+	UpdateRevenueStatus(ctx context.Context, in *UpdateRevenueStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	AttachCompanyPolicies(ctx context.Context, in *AttachCompanyPoliciesReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdatePaymentStatusofEmployee(ctx context.Context, in *UpdatePaymentStatusofEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	AssignProblem(ctx context.Context, in *AssignProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	ResolveProblem(ctx context.Context, in *ResolveProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	ApplyForLeave(ctx context.Context, in *ApplyForLeaveReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetEmployeeLeaveRequests(ctx context.Context, in *GetEmployeeLeaveRequestsReq, opts ...grpc.CallOption) (CompanyService_GetEmployeeLeaveRequestsClient, error)
+	DecideEmployeeLeave(ctx context.Context, in *DecideEmployeeLeaveRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetLeaves(ctx context.Context, in *GetLeavesReq, opts ...grpc.CallOption) (CompanyService_GetLeavesClient, error)
 }
 
 type companyServiceClient struct {
@@ -462,6 +492,256 @@ func (c *companyServiceClient) IsEmployeeExists(ctx context.Context, in *IsEmplo
 	return out, nil
 }
 
+func (c *companyServiceClient) AddClient(ctx context.Context, in *AddClientReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_AddClient_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) AssociateClientWithProject(ctx context.Context, in *AssociateClientWithProjectReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_AssociateClientWithProject_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) GetLiveProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (CompanyService_GetLiveProjectsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[8], CompanyService_GetLiveProjects_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetLiveProjectsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetLiveProjectsClient interface {
+	Recv() (*GetProjectsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetLiveProjectsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetLiveProjectsClient) Recv() (*GetProjectsRes, error) {
+	m := new(GetProjectsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *companyServiceClient) GetPastProjects(ctx context.Context, in *GetProjectsReq, opts ...grpc.CallOption) (*GetProjectsRes, error) {
+	out := new(GetProjectsRes)
+	err := c.cc.Invoke(ctx, CompanyService_GetPastProjects_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) GetClients(ctx context.Context, in *GetClientsReq, opts ...grpc.CallOption) (CompanyService_GetClientsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[9], CompanyService_GetClients_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetClientsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetClientsClient interface {
+	Recv() (*GetClientsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetClientsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetClientsClient) Recv() (*GetClientsRes, error) {
+	m := new(GetClientsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *companyServiceClient) GetRevenueGenerated(ctx context.Context, in *GetRevenueGeneratedReq, opts ...grpc.CallOption) (CompanyService_GetRevenueGeneratedClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[10], CompanyService_GetRevenueGenerated_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetRevenueGeneratedClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetRevenueGeneratedClient interface {
+	Recv() (*GetRevenueGeneratedRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetRevenueGeneratedClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetRevenueGeneratedClient) Recv() (*GetRevenueGeneratedRes, error) {
+	m := new(GetRevenueGeneratedRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *companyServiceClient) UpdateRevenueStatus(ctx context.Context, in *UpdateRevenueStatusReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_UpdateRevenueStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) AttachCompanyPolicies(ctx context.Context, in *AttachCompanyPoliciesReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_AttachCompanyPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) UpdatePaymentStatusofEmployee(ctx context.Context, in *UpdatePaymentStatusofEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_UpdatePaymentStatusofEmployee_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) AssignProblem(ctx context.Context, in *AssignProblemReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_AssignProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) ResolveProblem(ctx context.Context, in *ResolveProblemReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_ResolveProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) ApplyForLeave(ctx context.Context, in *ApplyForLeaveReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_ApplyForLeave_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) GetEmployeeLeaveRequests(ctx context.Context, in *GetEmployeeLeaveRequestsReq, opts ...grpc.CallOption) (CompanyService_GetEmployeeLeaveRequestsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[11], CompanyService_GetEmployeeLeaveRequests_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetEmployeeLeaveRequestsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetEmployeeLeaveRequestsClient interface {
+	Recv() (*GetEmployeeLeaveRequestsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetEmployeeLeaveRequestsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetEmployeeLeaveRequestsClient) Recv() (*GetEmployeeLeaveRequestsRes, error) {
+	m := new(GetEmployeeLeaveRequestsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *companyServiceClient) DecideEmployeeLeave(ctx context.Context, in *DecideEmployeeLeaveRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_DecideEmployeeLeave_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) GetLeaves(ctx context.Context, in *GetLeavesReq, opts ...grpc.CallOption) (CompanyService_GetLeavesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[12], CompanyService_GetLeaves_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetLeavesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetLeavesClient interface {
+	Recv() (*GetLeavesRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetLeavesClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetLeavesClient) Recv() (*GetLeavesRes, error) {
+	m := new(GetLeavesRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -488,6 +768,21 @@ type CompanyServiceServer interface {
 	GetVisitors(*GetVisitorsReq, CompanyService_GetVisitorsServer) error
 	GetPermission(context.Context, *GetPermisssionReq) (*GetPermisssionRes, error)
 	IsEmployeeExists(context.Context, *IsEmployeeExistsReq) (*IsEmployeeExistsRes, error)
+	AddClient(context.Context, *AddClientReq) (*empty.Empty, error)
+	AssociateClientWithProject(context.Context, *AssociateClientWithProjectReq) (*empty.Empty, error)
+	GetLiveProjects(*GetProjectsReq, CompanyService_GetLiveProjectsServer) error
+	GetPastProjects(context.Context, *GetProjectsReq) (*GetProjectsRes, error)
+	GetClients(*GetClientsReq, CompanyService_GetClientsServer) error
+	GetRevenueGenerated(*GetRevenueGeneratedReq, CompanyService_GetRevenueGeneratedServer) error
+	UpdateRevenueStatus(context.Context, *UpdateRevenueStatusReq) (*empty.Empty, error)
+	AttachCompanyPolicies(context.Context, *AttachCompanyPoliciesReq) (*empty.Empty, error)
+	UpdatePaymentStatusofEmployee(context.Context, *UpdatePaymentStatusofEmployeeReq) (*empty.Empty, error)
+	AssignProblem(context.Context, *AssignProblemReq) (*empty.Empty, error)
+	ResolveProblem(context.Context, *ResolveProblemReq) (*empty.Empty, error)
+	ApplyForLeave(context.Context, *ApplyForLeaveReq) (*empty.Empty, error)
+	GetEmployeeLeaveRequests(*GetEmployeeLeaveRequestsReq, CompanyService_GetEmployeeLeaveRequestsServer) error
+	DecideEmployeeLeave(context.Context, *DecideEmployeeLeaveRequest) (*empty.Empty, error)
+	GetLeaves(*GetLeavesReq, CompanyService_GetLeavesServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -560,6 +855,51 @@ func (UnimplementedCompanyServiceServer) GetPermission(context.Context, *GetPerm
 }
 func (UnimplementedCompanyServiceServer) IsEmployeeExists(context.Context, *IsEmployeeExistsReq) (*IsEmployeeExistsRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsEmployeeExists not implemented")
+}
+func (UnimplementedCompanyServiceServer) AddClient(context.Context, *AddClientReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddClient not implemented")
+}
+func (UnimplementedCompanyServiceServer) AssociateClientWithProject(context.Context, *AssociateClientWithProjectReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssociateClientWithProject not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetLiveProjects(*GetProjectsReq, CompanyService_GetLiveProjectsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetLiveProjects not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetPastProjects(context.Context, *GetProjectsReq) (*GetProjectsRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPastProjects not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetClients(*GetClientsReq, CompanyService_GetClientsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetClients not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetRevenueGenerated(*GetRevenueGeneratedReq, CompanyService_GetRevenueGeneratedServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetRevenueGenerated not implemented")
+}
+func (UnimplementedCompanyServiceServer) UpdateRevenueStatus(context.Context, *UpdateRevenueStatusReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRevenueStatus not implemented")
+}
+func (UnimplementedCompanyServiceServer) AttachCompanyPolicies(context.Context, *AttachCompanyPoliciesReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AttachCompanyPolicies not implemented")
+}
+func (UnimplementedCompanyServiceServer) UpdatePaymentStatusofEmployee(context.Context, *UpdatePaymentStatusofEmployeeReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePaymentStatusofEmployee not implemented")
+}
+func (UnimplementedCompanyServiceServer) AssignProblem(context.Context, *AssignProblemReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AssignProblem not implemented")
+}
+func (UnimplementedCompanyServiceServer) ResolveProblem(context.Context, *ResolveProblemReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResolveProblem not implemented")
+}
+func (UnimplementedCompanyServiceServer) ApplyForLeave(context.Context, *ApplyForLeaveReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyForLeave not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetEmployeeLeaveRequests(*GetEmployeeLeaveRequestsReq, CompanyService_GetEmployeeLeaveRequestsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetEmployeeLeaveRequests not implemented")
+}
+func (UnimplementedCompanyServiceServer) DecideEmployeeLeave(context.Context, *DecideEmployeeLeaveRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DecideEmployeeLeave not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetLeaves(*GetLeavesReq, CompanyService_GetLeavesServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetLeaves not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -994,6 +1334,291 @@ func _CompanyService_IsEmployeeExists_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyService_AddClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddClientReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).AddClient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_AddClient_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).AddClient(ctx, req.(*AddClientReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_AssociateClientWithProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssociateClientWithProjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).AssociateClientWithProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_AssociateClientWithProject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).AssociateClientWithProject(ctx, req.(*AssociateClientWithProjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_GetLiveProjects_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetProjectsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetLiveProjects(m, &companyServiceGetLiveProjectsServer{stream})
+}
+
+type CompanyService_GetLiveProjectsServer interface {
+	Send(*GetProjectsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetLiveProjectsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetLiveProjectsServer) Send(m *GetProjectsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CompanyService_GetPastProjects_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).GetPastProjects(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_GetPastProjects_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).GetPastProjects(ctx, req.(*GetProjectsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_GetClients_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetClientsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetClients(m, &companyServiceGetClientsServer{stream})
+}
+
+type CompanyService_GetClientsServer interface {
+	Send(*GetClientsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetClientsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetClientsServer) Send(m *GetClientsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CompanyService_GetRevenueGenerated_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetRevenueGeneratedReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetRevenueGenerated(m, &companyServiceGetRevenueGeneratedServer{stream})
+}
+
+type CompanyService_GetRevenueGeneratedServer interface {
+	Send(*GetRevenueGeneratedRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetRevenueGeneratedServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetRevenueGeneratedServer) Send(m *GetRevenueGeneratedRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CompanyService_UpdateRevenueStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRevenueStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).UpdateRevenueStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_UpdateRevenueStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).UpdateRevenueStatus(ctx, req.(*UpdateRevenueStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_AttachCompanyPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AttachCompanyPoliciesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).AttachCompanyPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_AttachCompanyPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).AttachCompanyPolicies(ctx, req.(*AttachCompanyPoliciesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_UpdatePaymentStatusofEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePaymentStatusofEmployeeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).UpdatePaymentStatusofEmployee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_UpdatePaymentStatusofEmployee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).UpdatePaymentStatusofEmployee(ctx, req.(*UpdatePaymentStatusofEmployeeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_AssignProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AssignProblemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).AssignProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_AssignProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).AssignProblem(ctx, req.(*AssignProblemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_ResolveProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResolveProblemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).ResolveProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_ResolveProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).ResolveProblem(ctx, req.(*ResolveProblemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_ApplyForLeave_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyForLeaveReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).ApplyForLeave(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_ApplyForLeave_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).ApplyForLeave(ctx, req.(*ApplyForLeaveReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_GetEmployeeLeaveRequests_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetEmployeeLeaveRequestsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetEmployeeLeaveRequests(m, &companyServiceGetEmployeeLeaveRequestsServer{stream})
+}
+
+type CompanyService_GetEmployeeLeaveRequestsServer interface {
+	Send(*GetEmployeeLeaveRequestsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetEmployeeLeaveRequestsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetEmployeeLeaveRequestsServer) Send(m *GetEmployeeLeaveRequestsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CompanyService_DecideEmployeeLeave_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DecideEmployeeLeaveRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).DecideEmployeeLeave(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_DecideEmployeeLeave_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).DecideEmployeeLeave(ctx, req.(*DecideEmployeeLeaveRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_GetLeaves_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetLeavesReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetLeaves(m, &companyServiceGetLeavesServer{stream})
+}
+
+type CompanyService_GetLeavesServer interface {
+	Send(*GetLeavesRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetLeavesServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetLeavesServer) Send(m *GetLeavesRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1057,6 +1682,46 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "IsEmployeeExists",
 			Handler:    _CompanyService_IsEmployeeExists_Handler,
 		},
+		{
+			MethodName: "AddClient",
+			Handler:    _CompanyService_AddClient_Handler,
+		},
+		{
+			MethodName: "AssociateClientWithProject",
+			Handler:    _CompanyService_AssociateClientWithProject_Handler,
+		},
+		{
+			MethodName: "GetPastProjects",
+			Handler:    _CompanyService_GetPastProjects_Handler,
+		},
+		{
+			MethodName: "UpdateRevenueStatus",
+			Handler:    _CompanyService_UpdateRevenueStatus_Handler,
+		},
+		{
+			MethodName: "AttachCompanyPolicies",
+			Handler:    _CompanyService_AttachCompanyPolicies_Handler,
+		},
+		{
+			MethodName: "UpdatePaymentStatusofEmployee",
+			Handler:    _CompanyService_UpdatePaymentStatusofEmployee_Handler,
+		},
+		{
+			MethodName: "AssignProblem",
+			Handler:    _CompanyService_AssignProblem_Handler,
+		},
+		{
+			MethodName: "ResolveProblem",
+			Handler:    _CompanyService_ResolveProblem_Handler,
+		},
+		{
+			MethodName: "ApplyForLeave",
+			Handler:    _CompanyService_ApplyForLeave_Handler,
+		},
+		{
+			MethodName: "DecideEmployeeLeave",
+			Handler:    _CompanyService_DecideEmployeeLeave_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -1097,6 +1762,31 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetVisitors",
 			Handler:       _CompanyService_GetVisitors_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetLiveProjects",
+			Handler:       _CompanyService_GetLiveProjects_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetClients",
+			Handler:       _CompanyService_GetClients_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetRevenueGenerated",
+			Handler:       _CompanyService_GetRevenueGenerated_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetEmployeeLeaveRequests",
+			Handler:       _CompanyService_GetEmployeeLeaveRequests_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetLeaves",
+			Handler:       _CompanyService_GetLeaves_Handler,
 			ServerStreams: true,
 		},
 	},

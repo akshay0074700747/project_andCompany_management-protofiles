@@ -92,4 +92,5 @@ service UserService {
     rpc GetStreamofUserDetails(stream GetUserDetailsReq)returns(stream GetUserDetailsRes);
     rpc GetStreamofRoles(stream GetStreamofRolesReq)returns(GetStreamofRolesRes);
     rpc GetRole(GetRoleReq)returns(GetRoleRes);
+    
 }

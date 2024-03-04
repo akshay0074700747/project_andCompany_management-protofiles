@@ -190,6 +190,7 @@ message GetLiveProjectsRes {
     uint32 MembersWorking = 4;
     uint32 Progress = 5;
     string Version = 6;
+    string ClientID = 7;
 }
 
 message IsMemberAcceptedReq {
@@ -215,5 +216,4 @@ service ProjectService {
     rpc AddTaskStatuses(AddTaskStatusesReq)returns(google.protobuf.Empty);
     rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
     rpc IsMemberAccepted(IsMemberAcceptedReq)returns(google.protobuf.Empty);
-    
 }

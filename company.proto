@@ -167,8 +167,11 @@ message GetProblemsReq {
 }
 
 message GetProblemsRes {
-    string Problem = 1;
-    string RaisedBy = 2;
+    uint32 ProblemID = 1;
+    string Problem = 2;
+    string RaisedBy = 3;
+    bool IsAssigned = 4;
+    bool IsResolved = 5;
 }
 
 message GetProfileViewsReq {
@@ -211,6 +214,118 @@ message IsEmployeeExistsRes {
     bool exists = 1;
 }
 
+message AddClientReq {
+    string Email = 1;
+}
+
+message AssociateClientWithProjectReq {
+    string ClientID = 1;
+    string ProjectID = 2;
+    uint32 Contract = 3;
+    bool IsRecieved = 4;
+}
+
+message GetClientsReq {
+    string CompanyID = 1;
+}
+
+message GetClientsRes {
+    string ClientID = 1;
+    string Name  = 2;
+    string Email = 3;
+    repeated string ProjectIDs = 4;
+
+}
+
+message GetProjectsReq {
+    string companyID = 1;
+}
+
+message GetProjectsRes {
+    string ProjectID = 1;
+    string ProjectName = 2;
+    string Description = 3;
+    string ClientID = 4;
+}
+
+message GetRevenueGeneratedReq {
+    string CompanyID = 1;
+}
+
+message GetRevenueGeneratedRes {
+    string ProjectID = 1;
+    string ClientID = 2;
+    uint32 Revenue = 3;
+}
+
+message UpdateRevenueStatusReq {
+    string ProjectID = 1;
+    string ClientID = 2;
+    bool IsRecieved = 3;
+    string CompanyID = 4;
+}
+
+message AttachCompanyPoliciesReq {
+    string CompanyID = 1;
+    uint32 MaxleavesPerMonth = 2;
+    string PayDay = 3;
+    uint32 WorkingHoursPerday = 4;
+}
+
+message UpdatePaymentStatusofEmployeeReq {
+     string CompanyID = 1;
+     string EmployeeID = 2;
+     bool isPayed = 3;
+     string TransactionID = 4;
+}
+
+message AssignProblemReq {
+    string CompanyID = 1;
+    string EmployeeID = 2;
+    uint32 ProblemID = 3;
+}
+
+message ResolveProblemReq {
+    uint32 ProblemID = 1;
+    string CompanyID = 2;
+    string ResolverID = 3;
+}
+
+message ApplyForLeaveReq {
+    string Date = 1;
+    string EmployeeID = 2;
+    string CompanyID = 3;
+    string Description = 4;
+}
+
+message GetEmployeeLeaveRequestsReq {
+    string CompanyID = 1;
+}
+
+message GetEmployeeLeaveRequestsRes {
+    uint32 LeaveID = 1;
+    string Date = 2;
+    string EmployeeID = 3;
+    string Description = 4;
+}
+
+message DecideEmployeeLeaveRequest {
+    uint32 LeaveID = 1;
+    bool IsAllowed = 2;
+}
+
+message GetLeavesReq {
+    string CompanyID = 1;
+    string From = 2;
+    string To = 3;
+}
+
+message GetLeavesRes{
+    string EmployeeID = 1;
+    string Date = 2;
+    string Description = 3;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -234,5 +349,20 @@ service CompanyService {
     rpc GetVisitors(GetVisitorsReq)returns(stream GetVisitorsRes);
     rpc GetPermission(GetPermisssionReq)returns(GetPermisssionRes);
     rpc IsEmployeeExists(IsEmployeeExistsReq)returns(IsEmployeeExistsRes);
+    rpc AddClient(AddClientReq)returns(google.protobuf.Empty);
+    rpc AssociateClientWithProject(AssociateClientWithProjectReq)returns(google.protobuf.Empty);
+    rpc GetLiveProjects(GetProjectsReq)returns(stream GetProjectsRes);
+    rpc GetPastProjects(GetProjectsReq)returns(GetProjectsRes);
+    rpc GetClients(GetClientsReq)returns(stream GetClientsRes);
+    rpc GetRevenueGenerated(GetRevenueGeneratedReq)returns(stream GetRevenueGeneratedRes);
+    rpc UpdateRevenueStatus(UpdateRevenueStatusReq)returns(google.protobuf.Empty);
+    rpc AttachCompanyPolicies(AttachCompanyPoliciesReq)returns(google.protobuf.Empty);
+    rpc UpdatePaymentStatusofEmployee(UpdatePaymentStatusofEmployeeReq)returns(google.protobuf.Empty);
+    rpc AssignProblem(AssignProblemReq)returns(google.protobuf.Empty);
+    rpc ResolveProblem(ResolveProblemReq)returns(google.protobuf.Empty);
+    rpc ApplyForLeave(ApplyForLeaveReq)returns(google.protobuf.Empty);
+    rpc GetEmployeeLeaveRequests(GetEmployeeLeaveRequestsReq)returns(stream GetEmployeeLeaveRequestsRes);
+    rpc DecideEmployeeLeave(DecideEmployeeLeaveRequest)returns(google.protobuf.Empty);
+    rpc GetLeaves(GetLeavesReq)returns(stream GetLeavesRes);
 }
 
