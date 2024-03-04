@@ -269,7 +269,7 @@ message UpdateRevenueStatusReq {
 message AttachCompanyPoliciesReq {
     string CompanyID = 1;
     uint32 MaxleavesPerMonth = 2;
-    string PayDay = 3;
+    uint32 PayDay = 3;
     uint32 WorkingHoursPerday = 4;
 }
 
