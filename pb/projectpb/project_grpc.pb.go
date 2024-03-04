@@ -37,6 +37,7 @@ const (
 	ProjectService_AddTaskStatuses_FullMethodName            = "/project.ProjectService/AddTaskStatuses"
 	ProjectService_GetLiveProjects_FullMethodName            = "/project.ProjectService/GetLiveProjects"
 	ProjectService_IsMemberAccepted_FullMethodName           = "/project.ProjectService/IsMemberAccepted"
+	ProjectService_GetStreamofProjectDetails_FullMethodName  = "/project.ProjectService/GetStreamofProjectDetails"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -60,6 +61,7 @@ type ProjectServiceClient interface {
 	AddTaskStatuses(ctx context.Context, in *AddTaskStatusesReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetLiveProjects(ctx context.Context, in *GetLiveProjectsReq, opts ...grpc.CallOption) (ProjectService_GetLiveProjectsClient, error)
 	IsMemberAccepted(ctx context.Context, in *IsMemberAcceptedReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetStreamofProjectDetails(ctx context.Context, opts ...grpc.CallOption) (ProjectService_GetStreamofProjectDetailsClient, error)
 }
 
 type projectServiceClient struct {
@@ -315,6 +317,37 @@ func (c *projectServiceClient) IsMemberAccepted(ctx context.Context, in *IsMembe
 	return out, nil
 }
 
+func (c *projectServiceClient) GetStreamofProjectDetails(ctx context.Context, opts ...grpc.CallOption) (ProjectService_GetStreamofProjectDetailsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[4], ProjectService_GetStreamofProjectDetails_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetStreamofProjectDetailsClient{stream}
+	return x, nil
+}
+
+type ProjectService_GetStreamofProjectDetailsClient interface {
+	Send(*GetStreamofProjectDetailsReq) error
+	Recv() (*GetProjectDetailesRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetStreamofProjectDetailsClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetStreamofProjectDetailsClient) Send(m *GetStreamofProjectDetailsReq) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *projectServiceGetStreamofProjectDetailsClient) Recv() (*GetProjectDetailesRes, error) {
+	m := new(GetProjectDetailesRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -336,6 +369,7 @@ type ProjectServiceServer interface {
 	AddTaskStatuses(context.Context, *AddTaskStatusesReq) (*empty.Empty, error)
 	GetLiveProjects(*GetLiveProjectsReq, ProjectService_GetLiveProjectsServer) error
 	IsMemberAccepted(context.Context, *IsMemberAcceptedReq) (*empty.Empty, error)
+	GetStreamofProjectDetails(ProjectService_GetStreamofProjectDetailsServer) error
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -393,6 +427,9 @@ func (UnimplementedProjectServiceServer) GetLiveProjects(*GetLiveProjectsReq, Pr
 }
 func (UnimplementedProjectServiceServer) IsMemberAccepted(context.Context, *IsMemberAcceptedReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsMemberAccepted not implemented")
+}
+func (UnimplementedProjectServiceServer) GetStreamofProjectDetails(ProjectService_GetStreamofProjectDetailsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetStreamofProjectDetails not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -725,6 +762,32 @@ func _ProjectService_IsMemberAccepted_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetStreamofProjectDetails_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ProjectServiceServer).GetStreamofProjectDetails(&projectServiceGetStreamofProjectDetailsServer{stream})
+}
+
+type ProjectService_GetStreamofProjectDetailsServer interface {
+	Send(*GetProjectDetailesRes) error
+	Recv() (*GetStreamofProjectDetailsReq, error)
+	grpc.ServerStream
+}
+
+type projectServiceGetStreamofProjectDetailsServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetStreamofProjectDetailsServer) Send(m *GetProjectDetailesRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *projectServiceGetStreamofProjectDetailsServer) Recv() (*GetStreamofProjectDetailsReq, error) {
+	m := new(GetStreamofProjectDetailsReq)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -805,6 +868,12 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "GetLiveProjects",
 			Handler:       _ProjectService_GetLiveProjects_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetStreamofProjectDetails",
+			Handler:       _ProjectService_GetStreamofProjectDetails_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "project.proto",

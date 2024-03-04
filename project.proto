@@ -198,6 +198,17 @@ message IsMemberAcceptedReq {
     string ProjectID = 2;
 }
 
+message GetStreamofProjectDetailsReq {
+    string ProjectID = 1;
+}
+
+message GetStreamofProjectDetailsRes {
+    string ProjectID = 1;
+    string Name = 2;
+    string Description = 3;
+    string ProjectUsername = 4;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -216,4 +227,5 @@ service ProjectService {
     rpc AddTaskStatuses(AddTaskStatusesReq)returns(google.protobuf.Empty);
     rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
     rpc IsMemberAccepted(IsMemberAcceptedReq)returns(google.protobuf.Empty);
+    rpc GetStreamofProjectDetails(stream GetStreamofProjectDetailsReq)returns(stream GetProjectDetailesRes);
 }
