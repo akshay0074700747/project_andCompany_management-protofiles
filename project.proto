@@ -209,6 +209,113 @@ message GetStreamofProjectDetailsRes {
     string ProjectUsername = 4;
 }
 
+message GetCompletedMembersReq {
+    string ProjectID = 1;
+}
+
+message GetCompletedMembersRes {
+    string UserID = 1;
+    string Email = 2;
+    string Name = 3;
+    bool IsVerified = 4;
+}
+
+message GetCriticalMembersReq {
+    string ProjectID = 1;
+}
+
+message GetCriticalMembersRes {
+    string UserID = 1;
+    string Email = 2;
+    string Name = 3;
+    string Completed = 4;
+}
+
+message RaiseIssueReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+    string Description = 3;
+    string RaiserID = 4;
+}
+
+message GetIssuesofProjectReq {
+    string ProjectID = 1;
+}
+
+message GetIssuesofProjectRes {
+    string MemberID = 1;
+    string Email = 2;
+    string Name = 3;
+    string RaisedBy = 4;
+    string Description = 5;
+}
+
+message GetIssuesReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+}
+
+message GetIssuesRes {
+    string RaisedBy = 1;
+    string Description = 2;
+}
+
+message RateTaskReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+    float Rating = 3;
+    string Feedback = 4;
+}
+
+message GetVerifiedTasksReq {
+    string ProjectID = 1;
+}
+
+message GetVerifiedTasksRes {
+    string MemberID = 1;
+    float Rating = 2;
+    string Feedback = 3;
+}
+
+message GetfeedBackforTaskReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+}
+
+message GetfeedBackforTaskRes {
+    float Rating = 1;
+    string Feedback = 2;
+}
+
+message RequestforDeadlineExtensionReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+    string ExetendTo = 3;
+    string Description = 4;
+}
+
+message GetExtensionRequestsReq {
+    string ProjectID = 1;
+}
+
+message GetExtensionRequestsRes {
+    uint32 ID = 1;
+    string MemberID = 2;
+    string ExetendTo = 3;
+    string Description = 4;
+}
+
+message GrantExtensionReq {
+    uint32 ID = 1;
+    bool IsApproved = 2;
+}
+
+message VerifyTaskCompletionReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+    bool Verified = 3;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -228,4 +335,16 @@ service ProjectService {
     rpc GetLiveProjects(GetLiveProjectsReq)returns(stream GetLiveProjectsRes);
     rpc IsMemberAccepted(IsMemberAcceptedReq)returns(google.protobuf.Empty);
     rpc GetStreamofProjectDetails(stream GetStreamofProjectDetailsReq)returns(stream GetProjectDetailesRes);
+    rpc GetCompletedMembers(GetCompletedMembersReq)returns(stream GetCompletedMembersRes);
+    rpc GetCriticalMembers(GetCriticalMembersReq)returns(stream GetCriticalMembersRes);
+    rpc RaiseIssue(RaiseIssueReq)returns(google.protobuf.Empty);
+    rpc GetIssues(GetIssuesReq)returns(GetIssuesRes);
+    rpc GetIssuesofProject(GetIssuesofProjectReq)returns(stream GetIssuesofProjectRes);
+    rpc RateTask(RateTaskReq)returns(google.protobuf.Empty);
+    rpc GetfeedBackforTask(GetfeedBackforTaskReq)returns(GetfeedBackforTaskRes);
+    rpc RequestforDeadlineExtension(RequestforDeadlineExtensionReq)returns(google.protobuf.Empty);
+    rpc GetExtensionRequests(GetExtensionRequestsReq)returns(stream GetExtensionRequestsRes);
+    rpc GrantExtension(GrantExtensionReq)returns(google.protobuf.Empty);
+    rpc VerifyTaskCompletion(VerifyTaskCompletionReq)returns(google.protobuf.Empty);
+    rpc GetVerifiedTasks(GetVerifiedTasksReq)returns(stream GetVerifiedTasksRes);
 }

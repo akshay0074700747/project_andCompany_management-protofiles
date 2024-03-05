@@ -20,24 +20,36 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ProjectService_CreateProject_FullMethodName              = "/project.ProjectService/CreateProject"
-	ProjectService_AddMembers_FullMethodName                 = "/project.ProjectService/AddMembers"
-	ProjectService_ProjectInvites_FullMethodName             = "/project.ProjectService/ProjectInvites"
-	ProjectService_AcceptProjectInvite_FullMethodName        = "/project.ProjectService/AcceptProjectInvite"
-	ProjectService_GetProjectDetailes_FullMethodName         = "/project.ProjectService/GetProjectDetailes"
-	ProjectService_GetProjectMembers_FullMethodName          = "/project.ProjectService/GetProjectMembers"
-	ProjectService_LogintoProject_FullMethodName             = "/project.ProjectService/LogintoProject"
-	ProjectService_AddMemberStatus_FullMethodName            = "/project.ProjectService/AddMemberStatus"
-	ProjectService_GetAssignedTask_FullMethodName            = "/project.ProjectService/GetAssignedTask"
-	ProjectService_DownloadTask_FullMethodName               = "/project.ProjectService/DownloadTask"
-	ProjectService_GetProgressofMembers_FullMethodName       = "/project.ProjectService/GetProgressofMembers"
-	ProjectService_GetProgressofMember_FullMethodName        = "/project.ProjectService/GetProgressofMember"
-	ProjectService_GetProjectProgress_FullMethodName         = "/project.ProjectService/GetProjectProgress"
-	ProjectService_MarkProgressofNonTechnical_FullMethodName = "/project.ProjectService/MarkProgressofNonTechnical"
-	ProjectService_AddTaskStatuses_FullMethodName            = "/project.ProjectService/AddTaskStatuses"
-	ProjectService_GetLiveProjects_FullMethodName            = "/project.ProjectService/GetLiveProjects"
-	ProjectService_IsMemberAccepted_FullMethodName           = "/project.ProjectService/IsMemberAccepted"
-	ProjectService_GetStreamofProjectDetails_FullMethodName  = "/project.ProjectService/GetStreamofProjectDetails"
+	ProjectService_CreateProject_FullMethodName               = "/project.ProjectService/CreateProject"
+	ProjectService_AddMembers_FullMethodName                  = "/project.ProjectService/AddMembers"
+	ProjectService_ProjectInvites_FullMethodName              = "/project.ProjectService/ProjectInvites"
+	ProjectService_AcceptProjectInvite_FullMethodName         = "/project.ProjectService/AcceptProjectInvite"
+	ProjectService_GetProjectDetailes_FullMethodName          = "/project.ProjectService/GetProjectDetailes"
+	ProjectService_GetProjectMembers_FullMethodName           = "/project.ProjectService/GetProjectMembers"
+	ProjectService_LogintoProject_FullMethodName              = "/project.ProjectService/LogintoProject"
+	ProjectService_AddMemberStatus_FullMethodName             = "/project.ProjectService/AddMemberStatus"
+	ProjectService_GetAssignedTask_FullMethodName             = "/project.ProjectService/GetAssignedTask"
+	ProjectService_DownloadTask_FullMethodName                = "/project.ProjectService/DownloadTask"
+	ProjectService_GetProgressofMembers_FullMethodName        = "/project.ProjectService/GetProgressofMembers"
+	ProjectService_GetProgressofMember_FullMethodName         = "/project.ProjectService/GetProgressofMember"
+	ProjectService_GetProjectProgress_FullMethodName          = "/project.ProjectService/GetProjectProgress"
+	ProjectService_MarkProgressofNonTechnical_FullMethodName  = "/project.ProjectService/MarkProgressofNonTechnical"
+	ProjectService_AddTaskStatuses_FullMethodName             = "/project.ProjectService/AddTaskStatuses"
+	ProjectService_GetLiveProjects_FullMethodName             = "/project.ProjectService/GetLiveProjects"
+	ProjectService_IsMemberAccepted_FullMethodName            = "/project.ProjectService/IsMemberAccepted"
+	ProjectService_GetStreamofProjectDetails_FullMethodName   = "/project.ProjectService/GetStreamofProjectDetails"
+	ProjectService_GetCompletedMembers_FullMethodName         = "/project.ProjectService/GetCompletedMembers"
+	ProjectService_GetCriticalMembers_FullMethodName          = "/project.ProjectService/GetCriticalMembers"
+	ProjectService_RaiseIssue_FullMethodName                  = "/project.ProjectService/RaiseIssue"
+	ProjectService_GetIssues_FullMethodName                   = "/project.ProjectService/GetIssues"
+	ProjectService_GetIssuesofProject_FullMethodName          = "/project.ProjectService/GetIssuesofProject"
+	ProjectService_RateTask_FullMethodName                    = "/project.ProjectService/RateTask"
+	ProjectService_GetfeedBackforTask_FullMethodName          = "/project.ProjectService/GetfeedBackforTask"
+	ProjectService_RequestforDeadlineExtension_FullMethodName = "/project.ProjectService/RequestforDeadlineExtension"
+	ProjectService_GetExtensionRequests_FullMethodName        = "/project.ProjectService/GetExtensionRequests"
+	ProjectService_GrantExtension_FullMethodName              = "/project.ProjectService/GrantExtension"
+	ProjectService_VerifyTaskCompletion_FullMethodName        = "/project.ProjectService/VerifyTaskCompletion"
+	ProjectService_GetVerifiedTasks_FullMethodName            = "/project.ProjectService/GetVerifiedTasks"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -62,6 +74,18 @@ type ProjectServiceClient interface {
 	GetLiveProjects(ctx context.Context, in *GetLiveProjectsReq, opts ...grpc.CallOption) (ProjectService_GetLiveProjectsClient, error)
 	IsMemberAccepted(ctx context.Context, in *IsMemberAcceptedReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetStreamofProjectDetails(ctx context.Context, opts ...grpc.CallOption) (ProjectService_GetStreamofProjectDetailsClient, error)
+	GetCompletedMembers(ctx context.Context, in *GetCompletedMembersReq, opts ...grpc.CallOption) (ProjectService_GetCompletedMembersClient, error)
+	GetCriticalMembers(ctx context.Context, in *GetCriticalMembersReq, opts ...grpc.CallOption) (ProjectService_GetCriticalMembersClient, error)
+	RaiseIssue(ctx context.Context, in *RaiseIssueReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetIssues(ctx context.Context, in *GetIssuesReq, opts ...grpc.CallOption) (*GetIssuesRes, error)
+	GetIssuesofProject(ctx context.Context, in *GetIssuesofProjectReq, opts ...grpc.CallOption) (ProjectService_GetIssuesofProjectClient, error)
+	RateTask(ctx context.Context, in *RateTaskReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetfeedBackforTask(ctx context.Context, in *GetfeedBackforTaskReq, opts ...grpc.CallOption) (*GetfeedBackforTaskRes, error)
+	RequestforDeadlineExtension(ctx context.Context, in *RequestforDeadlineExtensionReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetExtensionRequests(ctx context.Context, in *GetExtensionRequestsReq, opts ...grpc.CallOption) (ProjectService_GetExtensionRequestsClient, error)
+	GrantExtension(ctx context.Context, in *GrantExtensionReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	VerifyTaskCompletion(ctx context.Context, in *VerifyTaskCompletionReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetVerifiedTasks(ctx context.Context, in *GetVerifiedTasksReq, opts ...grpc.CallOption) (ProjectService_GetVerifiedTasksClient, error)
 }
 
 type projectServiceClient struct {
@@ -348,6 +372,229 @@ func (x *projectServiceGetStreamofProjectDetailsClient) Recv() (*GetProjectDetai
 	return m, nil
 }
 
+func (c *projectServiceClient) GetCompletedMembers(ctx context.Context, in *GetCompletedMembersReq, opts ...grpc.CallOption) (ProjectService_GetCompletedMembersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[5], ProjectService_GetCompletedMembers_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetCompletedMembersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetCompletedMembersClient interface {
+	Recv() (*GetCompletedMembersRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetCompletedMembersClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetCompletedMembersClient) Recv() (*GetCompletedMembersRes, error) {
+	m := new(GetCompletedMembersRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *projectServiceClient) GetCriticalMembers(ctx context.Context, in *GetCriticalMembersReq, opts ...grpc.CallOption) (ProjectService_GetCriticalMembersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[6], ProjectService_GetCriticalMembers_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetCriticalMembersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetCriticalMembersClient interface {
+	Recv() (*GetCriticalMembersRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetCriticalMembersClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetCriticalMembersClient) Recv() (*GetCriticalMembersRes, error) {
+	m := new(GetCriticalMembersRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *projectServiceClient) RaiseIssue(ctx context.Context, in *RaiseIssueReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_RaiseIssue_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetIssues(ctx context.Context, in *GetIssuesReq, opts ...grpc.CallOption) (*GetIssuesRes, error) {
+	out := new(GetIssuesRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetIssues_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetIssuesofProject(ctx context.Context, in *GetIssuesofProjectReq, opts ...grpc.CallOption) (ProjectService_GetIssuesofProjectClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[7], ProjectService_GetIssuesofProject_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetIssuesofProjectClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetIssuesofProjectClient interface {
+	Recv() (*GetIssuesofProjectRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetIssuesofProjectClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetIssuesofProjectClient) Recv() (*GetIssuesofProjectRes, error) {
+	m := new(GetIssuesofProjectRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *projectServiceClient) RateTask(ctx context.Context, in *RateTaskReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_RateTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetfeedBackforTask(ctx context.Context, in *GetfeedBackforTaskReq, opts ...grpc.CallOption) (*GetfeedBackforTaskRes, error) {
+	out := new(GetfeedBackforTaskRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetfeedBackforTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) RequestforDeadlineExtension(ctx context.Context, in *RequestforDeadlineExtensionReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_RequestforDeadlineExtension_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetExtensionRequests(ctx context.Context, in *GetExtensionRequestsReq, opts ...grpc.CallOption) (ProjectService_GetExtensionRequestsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[8], ProjectService_GetExtensionRequests_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetExtensionRequestsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetExtensionRequestsClient interface {
+	Recv() (*GetExtensionRequestsRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetExtensionRequestsClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetExtensionRequestsClient) Recv() (*GetExtensionRequestsRes, error) {
+	m := new(GetExtensionRequestsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *projectServiceClient) GrantExtension(ctx context.Context, in *GrantExtensionReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_GrantExtension_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) VerifyTaskCompletion(ctx context.Context, in *VerifyTaskCompletionReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_VerifyTaskCompletion_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) GetVerifiedTasks(ctx context.Context, in *GetVerifiedTasksReq, opts ...grpc.CallOption) (ProjectService_GetVerifiedTasksClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ProjectService_ServiceDesc.Streams[9], ProjectService_GetVerifiedTasks_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &projectServiceGetVerifiedTasksClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ProjectService_GetVerifiedTasksClient interface {
+	Recv() (*GetVerifiedTasksRes, error)
+	grpc.ClientStream
+}
+
+type projectServiceGetVerifiedTasksClient struct {
+	grpc.ClientStream
+}
+
+func (x *projectServiceGetVerifiedTasksClient) Recv() (*GetVerifiedTasksRes, error) {
+	m := new(GetVerifiedTasksRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -370,6 +617,18 @@ type ProjectServiceServer interface {
 	GetLiveProjects(*GetLiveProjectsReq, ProjectService_GetLiveProjectsServer) error
 	IsMemberAccepted(context.Context, *IsMemberAcceptedReq) (*empty.Empty, error)
 	GetStreamofProjectDetails(ProjectService_GetStreamofProjectDetailsServer) error
+	GetCompletedMembers(*GetCompletedMembersReq, ProjectService_GetCompletedMembersServer) error
+	GetCriticalMembers(*GetCriticalMembersReq, ProjectService_GetCriticalMembersServer) error
+	RaiseIssue(context.Context, *RaiseIssueReq) (*empty.Empty, error)
+	GetIssues(context.Context, *GetIssuesReq) (*GetIssuesRes, error)
+	GetIssuesofProject(*GetIssuesofProjectReq, ProjectService_GetIssuesofProjectServer) error
+	RateTask(context.Context, *RateTaskReq) (*empty.Empty, error)
+	GetfeedBackforTask(context.Context, *GetfeedBackforTaskReq) (*GetfeedBackforTaskRes, error)
+	RequestforDeadlineExtension(context.Context, *RequestforDeadlineExtensionReq) (*empty.Empty, error)
+	GetExtensionRequests(*GetExtensionRequestsReq, ProjectService_GetExtensionRequestsServer) error
+	GrantExtension(context.Context, *GrantExtensionReq) (*empty.Empty, error)
+	VerifyTaskCompletion(context.Context, *VerifyTaskCompletionReq) (*empty.Empty, error)
+	GetVerifiedTasks(*GetVerifiedTasksReq, ProjectService_GetVerifiedTasksServer) error
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -430,6 +689,42 @@ func (UnimplementedProjectServiceServer) IsMemberAccepted(context.Context, *IsMe
 }
 func (UnimplementedProjectServiceServer) GetStreamofProjectDetails(ProjectService_GetStreamofProjectDetailsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetStreamofProjectDetails not implemented")
+}
+func (UnimplementedProjectServiceServer) GetCompletedMembers(*GetCompletedMembersReq, ProjectService_GetCompletedMembersServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetCompletedMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) GetCriticalMembers(*GetCriticalMembersReq, ProjectService_GetCriticalMembersServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetCriticalMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) RaiseIssue(context.Context, *RaiseIssueReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RaiseIssue not implemented")
+}
+func (UnimplementedProjectServiceServer) GetIssues(context.Context, *GetIssuesReq) (*GetIssuesRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetIssues not implemented")
+}
+func (UnimplementedProjectServiceServer) GetIssuesofProject(*GetIssuesofProjectReq, ProjectService_GetIssuesofProjectServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetIssuesofProject not implemented")
+}
+func (UnimplementedProjectServiceServer) RateTask(context.Context, *RateTaskReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RateTask not implemented")
+}
+func (UnimplementedProjectServiceServer) GetfeedBackforTask(context.Context, *GetfeedBackforTaskReq) (*GetfeedBackforTaskRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetfeedBackforTask not implemented")
+}
+func (UnimplementedProjectServiceServer) RequestforDeadlineExtension(context.Context, *RequestforDeadlineExtensionReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestforDeadlineExtension not implemented")
+}
+func (UnimplementedProjectServiceServer) GetExtensionRequests(*GetExtensionRequestsReq, ProjectService_GetExtensionRequestsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetExtensionRequests not implemented")
+}
+func (UnimplementedProjectServiceServer) GrantExtension(context.Context, *GrantExtensionReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GrantExtension not implemented")
+}
+func (UnimplementedProjectServiceServer) VerifyTaskCompletion(context.Context, *VerifyTaskCompletionReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyTaskCompletion not implemented")
+}
+func (UnimplementedProjectServiceServer) GetVerifiedTasks(*GetVerifiedTasksReq, ProjectService_GetVerifiedTasksServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetVerifiedTasks not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -788,6 +1083,237 @@ func (x *projectServiceGetStreamofProjectDetailsServer) Recv() (*GetStreamofProj
 	return m, nil
 }
 
+func _ProjectService_GetCompletedMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetCompletedMembersReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetCompletedMembers(m, &projectServiceGetCompletedMembersServer{stream})
+}
+
+type ProjectService_GetCompletedMembersServer interface {
+	Send(*GetCompletedMembersRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetCompletedMembersServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetCompletedMembersServer) Send(m *GetCompletedMembersRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ProjectService_GetCriticalMembers_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetCriticalMembersReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetCriticalMembers(m, &projectServiceGetCriticalMembersServer{stream})
+}
+
+type ProjectService_GetCriticalMembersServer interface {
+	Send(*GetCriticalMembersRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetCriticalMembersServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetCriticalMembersServer) Send(m *GetCriticalMembersRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ProjectService_RaiseIssue_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RaiseIssueReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).RaiseIssue(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_RaiseIssue_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).RaiseIssue(ctx, req.(*RaiseIssueReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetIssues_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetIssuesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetIssues(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetIssues_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetIssues(ctx, req.(*GetIssuesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetIssuesofProject_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetIssuesofProjectReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetIssuesofProject(m, &projectServiceGetIssuesofProjectServer{stream})
+}
+
+type ProjectService_GetIssuesofProjectServer interface {
+	Send(*GetIssuesofProjectRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetIssuesofProjectServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetIssuesofProjectServer) Send(m *GetIssuesofProjectRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ProjectService_RateTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RateTaskReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).RateTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_RateTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).RateTask(ctx, req.(*RateTaskReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetfeedBackforTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetfeedBackforTaskReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetfeedBackforTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetfeedBackforTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetfeedBackforTask(ctx, req.(*GetfeedBackforTaskReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_RequestforDeadlineExtension_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestforDeadlineExtensionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).RequestforDeadlineExtension(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_RequestforDeadlineExtension_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).RequestforDeadlineExtension(ctx, req.(*RequestforDeadlineExtensionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetExtensionRequests_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetExtensionRequestsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetExtensionRequests(m, &projectServiceGetExtensionRequestsServer{stream})
+}
+
+type ProjectService_GetExtensionRequestsServer interface {
+	Send(*GetExtensionRequestsRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetExtensionRequestsServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetExtensionRequestsServer) Send(m *GetExtensionRequestsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ProjectService_GrantExtension_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GrantExtensionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GrantExtension(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GrantExtension_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GrantExtension(ctx, req.(*GrantExtensionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_VerifyTaskCompletion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyTaskCompletionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).VerifyTaskCompletion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_VerifyTaskCompletion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).VerifyTaskCompletion(ctx, req.(*VerifyTaskCompletionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_GetVerifiedTasks_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetVerifiedTasksReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ProjectServiceServer).GetVerifiedTasks(m, &projectServiceGetVerifiedTasksServer{stream})
+}
+
+type ProjectService_GetVerifiedTasksServer interface {
+	Send(*GetVerifiedTasksRes) error
+	grpc.ServerStream
+}
+
+type projectServiceGetVerifiedTasksServer struct {
+	grpc.ServerStream
+}
+
+func (x *projectServiceGetVerifiedTasksServer) Send(m *GetVerifiedTasksRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -847,6 +1373,34 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "IsMemberAccepted",
 			Handler:    _ProjectService_IsMemberAccepted_Handler,
 		},
+		{
+			MethodName: "RaiseIssue",
+			Handler:    _ProjectService_RaiseIssue_Handler,
+		},
+		{
+			MethodName: "GetIssues",
+			Handler:    _ProjectService_GetIssues_Handler,
+		},
+		{
+			MethodName: "RateTask",
+			Handler:    _ProjectService_RateTask_Handler,
+		},
+		{
+			MethodName: "GetfeedBackforTask",
+			Handler:    _ProjectService_GetfeedBackforTask_Handler,
+		},
+		{
+			MethodName: "RequestforDeadlineExtension",
+			Handler:    _ProjectService_RequestforDeadlineExtension_Handler,
+		},
+		{
+			MethodName: "GrantExtension",
+			Handler:    _ProjectService_GrantExtension_Handler,
+		},
+		{
+			MethodName: "VerifyTaskCompletion",
+			Handler:    _ProjectService_VerifyTaskCompletion_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -874,6 +1428,31 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 			Handler:       _ProjectService_GetStreamofProjectDetails_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
+		},
+		{
+			StreamName:    "GetCompletedMembers",
+			Handler:       _ProjectService_GetCompletedMembers_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetCriticalMembers",
+			Handler:       _ProjectService_GetCriticalMembers_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetIssuesofProject",
+			Handler:       _ProjectService_GetIssuesofProject_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetExtensionRequests",
+			Handler:       _ProjectService_GetExtensionRequests_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetVerifiedTasks",
+			Handler:       _ProjectService_GetVerifiedTasks_Handler,
+			ServerStreams: true,
 		},
 	},
 	Metadata: "project.proto",
