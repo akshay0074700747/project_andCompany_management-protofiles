@@ -336,6 +336,105 @@ message GetStreamofClientsRes {
     string ClientID = 1;
 }
 
+message PostJobsReq {
+    string CompanyID = 1;
+    string Role = 2;
+    uint32 Vacancy = 3;
+    string Description = 4;
+    uint32 MinExperiance = 5;
+    float MinExpectedCTC = 6;
+    float MaxExpectedCTC = 7;
+    bool IsRemote = 8;
+    Address JobLocation = 9;
+}
+
+message GetJobsofCompanyReq {
+    string CompanyID = 1;
+}
+
+message GetJobsofCompanyRes {
+    string JobID = 1;
+    string Role = 2;
+    uint32 Vacancy = 3;
+    string Description = 4;
+    uint32 MinExperiance = 5;
+    float MinExpectedCTC = 6;
+    float MaxExpectedCTC = 7;
+    bool IsRemote = 8;
+    Address JobLocation = 9;
+    uint32 TotalPersonsApplied = 10;
+}
+
+message GetJobApplicationsReq {
+    string CompanyID = 1;
+    string JobID = 2;
+}
+
+message GetJobApplicationsRes {
+    string ApplicationID = 1;
+    string Name = 2;
+    string Email = 3;
+    string Mobile = 4;
+    Address AddressofApplicant = 5;
+    string ResumeID = 6;
+    string HighestEducation = 7;
+    string Nationality = 8;
+    uint32 Experiance = 9;
+    float CurrentCTC = 10;
+}
+
+message ShortlistApplicationsReq {
+    string CompanyID = 1;
+    string ApplicationID = 2;
+}
+
+message GetShortlistedApplicationsReq {
+    string CompanyID = 1;
+    string JobID = 2;
+}
+
+message GetShortlistedApplicationsRes {
+    string ApplicationID = 1;
+    string Name = 2;
+    string Email = 3;
+    string Mobile = 4;
+    Address AddressofApplicant = 5;
+    string ResumeID = 6;
+    string HighestEducation = 7;
+    string Nationality = 8;
+    uint32 Experiance = 9;
+    float CurrentCTC = 10;
+}
+
+message GetJobsReq {
+    string CompanyID = 1;
+    string Role = 2;
+    string City = 3;
+}
+
+message GetJobsRes {
+    string CompanyID = 1;
+    string Role = 2;
+    uint32 Vacancy = 3;
+    string Description = 4;
+    uint32 MinExperiance = 5;
+    float MinExpectedCTC = 6;
+    float MaxExpectedCTC = 7;
+    bool IsRemote = 8;
+    Address JobLocation = 9;
+}
+
+message GetAllJobApplicationsofUserReq {
+    string UserID = 1;
+}
+
+message GetAllJobApplicationsofUserRes {
+    string ApplicationID = 1;
+    string Status = 2;
+    string CompanyID = 3;
+    string Role = 4;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -374,5 +473,12 @@ service CompanyService {
     rpc DecideEmployeeLeave(DecideEmployeeLeaveRequest)returns(google.protobuf.Empty);
     rpc GetLeaves(GetLeavesReq)returns(stream GetLeavesRes);
     rpc GetStreamofClients(stream GetStreamofClientsReq)returns(stream GetStreamofClientsRes);
+    rpc PostJobs(PostJobsReq)returns(google.protobuf.Empty);
+    rpc GetJobsofCompany(GetJobsofCompanyReq)returns(stream GetJobsofCompanyRes);
+    rpc GetJobApplications(GetJobApplicationsReq)returns(stream GetJobApplicationsRes);
+    rpc ShortlistApplications(ShortlistApplicationsReq)returns(google.protobuf.Empty);
+    rpc GetShortlistedApplications(GetShortlistedApplicationsReq)returns(stream GetShortlistedApplicationsRes);
+    rpc GetJobs(GetJobsReq)returns(stream GetJobsRes);
+    rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(GetAllJobApplicationsofUserRes);
 }
 
