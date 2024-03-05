@@ -61,6 +61,11 @@ const (
 	CompanyService_GetJobsofCompany_FullMethodName                = "/company.CompanyService/GetJobsofCompany"
 	CompanyService_GetJobApplications_FullMethodName              = "/company.CompanyService/GetJobApplications"
 	CompanyService_ShortlistApplications_FullMethodName           = "/company.CompanyService/ShortlistApplications"
+	CompanyService_ScheduleInterview_FullMethodName               = "/company.CompanyService/ScheduleInterview"
+	CompanyService_GetScheduledInterviews_FullMethodName          = "/company.CompanyService/GetScheduledInterviews"
+	CompanyService_GetDetailsofApplicationByID_FullMethodName     = "/company.CompanyService/GetDetailsofApplicationByID"
+	CompanyService_GetScheduledInterviewsofUser_FullMethodName    = "/company.CompanyService/GetScheduledInterviewsofUser"
+	CompanyService_RescheduleInterview_FullMethodName             = "/company.CompanyService/RescheduleInterview"
 	CompanyService_GetShortlistedApplications_FullMethodName      = "/company.CompanyService/GetShortlistedApplications"
 	CompanyService_GetJobs_FullMethodName                         = "/company.CompanyService/GetJobs"
 	CompanyService_GetAllJobApplicationsofUser_FullMethodName     = "/company.CompanyService/GetAllJobApplicationsofUser"
@@ -111,6 +116,11 @@ type CompanyServiceClient interface {
 	GetJobsofCompany(ctx context.Context, in *GetJobsofCompanyReq, opts ...grpc.CallOption) (CompanyService_GetJobsofCompanyClient, error)
 	GetJobApplications(ctx context.Context, in *GetJobApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetJobApplicationsClient, error)
 	ShortlistApplications(ctx context.Context, in *ShortlistApplicationsReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	ScheduleInterview(ctx context.Context, in *ScheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetScheduledInterviews(ctx context.Context, in *GetScheduledInterviewsReq, opts ...grpc.CallOption) (CompanyService_GetScheduledInterviewsClient, error)
+	GetDetailsofApplicationByID(ctx context.Context, in *GetDetailsofApplicationByIDReq, opts ...grpc.CallOption) (*GetDetailsofApplicationByIDRes, error)
+	GetScheduledInterviewsofUser(ctx context.Context, in *GetScheduledInterviewsofUserReq, opts ...grpc.CallOption) (*GetScheduledInterviewsofUserRes, error)
+	RescheduleInterview(ctx context.Context, in *RescheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetShortlistedApplications(ctx context.Context, in *GetShortlistedApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetShortlistedApplicationsClient, error)
 	GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error)
 	GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (*GetAllJobApplicationsofUserRes, error)
@@ -860,8 +870,76 @@ func (c *companyServiceClient) ShortlistApplications(ctx context.Context, in *Sh
 	return out, nil
 }
 
+func (c *companyServiceClient) ScheduleInterview(ctx context.Context, in *ScheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_ScheduleInterview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) GetScheduledInterviews(ctx context.Context, in *GetScheduledInterviewsReq, opts ...grpc.CallOption) (CompanyService_GetScheduledInterviewsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[16], CompanyService_GetScheduledInterviews_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetScheduledInterviewsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetScheduledInterviewsClient interface {
+	Recv() (*GetScheduledInterviewsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetScheduledInterviewsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetScheduledInterviewsClient) Recv() (*GetScheduledInterviewsRes, error) {
+	m := new(GetScheduledInterviewsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *companyServiceClient) GetDetailsofApplicationByID(ctx context.Context, in *GetDetailsofApplicationByIDReq, opts ...grpc.CallOption) (*GetDetailsofApplicationByIDRes, error) {
+	out := new(GetDetailsofApplicationByIDRes)
+	err := c.cc.Invoke(ctx, CompanyService_GetDetailsofApplicationByID_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) GetScheduledInterviewsofUser(ctx context.Context, in *GetScheduledInterviewsofUserReq, opts ...grpc.CallOption) (*GetScheduledInterviewsofUserRes, error) {
+	out := new(GetScheduledInterviewsofUserRes)
+	err := c.cc.Invoke(ctx, CompanyService_GetScheduledInterviewsofUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) RescheduleInterview(ctx context.Context, in *RescheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_RescheduleInterview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *companyServiceClient) GetShortlistedApplications(ctx context.Context, in *GetShortlistedApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetShortlistedApplicationsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[16], CompanyService_GetShortlistedApplications_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[17], CompanyService_GetShortlistedApplications_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -893,7 +971,7 @@ func (x *companyServiceGetShortlistedApplicationsClient) Recv() (*GetShortlisted
 }
 
 func (c *companyServiceClient) GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[17], CompanyService_GetJobs_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[18], CompanyService_GetJobs_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -978,6 +1056,11 @@ type CompanyServiceServer interface {
 	GetJobsofCompany(*GetJobsofCompanyReq, CompanyService_GetJobsofCompanyServer) error
 	GetJobApplications(*GetJobApplicationsReq, CompanyService_GetJobApplicationsServer) error
 	ShortlistApplications(context.Context, *ShortlistApplicationsReq) (*empty.Empty, error)
+	ScheduleInterview(context.Context, *ScheduleInterviewReq) (*empty.Empty, error)
+	GetScheduledInterviews(*GetScheduledInterviewsReq, CompanyService_GetScheduledInterviewsServer) error
+	GetDetailsofApplicationByID(context.Context, *GetDetailsofApplicationByIDReq) (*GetDetailsofApplicationByIDRes, error)
+	GetScheduledInterviewsofUser(context.Context, *GetScheduledInterviewsofUserReq) (*GetScheduledInterviewsofUserRes, error)
+	RescheduleInterview(context.Context, *RescheduleInterviewReq) (*empty.Empty, error)
 	GetShortlistedApplications(*GetShortlistedApplicationsReq, CompanyService_GetShortlistedApplicationsServer) error
 	GetJobs(*GetJobsReq, CompanyService_GetJobsServer) error
 	GetAllJobApplicationsofUser(context.Context, *GetAllJobApplicationsofUserReq) (*GetAllJobApplicationsofUserRes, error)
@@ -1110,6 +1193,21 @@ func (UnimplementedCompanyServiceServer) GetJobApplications(*GetJobApplicationsR
 }
 func (UnimplementedCompanyServiceServer) ShortlistApplications(context.Context, *ShortlistApplicationsReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShortlistApplications not implemented")
+}
+func (UnimplementedCompanyServiceServer) ScheduleInterview(context.Context, *ScheduleInterviewReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ScheduleInterview not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetScheduledInterviews(*GetScheduledInterviewsReq, CompanyService_GetScheduledInterviewsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetScheduledInterviews not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetDetailsofApplicationByID(context.Context, *GetDetailsofApplicationByIDReq) (*GetDetailsofApplicationByIDRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDetailsofApplicationByID not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetScheduledInterviewsofUser(context.Context, *GetScheduledInterviewsofUserReq) (*GetScheduledInterviewsofUserRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetScheduledInterviewsofUser not implemented")
+}
+func (UnimplementedCompanyServiceServer) RescheduleInterview(context.Context, *RescheduleInterviewReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RescheduleInterview not implemented")
 }
 func (UnimplementedCompanyServiceServer) GetShortlistedApplications(*GetShortlistedApplicationsReq, CompanyService_GetShortlistedApplicationsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetShortlistedApplications not implemented")
@@ -1924,6 +2022,99 @@ func _CompanyService_ShortlistApplications_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyService_ScheduleInterview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ScheduleInterviewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).ScheduleInterview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_ScheduleInterview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).ScheduleInterview(ctx, req.(*ScheduleInterviewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_GetScheduledInterviews_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetScheduledInterviewsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetScheduledInterviews(m, &companyServiceGetScheduledInterviewsServer{stream})
+}
+
+type CompanyService_GetScheduledInterviewsServer interface {
+	Send(*GetScheduledInterviewsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetScheduledInterviewsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetScheduledInterviewsServer) Send(m *GetScheduledInterviewsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _CompanyService_GetDetailsofApplicationByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDetailsofApplicationByIDReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).GetDetailsofApplicationByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_GetDetailsofApplicationByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).GetDetailsofApplicationByID(ctx, req.(*GetDetailsofApplicationByIDReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_GetScheduledInterviewsofUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetScheduledInterviewsofUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).GetScheduledInterviewsofUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_GetScheduledInterviewsofUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).GetScheduledInterviewsofUser(ctx, req.(*GetScheduledInterviewsofUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_RescheduleInterview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RescheduleInterviewReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).RescheduleInterview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_RescheduleInterview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).RescheduleInterview(ctx, req.(*RescheduleInterviewReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CompanyService_GetShortlistedApplications_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetShortlistedApplicationsReq)
 	if err := stream.RecvMsg(m); err != nil {
@@ -2092,6 +2283,22 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CompanyService_ShortlistApplications_Handler,
 		},
 		{
+			MethodName: "ScheduleInterview",
+			Handler:    _CompanyService_ScheduleInterview_Handler,
+		},
+		{
+			MethodName: "GetDetailsofApplicationByID",
+			Handler:    _CompanyService_GetDetailsofApplicationByID_Handler,
+		},
+		{
+			MethodName: "GetScheduledInterviewsofUser",
+			Handler:    _CompanyService_GetScheduledInterviewsofUser_Handler,
+		},
+		{
+			MethodName: "RescheduleInterview",
+			Handler:    _CompanyService_RescheduleInterview_Handler,
+		},
+		{
 			MethodName: "GetAllJobApplicationsofUser",
 			Handler:    _CompanyService_GetAllJobApplicationsofUser_Handler,
 		},
@@ -2176,6 +2383,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetJobApplications",
 			Handler:       _CompanyService_GetJobApplications_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetScheduledInterviews",
+			Handler:       _CompanyService_GetScheduledInterviews_Handler,
 			ServerStreams: true,
 		},
 		{

@@ -435,6 +435,62 @@ message GetAllJobApplicationsofUserRes {
     string Role = 4;
 }
 
+message ScheduleInterviewReq {
+    string ApplicationID = 1;
+    string CompanyID = 2;
+    string Date = 3;
+    string Description = 4;
+    string Time = 5;
+}
+
+message GetScheduledInterviewsReq {
+    string CompanyID = 1;
+}
+
+message GetScheduledInterviewsRes {
+    string ApplicationID = 1;
+    string Date = 2;
+    string Description = 3;
+    string Time = 4;
+}
+
+message GetDetailsofApplicationByIDReq {
+    string CompanyID = 1;
+    string ApplicationID = 2;
+}
+
+message GetDetailsofApplicationByIDRes {
+    string ApplicationID = 1;
+    string Name = 2;
+    string Email = 3;
+    string Mobile = 4;
+    Address AddressofApplicant = 5;
+    string ResumeID = 6;
+    string HighestEducation = 7;
+    string Nationality = 8;
+    uint32 Experiance = 9;
+    float CurrentCTC = 10;
+}
+
+message GetScheduledInterviewsofUserReq {
+    string UserID = 1;
+}
+
+message GetScheduledInterviewsofUserRes {
+    string ApplicationID = 1;
+    string CompanyID = 2;
+    string Date = 3;
+    string Description = 4;
+    string Time = 5;
+}
+
+message RescheduleInterviewReq {
+    string ApplicationID = 1;
+    string Date = 2;
+    string Description = 3;
+    string Time = 4;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -477,6 +533,11 @@ service CompanyService {
     rpc GetJobsofCompany(GetJobsofCompanyReq)returns(stream GetJobsofCompanyRes);
     rpc GetJobApplications(GetJobApplicationsReq)returns(stream GetJobApplicationsRes);
     rpc ShortlistApplications(ShortlistApplicationsReq)returns(google.protobuf.Empty);
+    rpc ScheduleInterview(ScheduleInterviewReq)returns(google.protobuf.Empty);
+    rpc GetScheduledInterviews(GetScheduledInterviewsReq)returns(stream GetScheduledInterviewsRes);
+    rpc GetDetailsofApplicationByID(GetDetailsofApplicationByIDReq)returns(GetDetailsofApplicationByIDRes);
+    rpc GetScheduledInterviewsofUser(GetScheduledInterviewsofUserReq)returns(GetScheduledInterviewsofUserRes);
+    rpc RescheduleInterview(RescheduleInterviewReq)returns(google.protobuf.Empty);
     rpc GetShortlistedApplications(GetShortlistedApplicationsReq)returns(stream GetShortlistedApplicationsRes);
     rpc GetJobs(GetJobsReq)returns(stream GetJobsRes);
     rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(GetAllJobApplicationsofUserRes);
