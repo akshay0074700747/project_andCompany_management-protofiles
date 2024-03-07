@@ -123,7 +123,7 @@ type CompanyServiceClient interface {
 	RescheduleInterview(ctx context.Context, in *RescheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetShortlistedApplications(ctx context.Context, in *GetShortlistedApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetShortlistedApplicationsClient, error)
 	GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error)
-	GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (*GetAllJobApplicationsofUserRes, error)
+	GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (CompanyService_GetAllJobApplicationsofUserClient, error)
 }
 
 type companyServiceClient struct {
@@ -1025,13 +1025,36 @@ func (x *companyServiceGetJobsClient) Recv() (*GetJobsRes, error) {
 	return m, nil
 }
 
-func (c *companyServiceClient) GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (*GetAllJobApplicationsofUserRes, error) {
-	out := new(GetAllJobApplicationsofUserRes)
-	err := c.cc.Invoke(ctx, CompanyService_GetAllJobApplicationsofUser_FullMethodName, in, out, opts...)
+func (c *companyServiceClient) GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (CompanyService_GetAllJobApplicationsofUserClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[20], CompanyService_GetAllJobApplicationsofUser_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &companyServiceGetAllJobApplicationsofUserClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetAllJobApplicationsofUserClient interface {
+	Recv() (*GetAllJobApplicationsofUserRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetAllJobApplicationsofUserClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetAllJobApplicationsofUserClient) Recv() (*GetAllJobApplicationsofUserRes, error) {
+	m := new(GetAllJobApplicationsofUserRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // CompanyServiceServer is the server API for CompanyService service.
@@ -1086,7 +1109,7 @@ type CompanyServiceServer interface {
 	RescheduleInterview(context.Context, *RescheduleInterviewReq) (*empty.Empty, error)
 	GetShortlistedApplications(*GetShortlistedApplicationsReq, CompanyService_GetShortlistedApplicationsServer) error
 	GetJobs(*GetJobsReq, CompanyService_GetJobsServer) error
-	GetAllJobApplicationsofUser(context.Context, *GetAllJobApplicationsofUserReq) (*GetAllJobApplicationsofUserRes, error)
+	GetAllJobApplicationsofUser(*GetAllJobApplicationsofUserReq, CompanyService_GetAllJobApplicationsofUserServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -1238,8 +1261,8 @@ func (UnimplementedCompanyServiceServer) GetShortlistedApplications(*GetShortlis
 func (UnimplementedCompanyServiceServer) GetJobs(*GetJobsReq, CompanyService_GetJobsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetJobs not implemented")
 }
-func (UnimplementedCompanyServiceServer) GetAllJobApplicationsofUser(context.Context, *GetAllJobApplicationsofUserReq) (*GetAllJobApplicationsofUserRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAllJobApplicationsofUser not implemented")
+func (UnimplementedCompanyServiceServer) GetAllJobApplicationsofUser(*GetAllJobApplicationsofUserReq, CompanyService_GetAllJobApplicationsofUserServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAllJobApplicationsofUser not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -2183,22 +2206,25 @@ func (x *companyServiceGetJobsServer) Send(m *GetJobsRes) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _CompanyService_GetAllJobApplicationsofUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAllJobApplicationsofUserReq)
-	if err := dec(in); err != nil {
-		return nil, err
+func _CompanyService_GetAllJobApplicationsofUser_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetAllJobApplicationsofUserReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(CompanyServiceServer).GetAllJobApplicationsofUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CompanyService_GetAllJobApplicationsofUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).GetAllJobApplicationsofUser(ctx, req.(*GetAllJobApplicationsofUserReq))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(CompanyServiceServer).GetAllJobApplicationsofUser(m, &companyServiceGetAllJobApplicationsofUserServer{stream})
+}
+
+type CompanyService_GetAllJobApplicationsofUserServer interface {
+	Send(*GetAllJobApplicationsofUserRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetAllJobApplicationsofUserServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetAllJobApplicationsofUserServer) Send(m *GetAllJobApplicationsofUserRes) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
@@ -2320,10 +2346,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "RescheduleInterview",
 			Handler:    _CompanyService_RescheduleInterview_Handler,
 		},
-		{
-			MethodName: "GetAllJobApplicationsofUser",
-			Handler:    _CompanyService_GetAllJobApplicationsofUser_Handler,
-		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -2425,6 +2447,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetJobs",
 			Handler:       _CompanyService_GetJobs_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetAllJobApplicationsofUser",
+			Handler:       _CompanyService_GetAllJobApplicationsofUser_Handler,
 			ServerStreams: true,
 		},
 	},

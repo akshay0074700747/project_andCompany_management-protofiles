@@ -540,6 +540,6 @@ service CompanyService {
     rpc RescheduleInterview(RescheduleInterviewReq)returns(google.protobuf.Empty);
     rpc GetShortlistedApplications(GetShortlistedApplicationsReq)returns(stream GetShortlistedApplicationsRes);
     rpc GetJobs(GetJobsReq)returns(stream GetJobsRes);
-    rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(GetAllJobApplicationsofUserRes);
+    rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(stream GetAllJobApplicationsofUserRes);
 }
 
