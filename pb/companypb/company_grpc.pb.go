@@ -119,7 +119,7 @@ type CompanyServiceClient interface {
 	ScheduleInterview(ctx context.Context, in *ScheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetScheduledInterviews(ctx context.Context, in *GetScheduledInterviewsReq, opts ...grpc.CallOption) (CompanyService_GetScheduledInterviewsClient, error)
 	GetDetailsofApplicationByID(ctx context.Context, in *GetDetailsofApplicationByIDReq, opts ...grpc.CallOption) (*GetDetailsofApplicationByIDRes, error)
-	GetScheduledInterviewsofUser(ctx context.Context, in *GetScheduledInterviewsofUserReq, opts ...grpc.CallOption) (*GetScheduledInterviewsofUserRes, error)
+	GetScheduledInterviewsofUser(ctx context.Context, in *GetScheduledInterviewsofUserReq, opts ...grpc.CallOption) (CompanyService_GetScheduledInterviewsofUserClient, error)
 	RescheduleInterview(ctx context.Context, in *RescheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetShortlistedApplications(ctx context.Context, in *GetShortlistedApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetShortlistedApplicationsClient, error)
 	GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error)
@@ -920,13 +920,36 @@ func (c *companyServiceClient) GetDetailsofApplicationByID(ctx context.Context, 
 	return out, nil
 }
 
-func (c *companyServiceClient) GetScheduledInterviewsofUser(ctx context.Context, in *GetScheduledInterviewsofUserReq, opts ...grpc.CallOption) (*GetScheduledInterviewsofUserRes, error) {
-	out := new(GetScheduledInterviewsofUserRes)
-	err := c.cc.Invoke(ctx, CompanyService_GetScheduledInterviewsofUser_FullMethodName, in, out, opts...)
+func (c *companyServiceClient) GetScheduledInterviewsofUser(ctx context.Context, in *GetScheduledInterviewsofUserReq, opts ...grpc.CallOption) (CompanyService_GetScheduledInterviewsofUserClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[17], CompanyService_GetScheduledInterviewsofUser_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &companyServiceGetScheduledInterviewsofUserClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetScheduledInterviewsofUserClient interface {
+	Recv() (*GetScheduledInterviewsofUserRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetScheduledInterviewsofUserClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetScheduledInterviewsofUserClient) Recv() (*GetScheduledInterviewsofUserRes, error) {
+	m := new(GetScheduledInterviewsofUserRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *companyServiceClient) RescheduleInterview(ctx context.Context, in *RescheduleInterviewReq, opts ...grpc.CallOption) (*empty.Empty, error) {
@@ -939,7 +962,7 @@ func (c *companyServiceClient) RescheduleInterview(ctx context.Context, in *Resc
 }
 
 func (c *companyServiceClient) GetShortlistedApplications(ctx context.Context, in *GetShortlistedApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetShortlistedApplicationsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[17], CompanyService_GetShortlistedApplications_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[18], CompanyService_GetShortlistedApplications_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -971,7 +994,7 @@ func (x *companyServiceGetShortlistedApplicationsClient) Recv() (*GetShortlisted
 }
 
 func (c *companyServiceClient) GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[18], CompanyService_GetJobs_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[19], CompanyService_GetJobs_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1059,7 +1082,7 @@ type CompanyServiceServer interface {
 	ScheduleInterview(context.Context, *ScheduleInterviewReq) (*empty.Empty, error)
 	GetScheduledInterviews(*GetScheduledInterviewsReq, CompanyService_GetScheduledInterviewsServer) error
 	GetDetailsofApplicationByID(context.Context, *GetDetailsofApplicationByIDReq) (*GetDetailsofApplicationByIDRes, error)
-	GetScheduledInterviewsofUser(context.Context, *GetScheduledInterviewsofUserReq) (*GetScheduledInterviewsofUserRes, error)
+	GetScheduledInterviewsofUser(*GetScheduledInterviewsofUserReq, CompanyService_GetScheduledInterviewsofUserServer) error
 	RescheduleInterview(context.Context, *RescheduleInterviewReq) (*empty.Empty, error)
 	GetShortlistedApplications(*GetShortlistedApplicationsReq, CompanyService_GetShortlistedApplicationsServer) error
 	GetJobs(*GetJobsReq, CompanyService_GetJobsServer) error
@@ -1203,8 +1226,8 @@ func (UnimplementedCompanyServiceServer) GetScheduledInterviews(*GetScheduledInt
 func (UnimplementedCompanyServiceServer) GetDetailsofApplicationByID(context.Context, *GetDetailsofApplicationByIDReq) (*GetDetailsofApplicationByIDRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDetailsofApplicationByID not implemented")
 }
-func (UnimplementedCompanyServiceServer) GetScheduledInterviewsofUser(context.Context, *GetScheduledInterviewsofUserReq) (*GetScheduledInterviewsofUserRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetScheduledInterviewsofUser not implemented")
+func (UnimplementedCompanyServiceServer) GetScheduledInterviewsofUser(*GetScheduledInterviewsofUserReq, CompanyService_GetScheduledInterviewsofUserServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetScheduledInterviewsofUser not implemented")
 }
 func (UnimplementedCompanyServiceServer) RescheduleInterview(context.Context, *RescheduleInterviewReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RescheduleInterview not implemented")
@@ -2079,22 +2102,25 @@ func _CompanyService_GetDetailsofApplicationByID_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CompanyService_GetScheduledInterviewsofUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetScheduledInterviewsofUserReq)
-	if err := dec(in); err != nil {
-		return nil, err
+func _CompanyService_GetScheduledInterviewsofUser_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetScheduledInterviewsofUserReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(CompanyServiceServer).GetScheduledInterviewsofUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CompanyService_GetScheduledInterviewsofUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CompanyServiceServer).GetScheduledInterviewsofUser(ctx, req.(*GetScheduledInterviewsofUserReq))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(CompanyServiceServer).GetScheduledInterviewsofUser(m, &companyServiceGetScheduledInterviewsofUserServer{stream})
+}
+
+type CompanyService_GetScheduledInterviewsofUserServer interface {
+	Send(*GetScheduledInterviewsofUserRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetScheduledInterviewsofUserServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetScheduledInterviewsofUserServer) Send(m *GetScheduledInterviewsofUserRes) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _CompanyService_RescheduleInterview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -2291,10 +2317,6 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CompanyService_GetDetailsofApplicationByID_Handler,
 		},
 		{
-			MethodName: "GetScheduledInterviewsofUser",
-			Handler:    _CompanyService_GetScheduledInterviewsofUser_Handler,
-		},
-		{
 			MethodName: "RescheduleInterview",
 			Handler:    _CompanyService_RescheduleInterview_Handler,
 		},
@@ -2388,6 +2410,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetScheduledInterviews",
 			Handler:       _CompanyService_GetScheduledInterviews_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetScheduledInterviewsofUser",
+			Handler:       _CompanyService_GetScheduledInterviewsofUser_Handler,
 			ServerStreams: true,
 		},
 		{

@@ -536,7 +536,7 @@ service CompanyService {
     rpc ScheduleInterview(ScheduleInterviewReq)returns(google.protobuf.Empty);
     rpc GetScheduledInterviews(GetScheduledInterviewsReq)returns(stream GetScheduledInterviewsRes);
     rpc GetDetailsofApplicationByID(GetDetailsofApplicationByIDReq)returns(GetDetailsofApplicationByIDRes);
-    rpc GetScheduledInterviewsofUser(GetScheduledInterviewsofUserReq)returns(GetScheduledInterviewsofUserRes);
+    rpc GetScheduledInterviewsofUser(GetScheduledInterviewsofUserReq)returns(stream GetScheduledInterviewsofUserRes);
     rpc RescheduleInterview(RescheduleInterviewReq)returns(google.protobuf.Empty);
     rpc GetShortlistedApplications(GetShortlistedApplicationsReq)returns(stream GetShortlistedApplicationsRes);
     rpc GetJobs(GetJobsReq)returns(stream GetJobsRes);
