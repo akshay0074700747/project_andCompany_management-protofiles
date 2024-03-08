@@ -422,6 +422,7 @@ message GetJobsRes {
     float MaxExpectedCTC = 7;
     bool IsRemote = 8;
     Address JobLocation = 9;
+    string JobID = 10;
 }
 
 message GetAllJobApplicationsofUserReq {
@@ -491,6 +492,17 @@ message RescheduleInterviewReq {
     string Time = 4;
 }
 
+message GetAssignedProblemsReq {
+    string UserID = 1;
+    string CompanyID = 2;
+}
+
+message GetAssignedProblemsRes {
+    uint32 ProblemID = 1;
+    string Problem = 2;
+    string RaisedBy = 3;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -541,5 +553,6 @@ service CompanyService {
     rpc GetShortlistedApplications(GetShortlistedApplicationsReq)returns(stream GetShortlistedApplicationsRes);
     rpc GetJobs(GetJobsReq)returns(stream GetJobsRes);
     rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(stream GetAllJobApplicationsofUserRes);
+    rpc GetAssignedProblems(GetAssignedProblemsReq)returns(stream GetAssignedProblemsRes);
 }
 

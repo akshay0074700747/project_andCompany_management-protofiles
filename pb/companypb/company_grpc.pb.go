@@ -69,6 +69,7 @@ const (
 	CompanyService_GetShortlistedApplications_FullMethodName      = "/company.CompanyService/GetShortlistedApplications"
 	CompanyService_GetJobs_FullMethodName                         = "/company.CompanyService/GetJobs"
 	CompanyService_GetAllJobApplicationsofUser_FullMethodName     = "/company.CompanyService/GetAllJobApplicationsofUser"
+	CompanyService_GetAssignedProblems_FullMethodName             = "/company.CompanyService/GetAssignedProblems"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -124,6 +125,7 @@ type CompanyServiceClient interface {
 	GetShortlistedApplications(ctx context.Context, in *GetShortlistedApplicationsReq, opts ...grpc.CallOption) (CompanyService_GetShortlistedApplicationsClient, error)
 	GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error)
 	GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (CompanyService_GetAllJobApplicationsofUserClient, error)
+	GetAssignedProblems(ctx context.Context, in *GetAssignedProblemsReq, opts ...grpc.CallOption) (CompanyService_GetAssignedProblemsClient, error)
 }
 
 type companyServiceClient struct {
@@ -1057,6 +1059,38 @@ func (x *companyServiceGetAllJobApplicationsofUserClient) Recv() (*GetAllJobAppl
 	return m, nil
 }
 
+func (c *companyServiceClient) GetAssignedProblems(ctx context.Context, in *GetAssignedProblemsReq, opts ...grpc.CallOption) (CompanyService_GetAssignedProblemsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &CompanyService_ServiceDesc.Streams[21], CompanyService_GetAssignedProblems_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &companyServiceGetAssignedProblemsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type CompanyService_GetAssignedProblemsClient interface {
+	Recv() (*GetAssignedProblemsRes, error)
+	grpc.ClientStream
+}
+
+type companyServiceGetAssignedProblemsClient struct {
+	grpc.ClientStream
+}
+
+func (x *companyServiceGetAssignedProblemsClient) Recv() (*GetAssignedProblemsRes, error) {
+	m := new(GetAssignedProblemsRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -1110,6 +1144,7 @@ type CompanyServiceServer interface {
 	GetShortlistedApplications(*GetShortlistedApplicationsReq, CompanyService_GetShortlistedApplicationsServer) error
 	GetJobs(*GetJobsReq, CompanyService_GetJobsServer) error
 	GetAllJobApplicationsofUser(*GetAllJobApplicationsofUserReq, CompanyService_GetAllJobApplicationsofUserServer) error
+	GetAssignedProblems(*GetAssignedProblemsReq, CompanyService_GetAssignedProblemsServer) error
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -1263,6 +1298,9 @@ func (UnimplementedCompanyServiceServer) GetJobs(*GetJobsReq, CompanyService_Get
 }
 func (UnimplementedCompanyServiceServer) GetAllJobApplicationsofUser(*GetAllJobApplicationsofUserReq, CompanyService_GetAllJobApplicationsofUserServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetAllJobApplicationsofUser not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetAssignedProblems(*GetAssignedProblemsReq, CompanyService_GetAssignedProblemsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAssignedProblems not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -2227,6 +2265,27 @@ func (x *companyServiceGetAllJobApplicationsofUserServer) Send(m *GetAllJobAppli
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_GetAssignedProblems_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetAssignedProblemsReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CompanyServiceServer).GetAssignedProblems(m, &companyServiceGetAssignedProblemsServer{stream})
+}
+
+type CompanyService_GetAssignedProblemsServer interface {
+	Send(*GetAssignedProblemsRes) error
+	grpc.ServerStream
+}
+
+type companyServiceGetAssignedProblemsServer struct {
+	grpc.ServerStream
+}
+
+func (x *companyServiceGetAssignedProblemsServer) Send(m *GetAssignedProblemsRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2452,6 +2511,11 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetAllJobApplicationsofUser",
 			Handler:       _CompanyService_GetAllJobApplicationsofUser_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetAssignedProblems",
+			Handler:       _CompanyService_GetAssignedProblems_Handler,
 			ServerStreams: true,
 		},
 	},
