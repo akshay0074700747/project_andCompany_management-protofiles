@@ -70,6 +70,17 @@ const (
 	CompanyService_GetJobs_FullMethodName                         = "/company.CompanyService/GetJobs"
 	CompanyService_GetAllJobApplicationsofUser_FullMethodName     = "/company.CompanyService/GetAllJobApplicationsofUser"
 	CompanyService_GetAssignedProblems_FullMethodName             = "/company.CompanyService/GetAssignedProblems"
+	CompanyService_DropCompany_FullMethodName                     = "/company.CompanyService/DropCompany"
+	CompanyService_EditCompanyDetails_FullMethodName              = "/company.CompanyService/EditCompanyDetails"
+	CompanyService_TerminateEmployee_FullMethodName               = "/company.CompanyService/TerminateEmployee"
+	CompanyService_EditCompanyEmployees_FullMethodName            = "/company.CompanyService/EditCompanyEmployees"
+	CompanyService_DeleteProblem_FullMethodName                   = "/company.CompanyService/DeleteProblem"
+	CompanyService_EditProblem_FullMethodName                     = "/company.CompanyService/EditProblem"
+	CompanyService_DropClientFromCompany_FullMethodName           = "/company.CompanyService/DropClientFromCompany"
+	CompanyService_UpdateCompanyPolicies_FullMethodName           = "/company.CompanyService/UpdateCompanyPolicies"
+	CompanyService_UpdateLeave_FullMethodName                     = "/company.CompanyService/UpdateLeave"
+	CompanyService_DeleteJob_FullMethodName                       = "/company.CompanyService/DeleteJob"
+	CompanyService_UpdateJob_FullMethodName                       = "/company.CompanyService/UpdateJob"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -126,6 +137,17 @@ type CompanyServiceClient interface {
 	GetJobs(ctx context.Context, in *GetJobsReq, opts ...grpc.CallOption) (CompanyService_GetJobsClient, error)
 	GetAllJobApplicationsofUser(ctx context.Context, in *GetAllJobApplicationsofUserReq, opts ...grpc.CallOption) (CompanyService_GetAllJobApplicationsofUserClient, error)
 	GetAssignedProblems(ctx context.Context, in *GetAssignedProblemsReq, opts ...grpc.CallOption) (CompanyService_GetAssignedProblemsClient, error)
+	DropCompany(ctx context.Context, in *DropCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	EditCompanyDetails(ctx context.Context, in *EditCompanyDetailsReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	TerminateEmployee(ctx context.Context, in *TerminateEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	EditCompanyEmployees(ctx context.Context, in *EditCompanyEmployeesReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteProblem(ctx context.Context, in *DeleteProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	EditProblem(ctx context.Context, in *EditProblemReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	DropClientFromCompany(ctx context.Context, in *DropClientFromCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateCompanyPolicies(ctx context.Context, in *UpdateCompanyPoliciesReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateLeave(ctx context.Context, in *UpdateLeaveReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteJob(ctx context.Context, in *DeleteJobReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateJob(ctx context.Context, in *UpdateJobReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type companyServiceClient struct {
@@ -1091,6 +1113,105 @@ func (x *companyServiceGetAssignedProblemsClient) Recv() (*GetAssignedProblemsRe
 	return m, nil
 }
 
+func (c *companyServiceClient) DropCompany(ctx context.Context, in *DropCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_DropCompany_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) EditCompanyDetails(ctx context.Context, in *EditCompanyDetailsReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_EditCompanyDetails_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) TerminateEmployee(ctx context.Context, in *TerminateEmployeeReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_TerminateEmployee_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) EditCompanyEmployees(ctx context.Context, in *EditCompanyEmployeesReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_EditCompanyEmployees_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) DeleteProblem(ctx context.Context, in *DeleteProblemReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_DeleteProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) EditProblem(ctx context.Context, in *EditProblemReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_EditProblem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) DropClientFromCompany(ctx context.Context, in *DropClientFromCompanyReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_DropClientFromCompany_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) UpdateCompanyPolicies(ctx context.Context, in *UpdateCompanyPoliciesReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_UpdateCompanyPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) UpdateLeave(ctx context.Context, in *UpdateLeaveReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_UpdateLeave_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) DeleteJob(ctx context.Context, in *DeleteJobReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_DeleteJob_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *companyServiceClient) UpdateJob(ctx context.Context, in *UpdateJobReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_UpdateJob_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -1145,6 +1266,17 @@ type CompanyServiceServer interface {
 	GetJobs(*GetJobsReq, CompanyService_GetJobsServer) error
 	GetAllJobApplicationsofUser(*GetAllJobApplicationsofUserReq, CompanyService_GetAllJobApplicationsofUserServer) error
 	GetAssignedProblems(*GetAssignedProblemsReq, CompanyService_GetAssignedProblemsServer) error
+	DropCompany(context.Context, *DropCompanyReq) (*empty.Empty, error)
+	EditCompanyDetails(context.Context, *EditCompanyDetailsReq) (*empty.Empty, error)
+	TerminateEmployee(context.Context, *TerminateEmployeeReq) (*empty.Empty, error)
+	EditCompanyEmployees(context.Context, *EditCompanyEmployeesReq) (*empty.Empty, error)
+	DeleteProblem(context.Context, *DeleteProblemReq) (*empty.Empty, error)
+	EditProblem(context.Context, *EditProblemReq) (*empty.Empty, error)
+	DropClientFromCompany(context.Context, *DropClientFromCompanyReq) (*empty.Empty, error)
+	UpdateCompanyPolicies(context.Context, *UpdateCompanyPoliciesReq) (*empty.Empty, error)
+	UpdateLeave(context.Context, *UpdateLeaveReq) (*empty.Empty, error)
+	DeleteJob(context.Context, *DeleteJobReq) (*empty.Empty, error)
+	UpdateJob(context.Context, *UpdateJobReq) (*empty.Empty, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -1301,6 +1433,39 @@ func (UnimplementedCompanyServiceServer) GetAllJobApplicationsofUser(*GetAllJobA
 }
 func (UnimplementedCompanyServiceServer) GetAssignedProblems(*GetAssignedProblemsReq, CompanyService_GetAssignedProblemsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetAssignedProblems not implemented")
+}
+func (UnimplementedCompanyServiceServer) DropCompany(context.Context, *DropCompanyReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DropCompany not implemented")
+}
+func (UnimplementedCompanyServiceServer) EditCompanyDetails(context.Context, *EditCompanyDetailsReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditCompanyDetails not implemented")
+}
+func (UnimplementedCompanyServiceServer) TerminateEmployee(context.Context, *TerminateEmployeeReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TerminateEmployee not implemented")
+}
+func (UnimplementedCompanyServiceServer) EditCompanyEmployees(context.Context, *EditCompanyEmployeesReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditCompanyEmployees not implemented")
+}
+func (UnimplementedCompanyServiceServer) DeleteProblem(context.Context, *DeleteProblemReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProblem not implemented")
+}
+func (UnimplementedCompanyServiceServer) EditProblem(context.Context, *EditProblemReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditProblem not implemented")
+}
+func (UnimplementedCompanyServiceServer) DropClientFromCompany(context.Context, *DropClientFromCompanyReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DropClientFromCompany not implemented")
+}
+func (UnimplementedCompanyServiceServer) UpdateCompanyPolicies(context.Context, *UpdateCompanyPoliciesReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCompanyPolicies not implemented")
+}
+func (UnimplementedCompanyServiceServer) UpdateLeave(context.Context, *UpdateLeaveReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateLeave not implemented")
+}
+func (UnimplementedCompanyServiceServer) DeleteJob(context.Context, *DeleteJobReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteJob not implemented")
+}
+func (UnimplementedCompanyServiceServer) UpdateJob(context.Context, *UpdateJobReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateJob not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -2286,6 +2451,204 @@ func (x *companyServiceGetAssignedProblemsServer) Send(m *GetAssignedProblemsRes
 	return x.ServerStream.SendMsg(m)
 }
 
+func _CompanyService_DropCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DropCompanyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).DropCompany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_DropCompany_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).DropCompany(ctx, req.(*DropCompanyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_EditCompanyDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditCompanyDetailsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).EditCompanyDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_EditCompanyDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).EditCompanyDetails(ctx, req.(*EditCompanyDetailsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_TerminateEmployee_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TerminateEmployeeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).TerminateEmployee(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_TerminateEmployee_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).TerminateEmployee(ctx, req.(*TerminateEmployeeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_EditCompanyEmployees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditCompanyEmployeesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).EditCompanyEmployees(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_EditCompanyEmployees_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).EditCompanyEmployees(ctx, req.(*EditCompanyEmployeesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_DeleteProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProblemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).DeleteProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_DeleteProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).DeleteProblem(ctx, req.(*DeleteProblemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_EditProblem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditProblemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).EditProblem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_EditProblem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).EditProblem(ctx, req.(*EditProblemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_DropClientFromCompany_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DropClientFromCompanyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).DropClientFromCompany(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_DropClientFromCompany_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).DropClientFromCompany(ctx, req.(*DropClientFromCompanyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_UpdateCompanyPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCompanyPoliciesReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).UpdateCompanyPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_UpdateCompanyPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).UpdateCompanyPolicies(ctx, req.(*UpdateCompanyPoliciesReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_UpdateLeave_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateLeaveReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).UpdateLeave(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_UpdateLeave_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).UpdateLeave(ctx, req.(*UpdateLeaveReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_DeleteJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteJobReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).DeleteJob(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_DeleteJob_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).DeleteJob(ctx, req.(*DeleteJobReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CompanyService_UpdateJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateJobReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).UpdateJob(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_UpdateJob_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).UpdateJob(ctx, req.(*UpdateJobReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2404,6 +2767,50 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RescheduleInterview",
 			Handler:    _CompanyService_RescheduleInterview_Handler,
+		},
+		{
+			MethodName: "DropCompany",
+			Handler:    _CompanyService_DropCompany_Handler,
+		},
+		{
+			MethodName: "EditCompanyDetails",
+			Handler:    _CompanyService_EditCompanyDetails_Handler,
+		},
+		{
+			MethodName: "TerminateEmployee",
+			Handler:    _CompanyService_TerminateEmployee_Handler,
+		},
+		{
+			MethodName: "EditCompanyEmployees",
+			Handler:    _CompanyService_EditCompanyEmployees_Handler,
+		},
+		{
+			MethodName: "DeleteProblem",
+			Handler:    _CompanyService_DeleteProblem_Handler,
+		},
+		{
+			MethodName: "EditProblem",
+			Handler:    _CompanyService_EditProblem_Handler,
+		},
+		{
+			MethodName: "DropClientFromCompany",
+			Handler:    _CompanyService_DropClientFromCompany_Handler,
+		},
+		{
+			MethodName: "UpdateCompanyPolicies",
+			Handler:    _CompanyService_UpdateCompanyPolicies_Handler,
+		},
+		{
+			MethodName: "UpdateLeave",
+			Handler:    _CompanyService_UpdateLeave_Handler,
+		},
+		{
+			MethodName: "DeleteJob",
+			Handler:    _CompanyService_DeleteJob_Handler,
+		},
+		{
+			MethodName: "UpdateJob",
+			Handler:    _CompanyService_UpdateJob_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

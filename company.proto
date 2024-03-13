@@ -508,7 +508,65 @@ message DropCompanyReq {
 }
 
 message EditCompanyDetailsReq {
-    
+    string Name = 1;
+    string Companyusername = 2;
+    uint32 TypeID = 3;
+    string CompanyID = 4;
+}
+
+message TerminateEmployeeReq {
+    string CompanyID = 1;
+    string EmployeeID = 2;
+}
+
+message EditCompanyEmployeesReq {
+    string CompanyID = 1;
+    string EmployeeID = 2;
+    uint32 RoleID = 3;
+}
+
+message DeleteProblemReq {
+    uint32 ProblemID = 1;
+}
+
+message EditProblemReq {
+    uint32 ProblemID = 1;
+    string Problem = 2;
+}
+
+message DropClientFromCompanyReq {
+    string CompanyID = 1;
+    string ClientID = 2;
+}
+
+message UpdateCompanyPoliciesReq {
+    string CompanyID = 1;
+    uint32 MaxleavesPerMonth = 2;
+    uint32 PayDay = 3;
+    uint32 WorkingHoursPerday = 4;
+}
+
+message UpdateLeaveReq {
+    string Date = 1;
+    string EmployeeID = 2;
+    string CompanyID = 3;
+    string Description = 4;
+}
+
+message DeleteJobReq {
+    string JobID = 1;
+}
+
+message UpdateJobReq {
+    string JobID = 1;
+    string Role = 2;
+    uint32 Vacancy = 3;
+    string Description = 4;
+    uint32 MinExperiance = 5;
+    float MinExpectedCTC = 6;
+    float MaxExpectedCTC = 7;
+    bool IsRemote = 8;
+    Address JobLocation = 9;
 }
 
 service CompanyService {
@@ -563,6 +621,15 @@ service CompanyService {
     rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(stream GetAllJobApplicationsofUserRes);
     rpc GetAssignedProblems(GetAssignedProblemsReq)returns(stream GetAssignedProblemsRes);
     rpc DropCompany(DropCompanyReq)returns(google.protobuf.Empty);
-    rpc EditCompanyDetails
+    rpc EditCompanyDetails(EditCompanyDetailsReq)returns(google.protobuf.Empty);
+    rpc TerminateEmployee(TerminateEmployeeReq)returns(google.protobuf.Empty);
+    rpc EditCompanyEmployees(EditCompanyEmployeesReq)returns(google.protobuf.Empty);
+    rpc DeleteProblem(DeleteProblemReq)returns(google.protobuf.Empty);
+    rpc EditProblem(EditProblemReq)returns(google.protobuf.Empty);
+    rpc DropClientFromCompany(DropClientFromCompanyReq)returns(google.protobuf.Empty);
+    rpc UpdateCompanyPolicies(UpdateCompanyPoliciesReq)returns(google.protobuf.Empty);
+    rpc UpdateLeave(UpdateLeaveReq)returns(google.protobuf.Empty);
+    rpc DeleteJob(DeleteJobReq)returns(google.protobuf.Empty);
+    rpc UpdateJob(UpdateJobReq)returns(google.protobuf.Empty);
 }
 
