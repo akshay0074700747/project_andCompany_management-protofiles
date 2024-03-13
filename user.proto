@@ -81,6 +81,24 @@ message GetRoleRes {
     string Role = 1;
 }
 
+message EditStatusReq {
+    uint32 RoleID = 1;
+    bool IsAvailable = 2;
+    string UserID = 3;
+}
+
+message UpdateUserDetailsReq {
+    string Name = 1;
+    string Email = 2;
+    string Mobile = 3;
+    string Password = 4;
+    string UserID = 5;
+}
+
+message DropUserAccountReq {
+    string UserID = 1;
+}
+
 service UserService {
     rpc SignupUser(SignupUserRequest)returns(UserResponce);
     rpc GetRoles(google.protobuf.Empty)returns(stream Role);
@@ -92,4 +110,7 @@ service UserService {
     rpc GetStreamofUserDetails(stream GetUserDetailsReq)returns(stream GetUserDetailsRes);
     rpc GetStreamofRoles(stream GetStreamofRolesReq)returns(GetStreamofRolesRes);
     rpc GetRole(GetRoleReq)returns(GetRoleRes);
+    rpc EditStatus(EditStatusReq)returns(google.protobuf.Empty);
+    rpc UpdateUserDetails(UpdateUserDetailsReq)returns(google.protobuf.Empty);
+    rpc DropUserAccount(DropUserAccountReq)returns(google.protobuf.Empty);
 }

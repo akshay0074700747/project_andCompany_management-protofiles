@@ -846,6 +846,195 @@ func (x *GetRoleRes) GetRole() string {
 	return ""
 }
 
+type EditStatusReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RoleID      uint32 `protobuf:"varint,1,opt,name=RoleID,proto3" json:"RoleID,omitempty"`
+	IsAvailable bool   `protobuf:"varint,2,opt,name=IsAvailable,proto3" json:"IsAvailable,omitempty"`
+	UserID      string `protobuf:"bytes,3,opt,name=UserID,proto3" json:"UserID,omitempty"`
+}
+
+func (x *EditStatusReq) Reset() {
+	*x = EditStatusReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EditStatusReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EditStatusReq) ProtoMessage() {}
+
+func (x *EditStatusReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EditStatusReq.ProtoReflect.Descriptor instead.
+func (*EditStatusReq) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *EditStatusReq) GetRoleID() uint32 {
+	if x != nil {
+		return x.RoleID
+	}
+	return 0
+}
+
+func (x *EditStatusReq) GetIsAvailable() bool {
+	if x != nil {
+		return x.IsAvailable
+	}
+	return false
+}
+
+func (x *EditStatusReq) GetUserID() string {
+	if x != nil {
+		return x.UserID
+	}
+	return ""
+}
+
+type UpdateUserDetailsReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name     string `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Email    string `protobuf:"bytes,2,opt,name=Email,proto3" json:"Email,omitempty"`
+	Mobile   string `protobuf:"bytes,3,opt,name=Mobile,proto3" json:"Mobile,omitempty"`
+	Password string `protobuf:"bytes,4,opt,name=Password,proto3" json:"Password,omitempty"`
+	UserID   string `protobuf:"bytes,5,opt,name=UserID,proto3" json:"UserID,omitempty"`
+}
+
+func (x *UpdateUserDetailsReq) Reset() {
+	*x = UpdateUserDetailsReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateUserDetailsReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserDetailsReq) ProtoMessage() {}
+
+func (x *UpdateUserDetailsReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserDetailsReq.ProtoReflect.Descriptor instead.
+func (*UpdateUserDetailsReq) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *UpdateUserDetailsReq) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpdateUserDetailsReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdateUserDetailsReq) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *UpdateUserDetailsReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *UpdateUserDetailsReq) GetUserID() string {
+	if x != nil {
+		return x.UserID
+	}
+	return ""
+}
+
+type DropUserAccountReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserID string `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
+}
+
+func (x *DropUserAccountReq) Reset() {
+	*x = DropUserAccountReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_user_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DropUserAccountReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DropUserAccountReq) ProtoMessage() {}
+
+func (x *DropUserAccountReq) ProtoReflect() protoreflect.Message {
+	mi := &file_user_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DropUserAccountReq.ProtoReflect.Descriptor instead.
+func (*DropUserAccountReq) Descriptor() ([]byte, []int) {
+	return file_user_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *DropUserAccountReq) GetUserID() string {
+	if x != nil {
+		return x.UserID
+	}
+	return ""
+}
+
 var File_user_proto protoreflect.FileDescriptor
 
 var file_user_proto_rawDesc = []byte{
@@ -917,8 +1106,26 @@ var file_user_proto_rawDesc = []byte{
 	0x1c, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a,
 	0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x02, 0x49, 0x44, 0x22, 0x20, 0x0a,
 	0x0a, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x52,
-	0x6f, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x52, 0x6f, 0x6c, 0x65, 0x32,
-	0xe5, 0x04, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
+	0x6f, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x52, 0x6f, 0x6c, 0x65, 0x22,
+	0x61, 0x0a, 0x0d, 0x45, 0x64, 0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71,
+	0x12, 0x16, 0x0a, 0x06, 0x52, 0x6f, 0x6c, 0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d,
+	0x52, 0x06, 0x52, 0x6f, 0x6c, 0x65, 0x49, 0x44, 0x12, 0x20, 0x0a, 0x0b, 0x49, 0x73, 0x41, 0x76,
+	0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x49,
+	0x73, 0x41, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x55, 0x73,
+	0x65, 0x72, 0x49, 0x44, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72,
+	0x49, 0x44, 0x22, 0x8c, 0x01, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65,
+	0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x12, 0x12, 0x0a, 0x04, 0x4e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x16, 0x0a, 0x06, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x1a, 0x0a,
+	0x08, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x08, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x55, 0x73, 0x65,
+	0x72, 0x49, 0x44, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49,
+	0x44, 0x22, 0x2c, 0x0a, 0x12, 0x44, 0x72, 0x6f, 0x70, 0x55, 0x73, 0x65, 0x72, 0x41, 0x63, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49,
+	0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49, 0x44, 0x32,
+	0xae, 0x06, 0x0a, 0x0b, 0x55, 0x73, 0x65, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12,
 	0x39, 0x0a, 0x0a, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x55, 0x73, 0x65, 0x72, 0x12, 0x17, 0x2e,
 	0x75, 0x73, 0x65, 0x72, 0x2e, 0x53, 0x69, 0x67, 0x6e, 0x75, 0x70, 0x55, 0x73, 0x65, 0x72, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55, 0x73,
@@ -956,8 +1163,21 @@ var file_user_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x28, 0x01, 0x12, 0x2d, 0x0a, 0x07, 0x47, 0x65, 0x74, 0x52,
 	0x6f, 0x6c, 0x65, 0x12, 0x10, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f,
 	0x6c, 0x65, 0x52, 0x65, 0x71, 0x1a, 0x10, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74,
-	0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x70, 0x62, 0x2f,
-	0x75, 0x73, 0x65, 0x72, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x6f, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x12, 0x39, 0x0a, 0x0a, 0x45, 0x64, 0x69, 0x74, 0x53,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x13, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x45, 0x64, 0x69,
+	0x74, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70,
+	0x74, 0x79, 0x12, 0x47, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72,
+	0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x1a, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73,
+	0x52, 0x65, 0x71, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x43, 0x0a, 0x0f, 0x44,
+	0x72, 0x6f, 0x70, 0x55, 0x73, 0x65, 0x72, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x18,
+	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x44, 0x72, 0x6f, 0x70, 0x55, 0x73, 0x65, 0x72, 0x41, 0x63,
+	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
+	0x42, 0x0d, 0x5a, 0x0b, 0x2e, 0x2f, 0x70, 0x62, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x70, 0x62, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -972,30 +1192,33 @@ func file_user_proto_rawDescGZIP() []byte {
 	return file_user_proto_rawDescData
 }
 
-var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_user_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_user_proto_goTypes = []interface{}{
-	(*SignupUserRequest)(nil),   // 0: user.SignupUserRequest
-	(*Role)(nil),                // 1: user.Role
-	(*AddRoleReq)(nil),          // 2: user.AddRoleReq
-	(*StatusReq)(nil),           // 3: user.StatusReq
-	(*UserResponce)(nil),        // 4: user.UserResponce
-	(*GetByEmailReq)(nil),       // 5: user.GetByEmailReq
-	(*GetByEmailRes)(nil),       // 6: user.GetByEmailRes
-	(*SearchReq)(nil),           // 7: user.SearchReq
-	(*SearchRes)(nil),           // 8: user.SearchRes
-	(*GetUserDetailsReq)(nil),   // 9: user.GetUserDetailsReq
-	(*GetUserDetailsRes)(nil),   // 10: user.GetUserDetailsRes
-	(*GetStreamofRolesReq)(nil), // 11: user.GetStreamofRolesReq
-	(*GetStreamofRolesRes)(nil), // 12: user.GetStreamofRolesRes
-	(*GetRoleReq)(nil),          // 13: user.GetRoleReq
-	(*GetRoleRes)(nil),          // 14: user.GetRoleRes
-	nil,                         // 15: user.GetStreamofRolesRes.RoleIDsWithNamesEntry
-	(*empty.Empty)(nil),         // 16: google.protobuf.Empty
+	(*SignupUserRequest)(nil),    // 0: user.SignupUserRequest
+	(*Role)(nil),                 // 1: user.Role
+	(*AddRoleReq)(nil),           // 2: user.AddRoleReq
+	(*StatusReq)(nil),            // 3: user.StatusReq
+	(*UserResponce)(nil),         // 4: user.UserResponce
+	(*GetByEmailReq)(nil),        // 5: user.GetByEmailReq
+	(*GetByEmailRes)(nil),        // 6: user.GetByEmailRes
+	(*SearchReq)(nil),            // 7: user.SearchReq
+	(*SearchRes)(nil),            // 8: user.SearchRes
+	(*GetUserDetailsReq)(nil),    // 9: user.GetUserDetailsReq
+	(*GetUserDetailsRes)(nil),    // 10: user.GetUserDetailsRes
+	(*GetStreamofRolesReq)(nil),  // 11: user.GetStreamofRolesReq
+	(*GetStreamofRolesRes)(nil),  // 12: user.GetStreamofRolesRes
+	(*GetRoleReq)(nil),           // 13: user.GetRoleReq
+	(*GetRoleRes)(nil),           // 14: user.GetRoleRes
+	(*EditStatusReq)(nil),        // 15: user.EditStatusReq
+	(*UpdateUserDetailsReq)(nil), // 16: user.UpdateUserDetailsReq
+	(*DropUserAccountReq)(nil),   // 17: user.DropUserAccountReq
+	nil,                          // 18: user.GetStreamofRolesRes.RoleIDsWithNamesEntry
+	(*empty.Empty)(nil),          // 19: google.protobuf.Empty
 }
 var file_user_proto_depIdxs = []int32{
-	15, // 0: user.GetStreamofRolesRes.RoleIDsWithNames:type_name -> user.GetStreamofRolesRes.RoleIDsWithNamesEntry
+	18, // 0: user.GetStreamofRolesRes.RoleIDsWithNames:type_name -> user.GetStreamofRolesRes.RoleIDsWithNamesEntry
 	0,  // 1: user.UserService.SignupUser:input_type -> user.SignupUserRequest
-	16, // 2: user.UserService.GetRoles:input_type -> google.protobuf.Empty
+	19, // 2: user.UserService.GetRoles:input_type -> google.protobuf.Empty
 	3,  // 3: user.UserService.SetStatus:input_type -> user.StatusReq
 	5,  // 4: user.UserService.GetByEmail:input_type -> user.GetByEmailReq
 	7,  // 5: user.UserService.SearchforMembers:input_type -> user.SearchReq
@@ -1004,18 +1227,24 @@ var file_user_proto_depIdxs = []int32{
 	9,  // 8: user.UserService.GetStreamofUserDetails:input_type -> user.GetUserDetailsReq
 	11, // 9: user.UserService.GetStreamofRoles:input_type -> user.GetStreamofRolesReq
 	13, // 10: user.UserService.GetRole:input_type -> user.GetRoleReq
-	4,  // 11: user.UserService.SignupUser:output_type -> user.UserResponce
-	1,  // 12: user.UserService.GetRoles:output_type -> user.Role
-	16, // 13: user.UserService.SetStatus:output_type -> google.protobuf.Empty
-	6,  // 14: user.UserService.GetByEmail:output_type -> user.GetByEmailRes
-	8,  // 15: user.UserService.SearchforMembers:output_type -> user.SearchRes
-	16, // 16: user.UserService.AddRoles:output_type -> google.protobuf.Empty
-	10, // 17: user.UserService.GetUserDetails:output_type -> user.GetUserDetailsRes
-	10, // 18: user.UserService.GetStreamofUserDetails:output_type -> user.GetUserDetailsRes
-	12, // 19: user.UserService.GetStreamofRoles:output_type -> user.GetStreamofRolesRes
-	14, // 20: user.UserService.GetRole:output_type -> user.GetRoleRes
-	11, // [11:21] is the sub-list for method output_type
-	1,  // [1:11] is the sub-list for method input_type
+	15, // 11: user.UserService.EditStatus:input_type -> user.EditStatusReq
+	16, // 12: user.UserService.UpdateUserDetails:input_type -> user.UpdateUserDetailsReq
+	17, // 13: user.UserService.DropUserAccount:input_type -> user.DropUserAccountReq
+	4,  // 14: user.UserService.SignupUser:output_type -> user.UserResponce
+	1,  // 15: user.UserService.GetRoles:output_type -> user.Role
+	19, // 16: user.UserService.SetStatus:output_type -> google.protobuf.Empty
+	6,  // 17: user.UserService.GetByEmail:output_type -> user.GetByEmailRes
+	8,  // 18: user.UserService.SearchforMembers:output_type -> user.SearchRes
+	19, // 19: user.UserService.AddRoles:output_type -> google.protobuf.Empty
+	10, // 20: user.UserService.GetUserDetails:output_type -> user.GetUserDetailsRes
+	10, // 21: user.UserService.GetStreamofUserDetails:output_type -> user.GetUserDetailsRes
+	12, // 22: user.UserService.GetStreamofRoles:output_type -> user.GetStreamofRolesRes
+	14, // 23: user.UserService.GetRole:output_type -> user.GetRoleRes
+	19, // 24: user.UserService.EditStatus:output_type -> google.protobuf.Empty
+	19, // 25: user.UserService.UpdateUserDetails:output_type -> google.protobuf.Empty
+	19, // 26: user.UserService.DropUserAccount:output_type -> google.protobuf.Empty
+	14, // [14:27] is the sub-list for method output_type
+	1,  // [1:14] is the sub-list for method input_type
 	1,  // [1:1] is the sub-list for extension type_name
 	1,  // [1:1] is the sub-list for extension extendee
 	0,  // [0:1] is the sub-list for field type_name
@@ -1207,6 +1436,42 @@ func file_user_proto_init() {
 				return nil
 			}
 		}
+		file_user_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EditStatusReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_user_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserDetailsReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_user_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DropUserAccountReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1214,7 +1479,7 @@ func file_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_user_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

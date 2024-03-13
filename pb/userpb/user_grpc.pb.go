@@ -30,6 +30,9 @@ const (
 	UserService_GetStreamofUserDetails_FullMethodName = "/user.UserService/GetStreamofUserDetails"
 	UserService_GetStreamofRoles_FullMethodName       = "/user.UserService/GetStreamofRoles"
 	UserService_GetRole_FullMethodName                = "/user.UserService/GetRole"
+	UserService_EditStatus_FullMethodName             = "/user.UserService/EditStatus"
+	UserService_UpdateUserDetails_FullMethodName      = "/user.UserService/UpdateUserDetails"
+	UserService_DropUserAccount_FullMethodName        = "/user.UserService/DropUserAccount"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -46,6 +49,9 @@ type UserServiceClient interface {
 	GetStreamofUserDetails(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofUserDetailsClient, error)
 	GetStreamofRoles(ctx context.Context, opts ...grpc.CallOption) (UserService_GetStreamofRolesClient, error)
 	GetRole(ctx context.Context, in *GetRoleReq, opts ...grpc.CallOption) (*GetRoleRes, error)
+	EditStatus(ctx context.Context, in *EditStatusReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateUserDetails(ctx context.Context, in *UpdateUserDetailsReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	DropUserAccount(ctx context.Context, in *DropUserAccountReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type userServiceClient struct {
@@ -239,6 +245,33 @@ func (c *userServiceClient) GetRole(ctx context.Context, in *GetRoleReq, opts ..
 	return out, nil
 }
 
+func (c *userServiceClient) EditStatus(ctx context.Context, in *EditStatusReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, UserService_EditStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateUserDetails(ctx context.Context, in *UpdateUserDetailsReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, UserService_UpdateUserDetails_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) DropUserAccount(ctx context.Context, in *DropUserAccountReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, UserService_DropUserAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -253,6 +286,9 @@ type UserServiceServer interface {
 	GetStreamofUserDetails(UserService_GetStreamofUserDetailsServer) error
 	GetStreamofRoles(UserService_GetStreamofRolesServer) error
 	GetRole(context.Context, *GetRoleReq) (*GetRoleRes, error)
+	EditStatus(context.Context, *EditStatusReq) (*empty.Empty, error)
+	UpdateUserDetails(context.Context, *UpdateUserDetailsReq) (*empty.Empty, error)
+	DropUserAccount(context.Context, *DropUserAccountReq) (*empty.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -289,6 +325,15 @@ func (UnimplementedUserServiceServer) GetStreamofRoles(UserService_GetStreamofRo
 }
 func (UnimplementedUserServiceServer) GetRole(context.Context, *GetRoleReq) (*GetRoleRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRole not implemented")
+}
+func (UnimplementedUserServiceServer) EditStatus(context.Context, *EditStatusReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditStatus not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateUserDetails(context.Context, *UpdateUserDetailsReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserDetails not implemented")
+}
+func (UnimplementedUserServiceServer) DropUserAccount(context.Context, *DropUserAccountReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DropUserAccount not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -505,6 +550,60 @@ func _UserService_GetRole_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_EditStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).EditStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_EditStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).EditStatus(ctx, req.(*EditStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateUserDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserDetailsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateUserDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateUserDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateUserDetails(ctx, req.(*UpdateUserDetailsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_DropUserAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DropUserAccountReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).DropUserAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_DropUserAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).DropUserAccount(ctx, req.(*DropUserAccountReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -535,6 +634,18 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetRole",
 			Handler:    _UserService_GetRole_Handler,
+		},
+		{
+			MethodName: "EditStatus",
+			Handler:    _UserService_EditStatus_Handler,
+		},
+		{
+			MethodName: "UpdateUserDetails",
+			Handler:    _UserService_UpdateUserDetails_Handler,
+		},
+		{
+			MethodName: "DropUserAccount",
+			Handler:    _UserService_DropUserAccount_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
