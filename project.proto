@@ -326,10 +326,11 @@ message TerminateProjectMembersReq {
 }
 
 message EditProjectDetailsReq {
-    string Name = 1;
+    string ProjectID = 1;
     string Description = 2;
     string ProjectUsername = 3;
     string Aim = 4;
+    string Name = 5;
 }
 
 message EditMemberReq {

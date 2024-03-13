@@ -503,6 +503,14 @@ message GetAssignedProblemsRes {
     string RaisedBy = 3;
 }
 
+message DropCompanyReq {
+    string CompanyID = 1;
+}
+
+message EditCompanyDetailsReq {
+    
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -554,5 +562,7 @@ service CompanyService {
     rpc GetJobs(GetJobsReq)returns(stream GetJobsRes);
     rpc GetAllJobApplicationsofUser(GetAllJobApplicationsofUserReq)returns(stream GetAllJobApplicationsofUserRes);
     rpc GetAssignedProblems(GetAssignedProblemsReq)returns(stream GetAssignedProblemsRes);
+    rpc DropCompany(DropCompanyReq)returns(google.protobuf.Empty);
+    rpc EditCompanyDetails
 }
 
