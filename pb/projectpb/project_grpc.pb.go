@@ -50,6 +50,12 @@ const (
 	ProjectService_GrantExtension_FullMethodName              = "/project.ProjectService/GrantExtension"
 	ProjectService_VerifyTaskCompletion_FullMethodName        = "/project.ProjectService/VerifyTaskCompletion"
 	ProjectService_GetVerifiedTasks_FullMethodName            = "/project.ProjectService/GetVerifiedTasks"
+	ProjectService_DropProject_FullMethodName                 = "/project.ProjectService/DropProject"
+	ProjectService_TerminateProjectMembers_FullMethodName     = "/project.ProjectService/TerminateProjectMembers"
+	ProjectService_EditProjectDetails_FullMethodName          = "/project.ProjectService/EditProjectDetails"
+	ProjectService_EditMember_FullMethodName                  = "/project.ProjectService/EditMember"
+	ProjectService_DeleteFeedback_FullMethodName              = "/project.ProjectService/DeleteFeedback"
+	ProjectService_EditFeedback_FullMethodName                = "/project.ProjectService/EditFeedback"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -86,6 +92,12 @@ type ProjectServiceClient interface {
 	GrantExtension(ctx context.Context, in *GrantExtensionReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	VerifyTaskCompletion(ctx context.Context, in *VerifyTaskCompletionReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetVerifiedTasks(ctx context.Context, in *GetVerifiedTasksReq, opts ...grpc.CallOption) (ProjectService_GetVerifiedTasksClient, error)
+	DropProject(ctx context.Context, in *DropProjectReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	TerminateProjectMembers(ctx context.Context, in *TerminateProjectMembersReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	EditProjectDetails(ctx context.Context, in *EditProjectDetailsReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	EditMember(ctx context.Context, in *EditMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeleteFeedback(ctx context.Context, in *DeleteFeedbackReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	EditFeedback(ctx context.Context, in *EditFeedbackReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type projectServiceClient struct {
@@ -595,6 +607,60 @@ func (x *projectServiceGetVerifiedTasksClient) Recv() (*GetVerifiedTasksRes, err
 	return m, nil
 }
 
+func (c *projectServiceClient) DropProject(ctx context.Context, in *DropProjectReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_DropProject_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) TerminateProjectMembers(ctx context.Context, in *TerminateProjectMembersReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_TerminateProjectMembers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) EditProjectDetails(ctx context.Context, in *EditProjectDetailsReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_EditProjectDetails_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) EditMember(ctx context.Context, in *EditMemberReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_EditMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) DeleteFeedback(ctx context.Context, in *DeleteFeedbackReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_DeleteFeedback_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *projectServiceClient) EditFeedback(ctx context.Context, in *EditFeedbackReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, ProjectService_EditFeedback_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -629,6 +695,12 @@ type ProjectServiceServer interface {
 	GrantExtension(context.Context, *GrantExtensionReq) (*empty.Empty, error)
 	VerifyTaskCompletion(context.Context, *VerifyTaskCompletionReq) (*empty.Empty, error)
 	GetVerifiedTasks(*GetVerifiedTasksReq, ProjectService_GetVerifiedTasksServer) error
+	DropProject(context.Context, *DropProjectReq) (*empty.Empty, error)
+	TerminateProjectMembers(context.Context, *TerminateProjectMembersReq) (*empty.Empty, error)
+	EditProjectDetails(context.Context, *EditProjectDetailsReq) (*empty.Empty, error)
+	EditMember(context.Context, *EditMemberReq) (*empty.Empty, error)
+	DeleteFeedback(context.Context, *DeleteFeedbackReq) (*empty.Empty, error)
+	EditFeedback(context.Context, *EditFeedbackReq) (*empty.Empty, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -725,6 +797,24 @@ func (UnimplementedProjectServiceServer) VerifyTaskCompletion(context.Context, *
 }
 func (UnimplementedProjectServiceServer) GetVerifiedTasks(*GetVerifiedTasksReq, ProjectService_GetVerifiedTasksServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetVerifiedTasks not implemented")
+}
+func (UnimplementedProjectServiceServer) DropProject(context.Context, *DropProjectReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DropProject not implemented")
+}
+func (UnimplementedProjectServiceServer) TerminateProjectMembers(context.Context, *TerminateProjectMembersReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TerminateProjectMembers not implemented")
+}
+func (UnimplementedProjectServiceServer) EditProjectDetails(context.Context, *EditProjectDetailsReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditProjectDetails not implemented")
+}
+func (UnimplementedProjectServiceServer) EditMember(context.Context, *EditMemberReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditMember not implemented")
+}
+func (UnimplementedProjectServiceServer) DeleteFeedback(context.Context, *DeleteFeedbackReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFeedback not implemented")
+}
+func (UnimplementedProjectServiceServer) EditFeedback(context.Context, *EditFeedbackReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditFeedback not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -1314,6 +1404,114 @@ func (x *projectServiceGetVerifiedTasksServer) Send(m *GetVerifiedTasksRes) erro
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ProjectService_DropProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DropProjectReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).DropProject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_DropProject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).DropProject(ctx, req.(*DropProjectReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_TerminateProjectMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TerminateProjectMembersReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).TerminateProjectMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_TerminateProjectMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).TerminateProjectMembers(ctx, req.(*TerminateProjectMembersReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_EditProjectDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditProjectDetailsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).EditProjectDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_EditProjectDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).EditProjectDetails(ctx, req.(*EditProjectDetailsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_EditMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditMemberReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).EditMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_EditMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).EditMember(ctx, req.(*EditMemberReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_DeleteFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFeedbackReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).DeleteFeedback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_DeleteFeedback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).DeleteFeedback(ctx, req.(*DeleteFeedbackReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProjectService_EditFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditFeedbackReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).EditFeedback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_EditFeedback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).EditFeedback(ctx, req.(*EditFeedbackReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1400,6 +1598,30 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyTaskCompletion",
 			Handler:    _ProjectService_VerifyTaskCompletion_Handler,
+		},
+		{
+			MethodName: "DropProject",
+			Handler:    _ProjectService_DropProject_Handler,
+		},
+		{
+			MethodName: "TerminateProjectMembers",
+			Handler:    _ProjectService_TerminateProjectMembers_Handler,
+		},
+		{
+			MethodName: "EditProjectDetails",
+			Handler:    _ProjectService_EditProjectDetails_Handler,
+		},
+		{
+			MethodName: "EditMember",
+			Handler:    _ProjectService_EditMember_Handler,
+		},
+		{
+			MethodName: "DeleteFeedback",
+			Handler:    _ProjectService_DeleteFeedback_Handler,
+		},
+		{
+			MethodName: "EditFeedback",
+			Handler:    _ProjectService_EditFeedback_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

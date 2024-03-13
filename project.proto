@@ -316,6 +316,41 @@ message VerifyTaskCompletionReq {
     bool Verified = 3;
 }
 
+message DropProjectReq {
+    string ProjectID = 1;
+}
+
+message TerminateProjectMembersReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+}
+
+message EditProjectDetailsReq {
+    string Name = 1;
+    string Description = 2;
+    string ProjectUsername = 3;
+    string Aim = 4;
+}
+
+message EditMemberReq {
+    string MemberID = 1;
+    uint32 PermissionID = 2;
+    uint32 RoleID = 3;
+    string ProjectID = 4;
+}
+
+message DeleteFeedbackReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+}
+
+message EditFeedbackReq {
+    string ProjectID = 1;
+    string MemberID = 2;
+    float Rating = 3;
+    string Feedback = 4;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -347,4 +382,10 @@ service ProjectService {
     rpc GrantExtension(GrantExtensionReq)returns(google.protobuf.Empty);
     rpc VerifyTaskCompletion(VerifyTaskCompletionReq)returns(google.protobuf.Empty);
     rpc GetVerifiedTasks(GetVerifiedTasksReq)returns(stream GetVerifiedTasksRes);
+    rpc DropProject(DropProjectReq)returns(google.protobuf.Empty);
+    rpc TerminateProjectMembers(TerminateProjectMembersReq)returns(google.protobuf.Empty);
+    rpc EditProjectDetails(EditProjectDetailsReq)returns(google.protobuf.Empty);
+    rpc EditMember(EditMemberReq)returns(google.protobuf.Empty);
+    rpc DeleteFeedback(DeleteFeedbackReq)returns(google.protobuf.Empty);
+    rpc EditFeedback(EditFeedbackReq)returns(google.protobuf.Empty);
 }
