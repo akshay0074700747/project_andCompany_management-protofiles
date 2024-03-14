@@ -26,6 +26,7 @@ message RegisterCompanyRequest {
     string Companyusername = 5;
     uint32 TypeID = 6;
     string OwnerID = 7;
+    string TransactionID = 8;
 }
 
 message GetCompanyTypesRes {
