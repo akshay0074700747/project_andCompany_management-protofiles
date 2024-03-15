@@ -352,6 +352,15 @@ message EditFeedbackReq {
     string Feedback = 4;
 }
 
+message GetUserStatReq {
+    string ProjectID = 1;
+    string UserID = 2;
+}
+
+message GetUserStatRes {
+    bool IsAcceptable = 1;
+}
+
 service ProjectService {
     rpc CreateProject(CreateProjectReq)returns(CreateProjectRes);
     rpc AddMembers(AddMemberReq)returns(google.protobuf.Empty);
@@ -389,4 +398,5 @@ service ProjectService {
     rpc EditMember(EditMemberReq)returns(google.protobuf.Empty);
     rpc DeleteFeedback(DeleteFeedbackReq)returns(google.protobuf.Empty);
     rpc EditFeedback(EditFeedbackReq)returns(google.protobuf.Empty);
+    rpc GetUserStat(GetUserStatReq)returns(GetUserStatRes);
 }

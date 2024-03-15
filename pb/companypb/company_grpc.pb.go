@@ -81,6 +81,7 @@ const (
 	CompanyService_UpdateLeave_FullMethodName                     = "/company.CompanyService/UpdateLeave"
 	CompanyService_DeleteJob_FullMethodName                       = "/company.CompanyService/DeleteJob"
 	CompanyService_UpdateJob_FullMethodName                       = "/company.CompanyService/UpdateJob"
+	CompanyService_GetUserStat_FullMethodName                     = "/company.CompanyService/GetUserStat"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -148,6 +149,7 @@ type CompanyServiceClient interface {
 	UpdateLeave(ctx context.Context, in *UpdateLeaveReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	DeleteJob(ctx context.Context, in *DeleteJobReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateJob(ctx context.Context, in *UpdateJobReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetUserStat(ctx context.Context, in *GetUserStatReq, opts ...grpc.CallOption) (*GetUserStatRes, error)
 }
 
 type companyServiceClient struct {
@@ -1212,6 +1214,15 @@ func (c *companyServiceClient) UpdateJob(ctx context.Context, in *UpdateJobReq, 
 	return out, nil
 }
 
+func (c *companyServiceClient) GetUserStat(ctx context.Context, in *GetUserStatReq, opts ...grpc.CallOption) (*GetUserStatRes, error) {
+	out := new(GetUserStatRes)
+	err := c.cc.Invoke(ctx, CompanyService_GetUserStat_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -1277,6 +1288,7 @@ type CompanyServiceServer interface {
 	UpdateLeave(context.Context, *UpdateLeaveReq) (*empty.Empty, error)
 	DeleteJob(context.Context, *DeleteJobReq) (*empty.Empty, error)
 	UpdateJob(context.Context, *UpdateJobReq) (*empty.Empty, error)
+	GetUserStat(context.Context, *GetUserStatReq) (*GetUserStatRes, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -1466,6 +1478,9 @@ func (UnimplementedCompanyServiceServer) DeleteJob(context.Context, *DeleteJobRe
 }
 func (UnimplementedCompanyServiceServer) UpdateJob(context.Context, *UpdateJobReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateJob not implemented")
+}
+func (UnimplementedCompanyServiceServer) GetUserStat(context.Context, *GetUserStatReq) (*GetUserStatRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserStat not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -2649,6 +2664,24 @@ func _CompanyService_UpdateJob_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyService_GetUserStat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserStatReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).GetUserStat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_GetUserStat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).GetUserStat(ctx, req.(*GetUserStatReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2811,6 +2844,10 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateJob",
 			Handler:    _CompanyService_UpdateJob_Handler,
+		},
+		{
+			MethodName: "GetUserStat",
+			Handler:    _CompanyService_GetUserStat_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

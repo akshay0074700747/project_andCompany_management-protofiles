@@ -56,6 +56,7 @@ const (
 	ProjectService_EditMember_FullMethodName                  = "/project.ProjectService/EditMember"
 	ProjectService_DeleteFeedback_FullMethodName              = "/project.ProjectService/DeleteFeedback"
 	ProjectService_EditFeedback_FullMethodName                = "/project.ProjectService/EditFeedback"
+	ProjectService_GetUserStat_FullMethodName                 = "/project.ProjectService/GetUserStat"
 )
 
 // ProjectServiceClient is the client API for ProjectService service.
@@ -98,6 +99,7 @@ type ProjectServiceClient interface {
 	EditMember(ctx context.Context, in *EditMemberReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	DeleteFeedback(ctx context.Context, in *DeleteFeedbackReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	EditFeedback(ctx context.Context, in *EditFeedbackReq, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetUserStat(ctx context.Context, in *GetUserStatReq, opts ...grpc.CallOption) (*GetUserStatRes, error)
 }
 
 type projectServiceClient struct {
@@ -661,6 +663,15 @@ func (c *projectServiceClient) EditFeedback(ctx context.Context, in *EditFeedbac
 	return out, nil
 }
 
+func (c *projectServiceClient) GetUserStat(ctx context.Context, in *GetUserStatReq, opts ...grpc.CallOption) (*GetUserStatRes, error) {
+	out := new(GetUserStatRes)
+	err := c.cc.Invoke(ctx, ProjectService_GetUserStat_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProjectServiceServer is the server API for ProjectService service.
 // All implementations must embed UnimplementedProjectServiceServer
 // for forward compatibility
@@ -701,6 +712,7 @@ type ProjectServiceServer interface {
 	EditMember(context.Context, *EditMemberReq) (*empty.Empty, error)
 	DeleteFeedback(context.Context, *DeleteFeedbackReq) (*empty.Empty, error)
 	EditFeedback(context.Context, *EditFeedbackReq) (*empty.Empty, error)
+	GetUserStat(context.Context, *GetUserStatReq) (*GetUserStatRes, error)
 	mustEmbedUnimplementedProjectServiceServer()
 }
 
@@ -815,6 +827,9 @@ func (UnimplementedProjectServiceServer) DeleteFeedback(context.Context, *Delete
 }
 func (UnimplementedProjectServiceServer) EditFeedback(context.Context, *EditFeedbackReq) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditFeedback not implemented")
+}
+func (UnimplementedProjectServiceServer) GetUserStat(context.Context, *GetUserStatReq) (*GetUserStatRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserStat not implemented")
 }
 func (UnimplementedProjectServiceServer) mustEmbedUnimplementedProjectServiceServer() {}
 
@@ -1512,6 +1527,24 @@ func _ProjectService_EditFeedback_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProjectService_GetUserStat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserStatReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProjectServiceServer).GetUserStat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ProjectService_GetUserStat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProjectServiceServer).GetUserStat(ctx, req.(*GetUserStatReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProjectService_ServiceDesc is the grpc.ServiceDesc for ProjectService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1622,6 +1655,10 @@ var ProjectService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "EditFeedback",
 			Handler:    _ProjectService_EditFeedback_Handler,
+		},
+		{
+			MethodName: "GetUserStat",
+			Handler:    _ProjectService_GetUserStat_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

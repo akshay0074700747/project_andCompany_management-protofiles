@@ -570,6 +570,15 @@ message UpdateJobReq {
     Address JobLocation = 9;
 }
 
+message GetUserStatReq {
+    string CompanyID = 1;
+    string UserID = 2;
+}
+
+message GetUserStatRes {
+    bool IsAcceptable = 1;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -632,5 +641,6 @@ service CompanyService {
     rpc UpdateLeave(UpdateLeaveReq)returns(google.protobuf.Empty);
     rpc DeleteJob(DeleteJobReq)returns(google.protobuf.Empty);
     rpc UpdateJob(UpdateJobReq)returns(google.protobuf.Empty);
+    rpc GetUserStat(GetUserStatReq)returns(GetUserStatRes);
 }
 
