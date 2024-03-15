@@ -10,7 +10,8 @@ message SignupUserRequest {
     string Name = 1;
     string Email = 2;
     string Mobile = 3;
-    string Password = 4;
+    string Otp = 4;
+    string Password = 5;
 }
 
 message Role {
