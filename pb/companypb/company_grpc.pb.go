@@ -82,6 +82,7 @@ const (
 	CompanyService_DeleteJob_FullMethodName                       = "/company.CompanyService/DeleteJob"
 	CompanyService_UpdateJob_FullMethodName                       = "/company.CompanyService/UpdateJob"
 	CompanyService_GetUserStat_FullMethodName                     = "/company.CompanyService/GetUserStat"
+	CompanyService_ToggleIsPayed_FullMethodName                   = "/company.CompanyService/ToggleIsPayed"
 )
 
 // CompanyServiceClient is the client API for CompanyService service.
@@ -150,6 +151,7 @@ type CompanyServiceClient interface {
 	DeleteJob(ctx context.Context, in *DeleteJobReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateJob(ctx context.Context, in *UpdateJobReq, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetUserStat(ctx context.Context, in *GetUserStatReq, opts ...grpc.CallOption) (*GetUserStatRes, error)
+	ToggleIsPayed(ctx context.Context, in *ToggleIsPayedReq, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type companyServiceClient struct {
@@ -1223,6 +1225,15 @@ func (c *companyServiceClient) GetUserStat(ctx context.Context, in *GetUserStatR
 	return out, nil
 }
 
+func (c *companyServiceClient) ToggleIsPayed(ctx context.Context, in *ToggleIsPayedReq, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, CompanyService_ToggleIsPayed_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CompanyServiceServer is the server API for CompanyService service.
 // All implementations must embed UnimplementedCompanyServiceServer
 // for forward compatibility
@@ -1289,6 +1300,7 @@ type CompanyServiceServer interface {
 	DeleteJob(context.Context, *DeleteJobReq) (*empty.Empty, error)
 	UpdateJob(context.Context, *UpdateJobReq) (*empty.Empty, error)
 	GetUserStat(context.Context, *GetUserStatReq) (*GetUserStatRes, error)
+	ToggleIsPayed(context.Context, *ToggleIsPayedReq) (*empty.Empty, error)
 	mustEmbedUnimplementedCompanyServiceServer()
 }
 
@@ -1481,6 +1493,9 @@ func (UnimplementedCompanyServiceServer) UpdateJob(context.Context, *UpdateJobRe
 }
 func (UnimplementedCompanyServiceServer) GetUserStat(context.Context, *GetUserStatReq) (*GetUserStatRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserStat not implemented")
+}
+func (UnimplementedCompanyServiceServer) ToggleIsPayed(context.Context, *ToggleIsPayedReq) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ToggleIsPayed not implemented")
 }
 func (UnimplementedCompanyServiceServer) mustEmbedUnimplementedCompanyServiceServer() {}
 
@@ -2682,6 +2697,24 @@ func _CompanyService_GetUserStat_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CompanyService_ToggleIsPayed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ToggleIsPayedReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CompanyServiceServer).ToggleIsPayed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CompanyService_ToggleIsPayed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CompanyServiceServer).ToggleIsPayed(ctx, req.(*ToggleIsPayedReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CompanyService_ServiceDesc is the grpc.ServiceDesc for CompanyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2848,6 +2881,10 @@ var CompanyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserStat",
 			Handler:    _CompanyService_GetUserStat_Handler,
+		},
+		{
+			MethodName: "ToggleIsPayed",
+			Handler:    _CompanyService_ToggleIsPayed_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

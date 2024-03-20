@@ -579,6 +579,11 @@ message GetUserStatRes {
     bool IsAcceptable = 1;
 }
 
+message ToggleIsPayedReq {
+    string CompanyID = 1;
+    bool IsPayed = 2;
+}
+
 service CompanyService {
     rpc RegisterCompany(RegisterCompanyRequest)returns(CompanyResponce);
     rpc GetCompanyTypes(google.protobuf.Empty)returns(stream GetCompanyTypesRes);
@@ -642,5 +647,6 @@ service CompanyService {
     rpc DeleteJob(DeleteJobReq)returns(google.protobuf.Empty);
     rpc UpdateJob(UpdateJobReq)returns(google.protobuf.Empty);
     rpc GetUserStat(GetUserStatReq)returns(GetUserStatRes);
+    rpc ToggleIsPayed(ToggleIsPayedReq)returns(google.protobuf.Empty);
 }
 
